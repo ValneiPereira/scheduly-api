@@ -1,0 +1,45 @@
+version: '3'
+services:
+  BANCO_VALNEI:
+    image: postgres:12-alpine
+    container_name: BANCO_VALNEI
+    restart: always # em caso de falha o conteiner reinicia.
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=banco
+    networks:
+      - valnei-net
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  PGADMIN:
+    image: dpage/pgadmin4
+    container_name: PGADMIN
+    ports:
+      - '8089:80'
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=123456      
+    networks:
+      - valnei-net
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    
+
+volumes:
+  db-data:
+  pgadmin:
+
+networks:
+  valnei-net:
+
+  
+#Configuracao do host no pgadmin
+#host: host.docker.internal
+#dentro do wsl2 digitar hostname -I | cut -f 1 -d ' '
+#pegar localhost 
+#usuario: postgres
+#http://localhost:8089/browser/

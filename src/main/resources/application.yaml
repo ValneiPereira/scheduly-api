@@ -1,0 +1,39 @@
+server:
+  application-display-name: ${spring.application.name}
+  port: 8080
+  servlet:
+    contextPath: /
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: '@project.name@'
+    version: '@project.version@'
+    description: '@project.description@'
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/banco
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true

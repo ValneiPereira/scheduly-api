@@ -1,0 +1,846 @@
+openapi: 3.0.3
+info:
+  title: Manicure Scheduler API
+  description: API REST para o MVP do SaaS de agendamento de serviços de manicure (MVP, single-tenant).
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local
+  - url: https://api.seusistema.com
+    description: Produção
+
+tags:
+  - name: auth
+    description: Autenticação (JWT)
+  - name: clients
+    description: Operações de clientes
+  - name: professionals
+    description: Operações de profissionais
+  - name: services
+    description: Operações de serviços
+  - name: bookings
+    description: Agendamentos
+  - name: notifications
+    description: Notificações
+  - name: utils
+    description: Utilitários (CEP, health)
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    BadRequest:
+      description: Requisição inválida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Recurso não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Conflict:
+      description: "Conflito (ex.: horário indisponível)"
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NoContent:
+      description: Sem conteúdo
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Descrição do erro"
+
+    # AUTH
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+          example: "admin@studio.com"
+        password:
+          type: string
+          example: "senha123"
+
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          type: string
+          example: "Bearer"
+        expiresIn:
+          type: integer
+          example: 3600
+
+    RefreshRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+
+    # CLIENTS
+    Address:
+      type: object
+      properties:
+        cep: { type: string, example: "94000-000" }
+        street: { type: string, example: "Rua das Flores" }
+        number: { type: string, example: "123" }
+        complement: { type: string, example: "Apto 101" }
+        district: { type: string, example: "Centro" }
+        city: { type: string, example: "Cachoeirinha" }
+        state: { type: string, example: "RS" }
+
+    Client:
+      type: object
+      required: [id, name, phone]
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "Maria Silva"
+        phone:
+          type: string
+          example: "+55 51 99999-0000"
+        email:
+          type: string
+          format: email
+          example: "maria@example.com"
+        address:
+          $ref: '#/components/schemas/Address'
+        createdAt:
+          type: string
+          format: date-time
+
+    ClientCreate:
+      type: object
+      required: [name, phone]
+      properties:
+        name: { type: string }
+        phone: { type: string }
+        email: { type: string, format: email }
+        address:
+          $ref: '#/components/schemas/Address'
+
+    ClientUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        phone: { type: string }
+        email: { type: string, format: email }
+        address:
+          $ref: '#/components/schemas/Address'
+
+    # PROFESSIONALS
+    Professional:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, example: "Joana Pereira" }
+        bio: { type: string, example: "Especialista em alongamento e nail art" }
+        phone: { type: string, example: "+55 51 98888-1111" }
+        serviceIds:
+          type: array
+          items: { type: string, format: uuid }
+        createdAt:
+          type: string
+          format: date-time
+
+    ProfessionalCreate:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        bio: { type: string }
+        phone: { type: string }
+        serviceIds:
+          type: array
+          items: { type: string, format: uuid }
+
+    ProfessionalUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        bio: { type: string }
+        phone: { type: string }
+        serviceIds:
+          type: array
+          items: { type: string, format: uuid }
+
+    # SERVICES
+    Service:
+      type: object
+      required: [id, name, durationMinutes, priceCents]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, example: "Manicure Básica" }
+        description: { type: string }
+        category: { type: string, example: "tradicional" }
+        durationMinutes: { type: integer, example: 45 }
+        priceCents: { type: integer, example: 3500 }
+        createdAt:
+          type: string
+          format: date-time
+
+    ServiceCreate:
+      type: object
+      required: [name, durationMinutes, priceCents]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        category: { type: string }
+        durationMinutes: { type: integer }
+        priceCents: { type: integer }
+
+    ServiceUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        category: { type: string }
+        durationMinutes: { type: integer }
+        priceCents: { type: integer }
+
+    # BOOKINGS
+    BookingStatus:
+      type: string
+      enum: [PENDING, CONFIRMED, CANCELLED, COMPLETED]
+
+    Booking:
+      type: object
+      required: [id, clientId, professionalId, serviceId, startAt, endAt, status]
+      properties:
+        id: { type: string, format: uuid }
+        clientId: { type: string, format: uuid }
+        professionalId: { type: string, format: uuid }
+        serviceId: { type: string, format: uuid }
+        startAt: { type: string, format: date-time }
+        endAt: { type: string, format: date-time }
+        status:
+          $ref: '#/components/schemas/BookingStatus'
+        notes: { type: string }
+        createdAt: { type: string, format: date-time }
+
+    BookingCreate:
+      type: object
+      required: [clientId, professionalId, serviceId, startAt]
+      properties:
+        clientId: { type: string, format: uuid }
+        professionalId: { type: string, format: uuid }
+        serviceId: { type: string, format: uuid }
+        startAt: { type: string, format: date-time }
+        notes: { type: string }
+
+    BookingUpdate:
+      type: object
+      properties:
+        startAt: { type: string, format: date-time }
+        notes: { type: string }
+        status:
+          $ref: '#/components/schemas/BookingStatus'
+
+    # NOTIFICATIONS
+    Notification:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        bookingId: { type: string, format: uuid }
+        channel: { type: string, example: "WHATSAPP" }
+        message: { type: string }
+        sentAt: { type: string, format: date-time }
+
+    NotificationCreate:
+      type: object
+      required: [bookingId, channel]
+      properties:
+        bookingId: { type: string, format: uuid }
+        channel:
+          type: string
+          enum: [WHATSAPP, EMAIL, PUSH, SMS]
+        message: { type: string }
+
+    # CEP
+    CepResponse:
+      type: object
+      properties:
+        cep: { type: string }
+        logradouro: { type: string }
+        complemento: { type: string }
+        bairro: { type: string }
+        localidade: { type: string }
+        uf: { type: string }
+        ddd: { type: string }
+
+security:
+  - bearerAuth: []
+
+paths:
+
+  ################################################################
+  # AUTH
+  ################################################################
+  /auth/login:
+    post:
+      tags: [auth]
+      summary: Login (gera JWT)
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login bem-sucedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/refresh:
+    post:
+      tags: [auth]
+      summary: Atualiza token com refresh token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: Token atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: Refresh token inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  ################################################################
+  # CLIENTS
+  ################################################################
+  /clients:
+    get:
+      tags: [clients]
+      summary: Listar clientes
+      operationId: listClients
+      responses:
+        '200':
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+    post:
+      tags: [clients]
+      summary: Criar cliente
+      operationId: createClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCreate'
+      responses:
+        '201':
+          description: Cliente criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /clients/{clientId}:
+    get:
+      tags: [clients]
+      summary: Buscar cliente por ID
+      operationId: getClient
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [clients]
+      summary: Atualizar cliente
+      operationId: updateClient
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientUpdate'
+      responses:
+        '200':
+          description: Cliente atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+    delete:
+      tags: [clients]
+      summary: Remover cliente (soft delete recomendado)
+      operationId: deleteClient
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+
+  ################################################################
+  # PROFESSIONALS
+  ################################################################
+  /professionals:
+    get:
+      tags: [professionals]
+      summary: Listar profissionais
+      operationId: listProfessionals
+      parameters:
+        - name: serviceId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+          description: filtrar por serviceId
+      responses:
+        '200':
+          description: Lista de profissionais
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Professional'
+    post:
+      tags: [professionals]
+      summary: Criar profissional
+      operationId: createProfessional
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfessionalCreate'
+      responses:
+        '201':
+          description: Profissional criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professional'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /professionals/{professionalId}:
+    get:
+      tags: [professionals]
+      summary: Buscar profissional por ID
+      operationId: getProfessional
+      parameters:
+        - name: professionalId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Profissional encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professional'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [professionals]
+      summary: Atualizar profissional
+      operationId: updateProfessional
+      parameters:
+        - name: professionalId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfessionalUpdate'
+      responses:
+        '200':
+          description: Profissional atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Professional'
+    delete:
+      tags: [professionals]
+      summary: Remover profissional
+      operationId: deleteProfessional
+      parameters:
+        - name: professionalId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+
+  ################################################################
+  # SERVICES
+  ################################################################
+  /services:
+    get:
+      tags: [services]
+      summary: Listar serviços
+      operationId: listServices
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de serviços
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+    post:
+      tags: [services]
+      summary: Criar serviço
+      operationId: createService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceCreate'
+      responses:
+        '201':
+          description: Serviço criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /services/{serviceId}:
+    get:
+      tags: [services]
+      summary: Buscar serviço por ID
+      operationId: getService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Serviço encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [services]
+      summary: Atualizar serviço
+      operationId: updateService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdate'
+      responses:
+        '200':
+          description: Serviço atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+    delete:
+      tags: [services]
+      summary: Remover serviço
+      operationId: deleteService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+
+  ################################################################
+  # BOOKINGS
+  ################################################################
+  /bookings:
+    get:
+      tags: [bookings]
+      summary: Listar agendamentos
+      operationId: listBookings
+      parameters:
+        - name: clientId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: professionalId
+          in: query
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Lista de agendamentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+    post:
+      tags: [bookings]
+      summary: Criar agendamento
+      operationId: createBooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingCreate'
+      responses:
+        '201':
+          description: Agendamento criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/Conflict'
+
+  /bookings/{bookingId}:
+    get:
+      tags: [bookings]
+      summary: Buscar agendamento por ID
+      operationId: getBooking
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Agendamento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [bookings]
+      summary: Atualizar agendamento (reagendar / editar)
+      operationId: updateBooking
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingUpdate'
+      responses:
+        '200':
+          description: Agendamento atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Booking'
+        '409':
+          $ref: '#/components/responses/Conflict'
+    delete:
+      tags: [bookings]
+      summary: Cancelar agendamento (soft delete)
+      operationId: cancelBooking
+      parameters:
+        - name: bookingId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
+
+  ################################################################
+  # NOTIFICATIONS
+  ################################################################
+  /notifications:
+    get:
+      tags: [notifications]
+      summary: Listar notificações
+      operationId: listNotifications
+      responses:
+        '200':
+          description: Lista de notificações
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+    post:
+      tags: [notifications]
+      summary: Enviar notificação (manual/testing)
+      operationId: sendNotification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationCreate'
+      responses:
+        '202':
+          description: Notificação aceita para envio
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  ################################################################
+  # UTILS: CEP / HEALTH
+  ################################################################
+  /cep/{cep}:
+    get:
+      tags: [utils]
+      summary: Consultar CEP (proxy para ViaCEP/BrasilAPI)
+      operationId: lookupCep
+      parameters:
+        - name: cep
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "94000000"
+      responses:
+        '200':
+          description: Dados do CEP
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CepResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /health:
+    get:
+      tags: [utils]
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Serviço UP
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "UP"
