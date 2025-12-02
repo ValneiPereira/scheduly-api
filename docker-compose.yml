@@ -1,45 +1,88 @@
-version: '3'
+version: '3.8'
+
 services:
-  BANCO_VALNEI:
-    image: postgres:12-alpine
-    container_name: BANCO_VALNEI
-    restart: always # em caso de falha o conteiner reinicia.
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: scheduly-postgres
+    restart: always
     ports:
       - '5432:5432'
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=banco
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: banco
+      PGDATA: /var/lib/postgresql/data/pgdata
     networks:
-      - valnei-net
+      - scheduly-net
     volumes:
       - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d banco" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  PGADMIN:
-    image: dpage/pgadmin4
-    container_name: PGADMIN
+  # Scheduly API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scheduly-api
+    restart: always
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/banco
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - scheduly-net
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: scheduly-pgadmin
+    restart: always
     ports:
       - '8089:80'
     environment:
-      - PGADMIN_DEFAULT_EMAIL=user@domain.com
-      - PGADMIN_DEFAULT_PASSWORD=123456      
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: '123456'
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     networks:
-      - valnei-net
+      - scheduly-net
     volumes:
       - pgadmin:/var/lib/pgadmin
-    
+    depends_on:
+      - postgres
 
 volumes:
   db-data:
+    driver: local
   pgadmin:
+    driver: local
 
 networks:
-  valnei-net:
+  scheduly-net:
+    driver: bridge
 
-  
-#Configuracao do host no pgadmin
-#host: host.docker.internal
-#dentro do wsl2 digitar hostname -I | cut -f 1 -d ' '
-#pegar localhost 
-#usuario: postgres
-#http://localhost:8089/browser/
+# Configuração do host no pgadmin
+# host: postgres (nome do serviço)
+# ou use: host.docker.internal (para conectar do host)
+# usuario: postgres
+# senha: postgres
+# http://localhost:8089/browser/

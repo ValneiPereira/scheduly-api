@@ -42,7 +42,7 @@ Projeto: Scheduly API
 - [x] Setup do PostgreSQL via Docker
 - **Responsável:** Backend Team
 - **Estimativa:** 4h
-- **Status:** Concluído
+- **Status:** ✅ Concluído
 
 #### ✅ 1.2 - Configuração do OpenAPI Generator
 - [x] Adicionar plugin OpenAPI Generator
@@ -50,7 +50,7 @@ Projeto: Scheduly API
 - [x] Configurar geração automática de interfaces
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
-- **Status:** Concluído
+- **Status:** ✅ Concluído
 
 #### ✅ 1.3 - Modelagem de Entidades de Domínio
 - [x] Criar entidade [Client](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/domain/client/Client.java#11-36) com Lombok
@@ -62,7 +62,7 @@ Projeto: Scheduly API
 - [x] Criar Enums (ServiceCategory, BookingStatus, etc)
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
-- **Status:** Concluído
+- **Status:** ✅ Concluído
 
 #### ✅ 1.4 - Sistema de Tratamento de Exceções
 - [x] Criar exceções customizadas
@@ -70,7 +70,7 @@ Projeto: Scheduly API
 - [x] Criar [ErrorResponse](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/dtos/ErrorResponse.java#10-21) DTO
 - **Responsável:** Backend Team
 - **Estimativa:** 4h
-- **Status:** Concluído
+- **Status:** ✅ Concluído
 
 #### ✅ 1.5 - Configuração de Logs e Monitoramento
 - [x] Configurar Logback ([logback-spring.xml](file:///c:/tools/projetos/scheduly-api/src/main/resources/logback-spring.xml))
@@ -82,13 +82,17 @@ Projeto: Scheduly API
 - **Estimativa:** 3h
 - **Status:** ✅ Concluído
 
-#### ⏳ 1.6 - Configuração do CI/CD
-- [x] Criar workflow GitHub Actions (build/test)
-- [ ] Adicionar testes de integração no CI
-- [ ] Configurar deploy automático (staging)
+#### ✅ 1.6 - Configuração do CI/CD
+- [x] Criar workflow GitHub Actions ([ci.yml](file:///c:/tools/projetos/scheduly-api/.github/workflows/ci.yml)) - build/test/análise
+- [x] Criar workflow de deploy staging ([deploy-staging.yml](file:///c:/tools/projetos/scheduly-api/.github/workflows/deploy-staging.yml))
+- [x] Criar workflow de deploy production ([deploy-production.yml](file:///c:/tools/projetos/scheduly-api/.github/workflows/deploy-production.yml))
+- [x] Criar [Dockerfile](file:///c:/tools/projetos/scheduly-api/Dockerfile) para containerização
+- [x] Criar [docker-compose.yml](file:///c:/tools/projetos/scheduly-api/docker-compose.yml) para orquestração local
+- [x] Adicionar análise de código e segurança
+- [ ] Configurar deploy automático para cloud (futuro)
 - **Responsável:** DevOps
 - **Estimativa:** 6h
-- **Status:** Em Progresso
+- **Status:** ✅ Concluído
 
 ---
 

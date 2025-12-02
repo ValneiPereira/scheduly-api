@@ -1,0 +1,17 @@
+# Dockerfile para desenvolvimento local (mais rápido)
+FROM eclipse-temurin:17-jdk-alpine
+
+WORKDIR /app
+
+# Instalar Maven
+RUN apk add --no-cache maven
+
+# Copiar arquivos do projeto
+COPY pom.xml .
+COPY src ./src
+
+# Expor porta
+EXPOSE 8080
+
+# Executar com hot reload
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=dev"]
