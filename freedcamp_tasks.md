@@ -31,7 +31,7 @@ Projeto: Scheduly API
 
 **Prioridade:** 🔴 CRÍTICA  
 **Duração:** 1 semana  
-**Status:** ✅ 80% Concluído
+**Status:** ✅ 100% Concluído
 
 ### Tasks:
 
@@ -72,13 +72,15 @@ Projeto: Scheduly API
 - **Estimativa:** 4h
 - **Status:** Concluído
 
-#### ⏳ 1.5 - Configuração de Logs e Monitoramento
-- [ ] Configurar Logback
-- [ ] Adicionar logs estruturados (JSON)
-- [ ] Configurar níveis de log por ambiente
+#### ✅ 1.5 - Configuração de Logs e Monitoramento
+- [x] Configurar Logback ([logback-spring.xml](file:///c:/tools/projetos/scheduly-api/src/main/resources/logback-spring.xml))
+- [x] Adicionar logs estruturados (JSON) com Logstash Encoder
+- [x] Configurar níveis de log por ambiente (dev/staging/prod)
+- [x] Implementar [LoggingFilter](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/config/LoggingFilter.java) para MDC tracking
+- [x] Adicionar dependência logstash-logback-encoder
 - **Responsável:** DevOps/Backend
 - **Estimativa:** 3h
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### ⏳ 1.6 - Configuração do CI/CD
 - [x] Criar workflow GitHub Actions (build/test)

@@ -4,13 +4,12 @@ server:
   servlet:
     contextPath: /
 
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-
 spring:
+  application:
+    name: '@project.name@'
+    version: '@project.version@'
+    description: '@project.description@'
+
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -18,22 +17,117 @@ spring:
       - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   main:
     allow-bean-definition-overriding: true
-  application:
-    name: '@project.name@'
-    version: '@project.version@'
-    description: '@project.description@'
 
+  profiles:
+    active: dev
+
+  # Configurações do Springdoc/Swagger
+  springdoc:
+    api-docs:
+      path: /v3/api-docs
+    swagger-ui:
+      path: /swagger-ui.html
+
+# Configurações padrão (sem perfil específico)
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    com.scheduly.api: DEBUG
+
+---
+# Perfil: Development
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+# Datasource comentado - descomente quando tiver o banco rodando
 #  datasource:
 #    url: jdbc:postgresql://localhost:5432/banco
 #    username: postgres
 #    password: postgres
 #    driver-class-name: org.postgresql.Driver
-
+#
 #  jpa:
 #    hibernate:
 #      ddl-auto: update
+#    show-sql: true
 #    properties:
 #      hibernate:
-#        dialect: org.hibernate.dialect.PostgreSQLDialect
 #        format_sql: true
-#    show-sql: true
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    root: DEBUG
+    com.scheduly.api: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+---
+# Perfil: Staging
+spring:
+  config:
+    activate:
+      on-profile: staging
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/banco}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    root: INFO
+    com.scheduly.api: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+
+---
+# Perfil: Production
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    root: WARN
+    com.scheduly.api: INFO
+    org.springframework.web: WARN
+    org.springframework.security: WARN
+    org.hibernate: WARN
