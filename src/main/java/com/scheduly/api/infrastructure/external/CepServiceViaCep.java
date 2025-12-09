@@ -1,5 +1,6 @@
 package com.scheduly.api.infrastructure.external;
 
+import com.scheduly.api.config.ApiProperties;
 import com.scheduly.api.infrastructure.external.dto.ViaCepResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,16 +16,13 @@ public class CepServiceViaCep {
     public static final String CEP_JSON = "/{cep}/json/";
     private final RestClient restClient;
 
-    private static final String VIACEP_URL = "https://viacep.com.br/ws";
-
-    public CepServiceViaCep() {
+    public CepServiceViaCep(ApiProperties apiProperties) {
         this.restClient = RestClient.builder()
-                .baseUrl(VIACEP_URL)
+                .baseUrl(apiProperties.getHost())
                 .build();
     }
 
     public ViaCepResponse findAddressByCep(String cep) {
-
         log.info("Buscando endereço para CEP: {}", cep);
         var cleanCep = cep.replaceAll("[^0-9]", "");
 

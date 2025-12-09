@@ -33,7 +33,7 @@ public class AddressMapper {
             return null;
         }
 
-        AddressResponse response = new AddressResponse();
+        var response = new AddressResponse();
         response.setStreet(address.getLogradouro());
         response.setComplement(address.getComplemento());
         response.setNeighborhood(address.getBairro());
@@ -49,7 +49,7 @@ public class AddressMapper {
             return null;
         }
 
-        AddressResponse response = new AddressResponse();
+        var response = new AddressResponse();
         response.setStreet(address.getStreet());
         response.setNumber(address.getNumber());
         response.setComplement(address.getComplement());
