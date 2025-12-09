@@ -92,18 +92,34 @@ components:
         refreshToken:
           type: string
 
-    # CLIENTS
-    Address:
+    # ADDRESS
+    AddressResponse:
       type: object
+      description: Resposta com dados de endereço (number é opcional - não retornado pelo ViaCEP)
       properties:
-        cep: { type: string, example: "94000-000" }
-        street: { type: string, example: "Rua das Flores" }
-        number: { type: string, example: "123" }
-        complement: { type: string, example: "Apto 101" }
-        district: { type: string, example: "Centro" }
-        city: { type: string, example: "Cachoeirinha" }
-        state: { type: string, example: "RS" }
+        street:
+          type: string
+          example: "Avenida Paulista"
+        number:
+          type: string
+          example: "1000"
+        complement:
+          type: string
+          example: "Andar 10"
+        neighborhood:
+          type: string
+          example: "Bela Vista"
+        city:
+          type: string
+          example: "São Paulo"
+        state:
+          type: string
+          example: "SP"
+        zipCode:
+          type: string
+          example: "01310-100"
 
+    # CLIENTS
     Client:
       type: object
       required: [id, name, phone]
@@ -122,7 +138,7 @@ components:
           format: email
           example: "maria@example.com"
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressResponse'
         createdAt:
           type: string
           format: date-time
@@ -135,7 +151,7 @@ components:
         phone: { type: string }
         email: { type: string, format: email }
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressResponse'
 
     ClientUpdate:
       type: object
@@ -144,7 +160,7 @@ components:
         phone: { type: string }
         email: { type: string, format: email }
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressResponse'
 
     # PROFESSIONALS
     Professional:
@@ -809,7 +825,7 @@ paths:
   /cep/{cep}:
     get:
       tags: [utils]
-      summary: Consultar CEP (proxy para ViaCEP/BrasilAPI)
+      summary: Consultar CEP (proxy para ViaCEP)
       operationId: lookupCep
       parameters:
         - name: cep
@@ -817,14 +833,14 @@ paths:
           required: true
           schema:
             type: string
-            example: "94000000"
+            example: "01310100"
       responses:
         '200':
           description: Dados do CEP
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CepResponse'
+                $ref: '#/components/schemas/AddressResponse'
         '404':
           $ref: '#/components/responses/NotFound'
 
