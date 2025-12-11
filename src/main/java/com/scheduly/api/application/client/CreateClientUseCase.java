@@ -1,4 +1,4 @@
-package com.scheduly.api.application.usecases.client;
+package com.scheduly.api.application.client;
 
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.domain.client.ClientRepository;

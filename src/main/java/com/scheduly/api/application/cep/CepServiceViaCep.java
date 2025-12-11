@@ -1,7 +1,7 @@
-package com.scheduly.api.infrastructure.external;
+package com.scheduly.api.application.cep;
 
 import com.scheduly.api.config.ApiProperties;
-import com.scheduly.api.infrastructure.external.dto.ViaCepResponse;
+import com.scheduly.api.web.dtos.ViaCepResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;

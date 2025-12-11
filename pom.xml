@@ -207,9 +207,9 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <additionalModelTypeAnnotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)</additionalModelTypeAnnotations>
+                                <useRecord>true</useRecord>
                             </configOptions>
                         </configuration>
-
                     </execution>
                 </executions>
 
@@ -223,7 +223,6 @@
                 </dependencies>
 
             </plugin>
-
             <!-- Build Helper: Adiciona generated-sources ao classpath -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -244,8 +243,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
-
 </project>

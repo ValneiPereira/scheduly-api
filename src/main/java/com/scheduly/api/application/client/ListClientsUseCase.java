@@ -1,10 +1,9 @@
-package com.scheduly.api.application.usecases.client;
+package com.scheduly.api.application.client;
 
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.domain.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ public class ListClientsUseCase {
 
     private final ClientRepository clientRepository;
 
-    @Transactional(readOnly = true)
     public List<Client> execute() {
         return clientRepository.findAll();
     }

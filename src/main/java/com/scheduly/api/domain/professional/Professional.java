@@ -1,6 +1,6 @@
 package com.scheduly.api.domain.professional;
 
-import com.scheduly.api.domain.common.Address;
+import com.scheduly.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
