@@ -1,12 +1,12 @@
 package com.scheduly.api.domain.client;
 
-import com.scheduly.api.domain.common.Address;
+import com.scheduly.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -30,6 +30,6 @@ public class Client {
 
     // Controle
     private Boolean active;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 }

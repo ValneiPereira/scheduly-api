@@ -1,4 +1,4 @@
-package com.scheduly.api.application.usecases.client;
+package com.scheduly.api.application.client;
 
 import com.scheduly.api.domain.client.ClientRepository;
 import com.scheduly.api.domain.exception.ResourceNotFoundException;
@@ -17,12 +17,11 @@ public class DeleteClientUseCase {
 
     @Transactional
     public void execute(Long id) {
-        // Verificar se cliente existe
-        if (!clientRepository.findById(id).isPresent()) {
+
+        if (clientRepository.findById(id).isEmpty()) {
             throw new ResourceNotFoundException("Cliente não encontrado com ID: " + id);
         }
 
-        // Deletar cliente
         clientRepository.deleteById(id);
     }
 }

@@ -34,6 +34,10 @@ logging:
     root: INFO
     com.scheduly.api: DEBUG
 
+api:
+  host: https://viacep.com.br/ws
+
+
 ---
 # Perfil: Development
 spring:
@@ -128,3 +132,6 @@ logging:
     org.springframework.web: WARN
     org.springframework.security: WARN
     org.hibernate: WARN
+
+api:
+  host: https://viacep.com.br/ws

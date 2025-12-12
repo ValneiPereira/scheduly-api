@@ -1,4 +1,4 @@
-package com.scheduly.api.application.usecases.client;
+package com.scheduly.api.application.client;
 
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.domain.client.ClientRepository;
@@ -36,7 +36,6 @@ public class UpdateClientUseCase {
                 throw new ConflictException("Email já cadastrado: " + updatedClient.getEmail());
             }
         }
-
 
         Client clientToUpdate = Client.builder()
                 .id(id)

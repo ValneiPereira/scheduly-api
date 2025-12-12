@@ -150,59 +150,59 @@ Projeto: Scheduly API
 
 **Prioridade:** 🟠 ALTA  
 **Duração:** 1 semana  
-**Status:** 🟡 Não Iniciado
+**Status:** ✅ 100% Concluído
 
 ### Tasks:
 
 #### 3.1 - Camada de Persistência (Infrastructure)
-- [ ] Criar `ClientEntity` com anotações JPA
-- [ ] Criar `ClientJpaRepository`
-- [ ] Implementar `ClientRepositoryImpl`
-- [ ] Configurar relacionamentos JPA
+- [x] Criar `ClientEntity` com anotações JPA
+- [x] Criar `ClientJpaRepository`
+- [x] Implementar `ClientRepositoryImpl`
+- [x] Configurar relacionamentos JPA
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** 1.3
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 3.2 - Casos de Uso (Application Layer)
-- [ ] Implementar `CreateClientUseCase`
-- [ ] Implementar `UpdateClientUseCase`
-- [ ] Implementar `DeleteClientUseCase`
-- [ ] Implementar `GetClientUseCase`
-- [ ] Implementar `ListClientsUseCase`
+- [x] Implementar `CreateClientUseCase`
+- [x] Implementar `UpdateClientUseCase`
+- [x] Implementar `DeleteClientUseCase`
+- [x] Implementar `GetClientUseCase`
+- [x] Implementar `ListClientsUseCase`
 - **Responsável:** Backend Team
 - **Estimativa:** 10h
 - **Dependências:** 3.1
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 3.3 - Controllers e DTOs
-- [ ] Criar DTOs (ClientRequest, ClientResponse)
-- [ ] Implementar [ClientController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/ClientController.java#6-10)
-- [ ] Adicionar validações Bean Validation
-- [ ] Implementar mappers (Entity <-> DTO)
+- [x] Criar DTOs (ClientRequest, ClientResponse)
+- [x] Implementar [ClientController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/ClientController.java#6-10)
+- [x] Adicionar validações Bean Validation
+- [x] Implementar mappers (Entity <-> DTO)
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
 - **Dependências:** 3.2
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 3.4 - Regras de Negócio
-- [ ] Validar CPF único
-- [ ] Validar email único
-- [ ] Validar telefone formato brasileiro
-- [ ] Implementar soft delete
+- [x] Validar CPF único
+- [x] Validar email único
+- [x] Validar telefone formato brasileiro
+- [x] Implementar soft delete
 - **Responsável:** Backend Team
 - **Estimativa:** 4h
 - **Dependências:** 3.2
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 3.5 - Testes
-- [ ] Testes unitários dos Use Cases
-- [ ] Testes de integração dos endpoints
-- [ ] Testes de validação
+- [x] Testes unitários dos Use Cases
+- [x] Testes de integração dos endpoints
+- [x] Testes de validação
 - **Responsável:** QA/Backend
 - **Estimativa:** 8h
 - **Dependências:** 3.3
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 ---
 

@@ -1,4 +1,4 @@
-package com.scheduly.api.infrastructure.external.dto;
+package com.scheduly.api.web.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
