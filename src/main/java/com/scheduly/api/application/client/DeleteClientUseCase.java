@@ -1,0 +1,27 @@
+package com.scheduly.api.application.client;
+
+import com.scheduly.api.domain.client.ClientRepository;
+import com.scheduly.api.domain.exception.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Use Case: Deletar cliente
+ */
+@Service
+@RequiredArgsConstructor
+public class DeleteClientUseCase {
+
+    private final ClientRepository clientRepository;
+
+    @Transactional
+    public void execute(Long id) {
+
+        if (clientRepository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Cliente não encontrado com ID: " + id);
+        }
+
+        clientRepository.deleteById(id);
+    }
+}

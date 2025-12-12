@@ -92,25 +92,41 @@ components:
         refreshToken:
           type: string
 
-    # CLIENTS
+    # ADDRESS
     Address:
       type: object
+      description: Resposta com dados de endereço (number é opcional - não retornado pelo ViaCEP)
       properties:
-        cep: { type: string, example: "94000-000" }
-        street: { type: string, example: "Rua das Flores" }
-        number: { type: string, example: "123" }
-        complement: { type: string, example: "Apto 101" }
-        district: { type: string, example: "Centro" }
-        city: { type: string, example: "Cachoeirinha" }
-        state: { type: string, example: "RS" }
+        street:
+          type: string
+          example: "Avenida Paulista"
+        number:
+          type: string
+          example: "1000"
+        complement:
+          type: string
+          example: "Andar 10"
+        neighborhood:
+          type: string
+          example: "Bela Vista"
+        city:
+          type: string
+          example: "São Paulo"
+        state:
+          type: string
+          example: "SP"
+        zipCode:
+          type: string
+          example: "01310-100"
 
-    Client:
+    # CLIENTS
+    ClientResponse:
       type: object
       required: [id, name, phone]
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
         name:
           type: string
           example: "Maria Silva"
@@ -121,28 +137,49 @@ components:
           type: string
           format: email
           example: "maria@example.com"
+        cpf:
+          type: string
+          example: "123.456.789-00"
         address:
           $ref: '#/components/schemas/Address'
         createdAt:
           type: string
           format: date-time
+          pattern: "dd-MM-yyyy"
+          example: "09-12-2025"
+        updatedAt:
+          type: string
+          format: date-time
+          pattern: "dd-MM-yyyy"
+          example: "09-12-2025"
 
     ClientCreate:
       type: object
-      required: [name, phone]
+      required: [name, phone, email, cpf]
       properties:
-        name: { type: string }
-        phone: { type: string }
-        email: { type: string, format: email }
+        name:
+          type: string
+          minLength: 1
+        phone:
+          type: string
+          pattern: '^\d{10,11}$'
+        email:
+          type: string
+          format: email
+        cpf:
+          type: string
+          x-field-extra-annotation: "@org.hibernate.validator.constraints.br.CPF(message = \"CPF inválido\")"
         address:
           $ref: '#/components/schemas/Address'
+
 
     ClientUpdate:
       type: object
       properties:
-        name: { type: string }
+        name:  { type: string }
         phone: { type: string }
         email: { type: string, format: email }
+        cpf:   { type: string, x-field-extra-annotation: "@org.hibernate.validator.constraints.br.CPF(message = \"CPF inválido\")"}
         address:
           $ref: '#/components/schemas/Address'
 
@@ -151,13 +188,13 @@ components:
       type: object
       required: [id, name]
       properties:
-        id: { type: string, format: uuid }
+        id: { type: integer, format: int64 }
         name: { type: string, example: "Joana Pereira" }
         bio: { type: string, example: "Especialista em alongamento e nail art" }
         phone: { type: string, example: "+55 51 98888-1111" }
         serviceIds:
           type: array
-          items: { type: string, format: uuid }
+          items: { type: integer, format: int64 }
         createdAt:
           type: string
           format: date-time
@@ -171,7 +208,7 @@ components:
         phone: { type: string }
         serviceIds:
           type: array
-          items: { type: string, format: uuid }
+          items: { type: integer, format: int64 }
 
     ProfessionalUpdate:
       type: object
@@ -181,14 +218,14 @@ components:
         phone: { type: string }
         serviceIds:
           type: array
-          items: { type: string, format: uuid }
+          items: { type: integer, format: int64 }
 
     # SERVICES
     Service:
       type: object
       required: [id, name, durationMinutes, priceCents]
       properties:
-        id: { type: string, format: uuid }
+        id: { type: integer, format: int64 }
         name: { type: string, example: "Manicure Básica" }
         description: { type: string }
         category: { type: string, example: "tradicional" }
@@ -226,10 +263,10 @@ components:
       type: object
       required: [id, clientId, professionalId, serviceId, startAt, endAt, status]
       properties:
-        id: { type: string, format: uuid }
-        clientId: { type: string, format: uuid }
-        professionalId: { type: string, format: uuid }
-        serviceId: { type: string, format: uuid }
+        id: { type: integer, format: int64 }
+        clientId: { type: integer, format: int64 }
+        professionalId: { type: integer, format: int64 }
+        serviceId: { type: integer, format: int64 }
         startAt: { type: string, format: date-time }
         endAt: { type: string, format: date-time }
         status:
@@ -241,9 +278,9 @@ components:
       type: object
       required: [clientId, professionalId, serviceId, startAt]
       properties:
-        clientId: { type: string, format: uuid }
-        professionalId: { type: string, format: uuid }
-        serviceId: { type: string, format: uuid }
+        clientId: { type: integer, format: int64 }
+        professionalId: { type: integer, format: int64 }
+        serviceId: { type: integer, format: int64 }
         startAt: { type: string, format: date-time }
         notes: { type: string }
 
@@ -259,8 +296,8 @@ components:
     Notification:
       type: object
       properties:
-        id: { type: string, format: uuid }
-        bookingId: { type: string, format: uuid }
+        id: { type: integer, format: int64 }
+        bookingId: { type: integer, format: int64 }
         channel: { type: string, example: "WHATSAPP" }
         message: { type: string }
         sentAt: { type: string, format: date-time }
@@ -269,7 +306,7 @@ components:
       type: object
       required: [bookingId, channel]
       properties:
-        bookingId: { type: string, format: uuid }
+        bookingId: { type: integer, format: int64 }
         channel:
           type: string
           enum: [WHATSAPP, EMAIL, PUSH, SMS]
@@ -361,7 +398,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Client'
+                  $ref: '#/components/schemas/ClientResponse'
     post:
       tags: [clients]
       summary: Criar cliente
@@ -378,7 +415,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/ClientResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
 
@@ -392,15 +429,15 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '200':
           description: Cliente encontrado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/ClientResponse'
         '404':
           $ref: '#/components/responses/NotFound'
     put:
@@ -412,8 +449,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -426,7 +463,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/ClientResponse'
     delete:
       tags: [clients]
       summary: Remover cliente (soft delete recomendado)
@@ -436,11 +473,34 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
+
+  /clients/search:
+    get:
+      tags: [clients]
+      summary: Buscar clientes por Nome (Partial Match)
+      description: "Pesquisa por nome parcial."
+      operationId: getClientByName
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Nome ou parte do nome para pesquisa
+      responses:
+        '200':
+          description: Lista de clientes encontrados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientResponse'
 
   ################################################################
   # PROFESSIONALS
@@ -455,8 +515,8 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
           description: filtrar por serviceId
       responses:
         '200':
@@ -497,8 +557,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '200':
           description: Profissional encontrado
@@ -517,8 +577,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -541,8 +601,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -600,8 +660,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '200':
           description: Serviço encontrado
@@ -620,8 +680,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -644,8 +704,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -663,14 +723,14 @@ paths:
           in: query
           required: false
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
         - name: professionalId
           in: query
           required: false
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
         - name: date
           in: query
           required: false
@@ -718,8 +778,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '200':
           description: Agendamento encontrado
@@ -738,8 +798,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -764,8 +824,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            format: uuid
+            type: integer
+            format: int64
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
@@ -809,7 +869,7 @@ paths:
   /cep/{cep}:
     get:
       tags: [utils]
-      summary: Consultar CEP (proxy para ViaCEP/BrasilAPI)
+      summary: Consultar CEP (proxy para ViaCEP)
       operationId: lookupCep
       parameters:
         - name: cep
@@ -817,14 +877,14 @@ paths:
           required: true
           schema:
             type: string
-            example: "94000000"
+            example: "01310100"
       responses:
         '200':
           description: Dados do CEP
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CepResponse'
+                $ref: '#/components/schemas/Address'
         '404':
           $ref: '#/components/responses/NotFound'
 

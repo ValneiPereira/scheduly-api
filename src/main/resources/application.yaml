@@ -12,8 +12,6 @@ spring:
 
   autoconfigure:
     exclude:
-      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
       - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
   main:
     allow-bean-definition-overriding: true
@@ -36,6 +34,10 @@ logging:
     root: INFO
     com.scheduly.api: DEBUG
 
+api:
+  host: https://viacep.com.br/ws
+
+
 ---
 # Perfil: Development
 spring:
@@ -43,21 +45,20 @@ spring:
     activate:
       on-profile: dev
 
-# Datasource comentado - descomente quando tiver o banco rodando
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/banco
-#    username: postgres
-#    password: postgres
-#    driver-class-name: org.postgresql.Driver
-#
-#  jpa:
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
-#        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/banco
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 logging:
   level:
@@ -131,3 +132,6 @@ logging:
     org.springframework.web: WARN
     org.springframework.security: WARN
     org.hibernate: WARN
+
+api:
+  host: https://viacep.com.br/ws
