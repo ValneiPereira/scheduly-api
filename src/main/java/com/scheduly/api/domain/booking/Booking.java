@@ -1,6 +1,6 @@
 package com.scheduly.api.domain.booking;
 
-import com.scheduly.model.BookingStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

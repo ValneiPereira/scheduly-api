@@ -150,7 +150,7 @@
                 </excludes>
             </resource>
         </resources>
-        
+
         <plugins>
 
             <!-- Compilador -->
@@ -195,19 +195,20 @@
                         </goals>
 
                         <configuration>
-                            <!-- Onde está o seu Swagger -->
+                            <!-- OpenAPI spec -->
                             <inputSpec>${project.basedir}/src/main/resources/swagger/api.yaml</inputSpec>
+                            <!-- Generator -->
                             <generatorName>spring</generatorName>
-                            <!-- Pacotes do projeto Scheduly -->
+                            <!-- Apenas API -->
                             <apiPackage>com.scheduly.api</apiPackage>
-                            <modelPackage>com.scheduly.model</modelPackage>
+                            <modelPackage>com.scheduly.api.web.dtos</modelPackage>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                            <generateModels>false</generateModels>
+                            <!-- Opcional: desligar coisas extras -->
                             <configOptions>
-                                <delegatePattern>true</delegatePattern>
                                 <interfaceOnly>true</interfaceOnly>
+                                <delegatePattern>true</delegatePattern>
                                 <useSpringBoot3>true</useSpringBoot3>
-                                <additionalModelTypeAnnotations>@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)</additionalModelTypeAnnotations>
-                                <useRecord>true</useRecord>
                             </configOptions>
                         </configuration>
                     </execution>

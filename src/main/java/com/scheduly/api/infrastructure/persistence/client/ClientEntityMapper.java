@@ -1,8 +1,8 @@
 package com.scheduly.api.infrastructure.persistence.client;
 
 import com.scheduly.api.domain.client.Client;
+import com.scheduly.api.domain.common.Address;
 import com.scheduly.api.infrastructure.persistence.common.AddressEmbeddable;
-import com.scheduly.model.Address;
 import org.springframework.stereotype.Component;
 
 @Component

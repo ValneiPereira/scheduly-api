@@ -3,15 +3,12 @@ package com.scheduly.api.web.controllers;
 import com.scheduly.api.ClientsApi;
 import com.scheduly.api.application.client.*;
 import com.scheduly.api.domain.client.Client;
+import com.scheduly.api.web.dtos.ClientRequest;
+import com.scheduly.api.web.dtos.ClientResponse;
 import com.scheduly.api.web.mappers.ClientMapper;
-import com.scheduly.model.ClientCreate;
-import com.scheduly.model.ClientResponse;
-import com.scheduly.model.ClientUpdate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,15 +30,15 @@ public class ClientController implements ClientsApi {
     private final ClientMapper clientMapper;
 
     @Override
-    public ResponseEntity<ClientResponse> createClient(@RequestBody ClientCreate request) {
-        Client client = clientMapper.toDomain(request);
-        Client createdClient = createClientUseCase.execute(client);
-        ClientResponse response = clientMapper.toResponse(createdClient);
+    public ResponseEntity<ClientResponse> createClient(ClientRequest request) {
+        var client = clientMapper.toDomain(request);
+        var createdClient = createClientUseCase.execute(client);
+        var response = clientMapper.toResponse(createdClient);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Override
-    public ResponseEntity<ClientResponse> getClient(@PathVariable Long id) {
+    public ResponseEntity<ClientResponse> getClient(Long id) {
         Client client = getClientUseCase.execute(id);
         ClientResponse response = clientMapper.toResponse(client);
         return ResponseEntity.ok(response);
@@ -66,7 +63,7 @@ public class ClientController implements ClientsApi {
     }
 
     @Override
-    public ResponseEntity<ClientResponse> updateClient(@PathVariable Long id, @RequestBody ClientUpdate request) {
+    public ResponseEntity<ClientResponse> updateClient(Long id, ClientRequest request) {
         Client client = clientMapper.toDomain(request);
         Client updatedClient = updateClientUseCase.execute(id, client);
         ClientResponse response = clientMapper.toResponse(updatedClient);
@@ -74,7 +71,7 @@ public class ClientController implements ClientsApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteClient(Long id) {
         deleteClientUseCase.execute(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,6 +1,7 @@
 package com.scheduly.api.domain.professional;
 
-import com.scheduly.model.Address;
+
+import com.scheduly.api.domain.common.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,8 +36,7 @@ public class Professional {
     // Horários de trabalho (podem ser expandidos para dias específicos)
     private LocalTime workStartTime; // Horário de início (ex: 09:00)
     private LocalTime workEndTime; // Horário de término (ex: 18:00)
-    private Integer breakDuration; // Duração do intervalo em minutos
-    private LocalTime breakStartTime; // Horário de início do intervalo
+
 
     // Dias de trabalho (pode ser uma lista de dias da semana)
     private List<String> workingDays; // Ex: ["MONDAY", "TUESDAY", "WEDNESDAY"]

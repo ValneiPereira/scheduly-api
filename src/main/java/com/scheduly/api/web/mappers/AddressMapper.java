@@ -1,7 +1,9 @@
 package com.scheduly.api.web.mappers;
 
+import com.scheduly.api.domain.common.Address;
+import com.scheduly.api.web.dtos.AddressRequest;
+import com.scheduly.api.web.dtos.AddressResponse;
 import com.scheduly.api.web.dtos.ViaCepResponse;
-import com.scheduly.model.Address;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,17 +12,43 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressMapper {
 
-    public Address toResponse(ViaCepResponse address) {
-        if (address == null) {
-            return null;
-        }
+    public Address toDomain(AddressRequest request) {
+        if (request == null) return null;
 
-        return new Address()
-                .street(address.getLogradouro())
-                .complement(address.getComplemento())
-                .neighborhood(address.getBairro())
-                .city(address.getLocalidade())
-                .state(address.getUf())
-                .zipCode(address.getCep());
+        return Address.builder()
+                .street(request.street())
+                .number(request.number())
+                .complement(request.complement())
+                .neighborhood(request.neighborhood())
+                .city(request.city())
+                .state(request.state())
+                .zipCode(request.zipCode())
+                .build();
+    }
+
+    public AddressResponse toResponse(ViaCepResponse address) {
+        if (address == null) return null;
+
+        return new AddressResponse(
+                address.getLogradouro(),
+                null,
+                address.getComplemento(),
+                address.getBairro(),
+                address.getLocalidade(),
+                address.getUf(),
+                address.getCep());
+    }
+
+    public AddressResponse toResponse(Address address) {
+        if (address == null) return null;
+
+        return new AddressResponse(
+                address.getStreet(),
+                address.getNumber(),
+                address.getComplement(),
+                address.getNeighborhood(),
+                address.getCity(),
+                address.getState(),
+                address.getZipCode());
     }
 }

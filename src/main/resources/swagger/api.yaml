@@ -55,12 +55,20 @@ components:
       description: Sem conteúdo
 
   schemas:
+
     ErrorResponse:
       type: object
       properties:
         message:
           type: string
-          example: "Descrição do erro"
+        status:
+          type: integer
+        error:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          example: "09-12-2025"
 
     # AUTH
     LoginRequest:
@@ -73,7 +81,6 @@ components:
         password:
           type: string
           example: "senha123"
-
     LoginResponse:
       type: object
       properties:
@@ -85,7 +92,6 @@ components:
         expiresIn:
           type: integer
           example: 3600
-
     RefreshRequest:
       type: object
       properties:
@@ -93,129 +99,151 @@ components:
           type: string
 
     # ADDRESS
-    Address:
+    AddressRequest:
       type: object
-      description: Resposta com dados de endereço (number é opcional - não retornado pelo ViaCEP)
+      required:
+        - street
+        - neighborhood
+        - city
+        - state
+        - zipCode
       properties:
         street:
           type: string
-          example: "Avenida Paulista"
+          minLength: 1
+          x-field-extra-annotation: >
+            @jakarta.validation.constraints.NotBlank(message = "Rua é obrigatória")
+
         number:
           type: string
-          example: "1000"
+
         complement:
           type: string
-          example: "Andar 10"
+
         neighborhood:
           type: string
-          example: "Bela Vista"
+          minLength: 1
+          x-field-extra-annotation: >
+            @jakarta.validation.constraints.NotBlank(message = "Bairro é obrigatório")
+
         city:
           type: string
-          example: "São Paulo"
+          minLength: 1
+          x-field-extra-annotation: >
+            @jakarta.validation.constraints.NotBlank(message = "Cidade é obrigatória")
+
         state:
           type: string
-          example: "SP"
+          pattern: "^[A-Z]{2}$"
+          x-field-extra-annotation: >
+            @jakarta.validation.constraints.Pattern(
+              regexp = "^[A-Z]{2}$",
+              message = "Estado deve conter 2 letras (ex: SP)"
+            )
+
         zipCode:
           type: string
-          example: "01310-100"
+          pattern: "\\d{5}-\\d{3}"
+          x-field-extra-annotation: >
+            @jakarta.validation.constraints.Pattern(
+              regexp = "\\d{5}-\\d{3}",
+              message = "CEP inválido (ex: 01310-100)"
+            )
+
+    AddressResponse:
+      type: object
+      properties:
+        street: { type: string }
+        number: { type: string }
+        complement: { type: string }
+        neighborhood: { type: string }
+        city: { type: string }
+        state: { type: string }
+        zipCode: { type: string }
+
 
     # CLIENTS
     ClientResponse:
       type: object
-      required: [id, name, phone]
+      required:
+        - id
+        - name
+        - email
+        - cpf
       properties:
         id:
           type: integer
           format: int64
         name:
           type: string
-          example: "Maria Silva"
-        phone:
-          type: string
-          example: "+55 51 99999-0000"
         email:
           type: string
           format: email
-          example: "maria@example.com"
         cpf:
           type: string
-          example: "123.456.789-00"
+        phone:
+          type: string
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressResponse'
         createdAt:
           type: string
           format: date-time
-          pattern: "dd-MM-yyyy"
           example: "09-12-2025"
         updatedAt:
           type: string
           format: date-time
-          pattern: "dd-MM-yyyy"
           example: "09-12-2025"
-
-    ClientCreate:
+    ClientRequest:
       type: object
-      required: [name, phone, email, cpf]
+      required:
+        - name
+        - email
+        - cpf
       properties:
         name:
           type: string
           minLength: 1
-        phone:
-          type: string
-          pattern: '^\d{10,11}$'
         email:
           type: string
           format: email
         cpf:
           type: string
-          x-field-extra-annotation: "@org.hibernate.validator.constraints.br.CPF(message = \"CPF inválido\")"
+        phone:
+          type: string
+          pattern: "\\d{10,11}"
         address:
-          $ref: '#/components/schemas/Address'
-
-
-    ClientUpdate:
-      type: object
-      properties:
-        name:  { type: string }
-        phone: { type: string }
-        email: { type: string, format: email }
-        cpf:   { type: string, x-field-extra-annotation: "@org.hibernate.validator.constraints.br.CPF(message = \"CPF inválido\")"}
-        address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressRequest'
 
     # PROFESSIONALS
-    Professional:
+    ProfessionalResponse:
       type: object
-      required: [id, name]
+      required: [ id, name ]
       properties:
-        id: { type: integer, format: int64 }
+        id: { type: integer, format: int64, example: 1 }
         name: { type: string, example: "Joana Pereira" }
         bio: { type: string, example: "Especialista em alongamento e nail art" }
         phone: { type: string, example: "+55 51 98888-1111" }
-        serviceIds:
-          type: array
-          items: { type: integer, format: int64 }
-        createdAt:
-          type: string
-          format: date-time
+        email: { type: string, format: email, example: "joana.pereira@email.com" }
+        address: { $ref: '#/components/schemas/AddressResponse' }
+        specialtyIds: { type: array, items: { type: integer, format: int64 }, example: [ 1, 3, 5 ] }
+        rating: { type: number, format: decimal, example: 4.8 }
+        totalReviews: { type: integer, example: 152 }
+        workStartTime: { type: string, format: time, example: "09:00" }
+        workEndTime: { type: string, format: time, example: "19:00" }
+        workingDays: { type: array, items: { type: string }, example: [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" ] }
+        active: { type: boolean, example: true }
+        createdAt: { type: string, format: date-time, example: "2025-12-15T15:55:16" }
+        updatedAt: { type: string, format: date-time, example: "2025-12-15T15:55:16" }
 
-    ProfessionalCreate:
-      type: object
-      required: [name]
-      properties:
-        name: { type: string }
-        bio: { type: string }
-        phone: { type: string }
-        serviceIds:
-          type: array
-          items: { type: integer, format: int64 }
-
-    ProfessionalUpdate:
+    ProfessionalRequest:
       type: object
       properties:
         name: { type: string }
         bio: { type: string }
         phone: { type: string }
+        email: { type: string, format: email}
+        address:
+          $ref: '#/components/schemas/AddressRequest'
         serviceIds:
           type: array
           items: { type: integer, format: int64 }
@@ -234,7 +262,6 @@ components:
         createdAt:
           type: string
           format: date-time
-
     ServiceCreate:
       type: object
       required: [name, durationMinutes, priceCents]
@@ -244,7 +271,6 @@ components:
         category: { type: string }
         durationMinutes: { type: integer }
         priceCents: { type: integer }
-
     ServiceUpdate:
       type: object
       properties:
@@ -258,7 +284,6 @@ components:
     BookingStatus:
       type: string
       enum: [PENDING, CONFIRMED, CANCELLED, COMPLETED]
-
     Booking:
       type: object
       required: [id, clientId, professionalId, serviceId, startAt, endAt, status]
@@ -273,7 +298,6 @@ components:
           $ref: '#/components/schemas/BookingStatus'
         notes: { type: string }
         createdAt: { type: string, format: date-time }
-
     BookingCreate:
       type: object
       required: [clientId, professionalId, serviceId, startAt]
@@ -283,7 +307,6 @@ components:
         serviceId: { type: integer, format: int64 }
         startAt: { type: string, format: date-time }
         notes: { type: string }
-
     BookingUpdate:
       type: object
       properties:
@@ -301,7 +324,6 @@ components:
         channel: { type: string, example: "WHATSAPP" }
         message: { type: string }
         sentAt: { type: string, format: date-time }
-
     NotificationCreate:
       type: object
       required: [bookingId, channel]
@@ -332,59 +354,56 @@ paths:
   ################################################################
   # AUTH
   ################################################################
-  /auth/login:
-    post:
-      tags: [auth]
-      summary: Login (gera JWT)
-      operationId: login
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-      responses:
-        '200':
-          description: Login bem-sucedido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '401':
-          description: Credenciais inválidas
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+#  /auth/login:
+#    post:
+#      tags: [auth]
+#      summary: Login (gera JWT)
+#      operationId: login
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/LoginRequest'
+#      responses:
+#        '200':
+#          description: Login bem-sucedido
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/LoginResponse'
+#        '401':
+#          description: Credenciais inválidas
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/ErrorResponse'
+#  /auth/refresh:
+#    post:
+#      tags: [auth]
+#      summary: Atualiza token com refresh token
+#      operationId: refreshToken
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/RefreshRequest'
+#      responses:
+#        '200':
+#          description: Token atualizado
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/LoginResponse'
+#        '400':
+#          description: Refresh token inválido
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/ErrorResponse'
 
-  /auth/refresh:
-    post:
-      tags: [auth]
-      summary: Atualiza token com refresh token
-      operationId: refreshToken
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RefreshRequest'
-      responses:
-        '200':
-          description: Token atualizado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
-        '400':
-          description: Refresh token inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
 
-  ################################################################
-  # CLIENTS
-  ################################################################
   /clients:
     get:
       tags: [clients]
@@ -408,7 +427,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClientCreate'
+              $ref: '#/components/schemas/ClientRequest'
       responses:
         '201':
           description: Cliente criado
@@ -418,7 +437,6 @@ paths:
                 $ref: '#/components/schemas/ClientResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
-
   /clients/{clientId}:
     get:
       tags: [clients]
@@ -456,7 +474,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClientUpdate'
+              $ref: '#/components/schemas/ClientRequest'
       responses:
         '200':
           description: Cliente atualizado
@@ -478,7 +496,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
-
   /clients/search:
     get:
       tags: [clients]
@@ -502,9 +519,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/ClientResponse'
 
-  ################################################################
-  # PROFESSIONALS
-  ################################################################
+
   /professionals:
     get:
       tags: [professionals]
@@ -526,7 +541,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Professional'
+                  $ref: '#/components/schemas/ProfessionalResponse'
     post:
       tags: [professionals]
       summary: Criar profissional
@@ -536,17 +551,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProfessionalCreate'
+              $ref: '#/components/schemas/ProfessionalRequest'
       responses:
         '201':
           description: Profissional criado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Professional'
+                $ref: '#/components/schemas/ProfessionalResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
-
   /professionals/{professionalId}:
     get:
       tags: [professionals]
@@ -565,7 +579,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Professional'
+                $ref: '#/components/schemas/ProfessionalResponse'
         '404':
           $ref: '#/components/responses/NotFound'
     put:
@@ -584,14 +598,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProfessionalUpdate'
+              $ref: '#/components/schemas/ProfessionalRequest'
       responses:
         '200':
           description: Profissional atualizado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Professional'
+                $ref: '#/components/schemas/ProfessionalResponse'
     delete:
       tags: [professionals]
       summary: Remover profissional
@@ -607,261 +621,158 @@ paths:
         '204':
           $ref: '#/components/responses/NoContent'
 
-  ################################################################
-  # SERVICES
-  ################################################################
-  /services:
-    get:
-      tags: [services]
-      summary: Listar serviços
-      operationId: listServices
-      parameters:
-        - name: category
-          in: query
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Lista de serviços
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Service'
-    post:
-      tags: [services]
-      summary: Criar serviço
-      operationId: createService
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ServiceCreate'
-      responses:
-        '201':
-          description: Serviço criado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Service'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-
-  /services/{serviceId}:
-    get:
-      tags: [services]
-      summary: Buscar serviço por ID
-      operationId: getService
-      parameters:
-        - name: serviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Serviço encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Service'
-        '404':
-          $ref: '#/components/responses/NotFound'
-    put:
-      tags: [services]
-      summary: Atualizar serviço
-      operationId: updateService
-      parameters:
-        - name: serviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ServiceUpdate'
-      responses:
-        '200':
-          description: Serviço atualizado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Service'
-    delete:
-      tags: [services]
-      summary: Remover serviço
-      operationId: deleteService
-      parameters:
-        - name: serviceId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
 
   ################################################################
   # BOOKINGS
   ################################################################
-  /bookings:
-    get:
-      tags: [bookings]
-      summary: Listar agendamentos
-      operationId: listBookings
-      parameters:
-        - name: clientId
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int64
-        - name: professionalId
-          in: query
-          required: false
-          schema:
-            type: integer
-            format: int64
-        - name: date
-          in: query
-          required: false
-          schema:
-            type: string
-            format: date
-      responses:
-        '200':
-          description: Lista de agendamentos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Booking'
-    post:
-      tags: [bookings]
-      summary: Criar agendamento
-      operationId: createBooking
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BookingCreate'
-      responses:
-        '201':
-          description: Agendamento criado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Booking'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '409':
-          $ref: '#/components/responses/Conflict'
-
-  /bookings/{bookingId}:
-    get:
-      tags: [bookings]
-      summary: Buscar agendamento por ID
-      operationId: getBooking
-      parameters:
-        - name: bookingId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: Agendamento encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Booking'
-        '404':
-          $ref: '#/components/responses/NotFound'
-    put:
-      tags: [bookings]
-      summary: Atualizar agendamento (reagendar / editar)
-      operationId: updateBooking
-      parameters:
-        - name: bookingId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BookingUpdate'
-      responses:
-        '200':
-          description: Agendamento atualizado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Booking'
-        '409':
-          $ref: '#/components/responses/Conflict'
-    delete:
-      tags: [bookings]
-      summary: Cancelar agendamento (soft delete)
-      operationId: cancelBooking
-      parameters:
-        - name: bookingId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '204':
-          $ref: '#/components/responses/NoContent'
+#  /bookings:
+#    get:
+#      tags: [bookings]
+#      summary: Listar agendamentos
+#      operationId: listBookings
+#      parameters:
+#        - name: clientId
+#          in: query
+#          required: false
+#          schema:
+#            type: integer
+#            format: int64
+#        - name: professionalId
+#          in: query
+#          required: false
+#          schema:
+#            type: integer
+#            format: int64
+#        - name: date
+#          in: query
+#          required: false
+#          schema:
+#            type: string
+#            format: date
+#      responses:
+#        '200':
+#          description: Lista de agendamentos
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  $ref: '#/components/schemas/Booking'
+#    post:
+#      tags: [bookings]
+#      summary: Criar agendamento
+#      operationId: createBooking
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/BookingCreate'
+#      responses:
+#        '201':
+#          description: Agendamento criado
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Booking'
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
+#        '409':
+#          $ref: '#/components/responses/Conflict'
+#  /bookings/{bookingId}:
+#    get:
+#      tags: [bookings]
+#      summary: Buscar agendamento por ID
+#      operationId: getBooking
+#      parameters:
+#        - name: bookingId
+#          in: path
+#          required: true
+#          schema:
+#            type: integer
+#            format: int64
+#      responses:
+#        '200':
+#          description: Agendamento encontrado
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Booking'
+#        '404':
+#          $ref: '#/components/responses/NotFound'
+#    put:
+#      tags: [bookings]
+#      summary: Atualizar agendamento (reagendar / editar)
+#      operationId: updateBooking
+#      parameters:
+#        - name: bookingId
+#          in: path
+#          required: true
+#          schema:
+#            type: integer
+#            format: int64
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/BookingUpdate'
+#      responses:
+#        '200':
+#          description: Agendamento atualizado
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/Booking'
+#        '409':
+#          $ref: '#/components/responses/Conflict'
+#    delete:
+#      tags: [bookings]
+#      summary: Cancelar agendamento (soft delete)
+#      operationId: cancelBooking
+#      parameters:
+#        - name: bookingId
+#          in: path
+#          required: true
+#          schema:
+#            type: integer
+#            format: int64
+#      responses:
+#        '204':
+#          $ref: '#/components/responses/NoContent'
 
   ################################################################
   # NOTIFICATIONS
   ################################################################
-  /notifications:
-    get:
-      tags: [notifications]
-      summary: Listar notificações
-      operationId: listNotifications
-      responses:
-        '200':
-          description: Lista de notificações
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Notification'
-    post:
-      tags: [notifications]
-      summary: Enviar notificação (manual/testing)
-      operationId: sendNotification
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/NotificationCreate'
-      responses:
-        '202':
-          description: Notificação aceita para envio
-        '400':
-          $ref: '#/components/responses/BadRequest'
+#  /notifications:
+#    get:
+#      tags: [notifications]
+#      summary: Listar notificações
+#      operationId: listNotifications
+#      responses:
+#        '200':
+#          description: Lista de notificações
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  $ref: '#/components/schemas/Notification'
+#    post:
+#      tags: [notifications]
+#      summary: Enviar notificação (manual/testing)
+#      operationId: sendNotification
+#      requestBody:
+#        required: true
+#        content:
+#          application/json:
+#            schema:
+#              $ref: '#/components/schemas/NotificationCreate'
+#      responses:
+#        '202':
+#          description: Notificação aceita para envio
+#        '400':
+#          $ref: '#/components/responses/BadRequest'
 
   ################################################################
   # UTILS: CEP / HEALTH
@@ -884,23 +795,6 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Address'
+                $ref: '#/components/schemas/AddressResponse'
         '404':
           $ref: '#/components/responses/NotFound'
-
-  /health:
-    get:
-      tags: [utils]
-      summary: Health check
-      operationId: healthCheck
-      responses:
-        '200':
-          description: Serviço UP
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: "UP"

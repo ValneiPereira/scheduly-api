@@ -1,11 +1,12 @@
 package com.scheduly.api.web.mappers;
 
 import com.scheduly.api.domain.client.Client;
-import com.scheduly.model.ClientCreate;
-import com.scheduly.model.ClientResponse;
-import com.scheduly.model.ClientUpdate;
+import com.scheduly.api.web.dtos.ClientRequest;
+import com.scheduly.api.web.dtos.ClientResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 /**
  * Mapper para Client
@@ -14,35 +15,33 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ClientMapper {
 
-    public Client toDomain(ClientCreate request) {
-        return Client.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .cpf(request.getCpf())
-                .phone(request.getPhone())
-                .address(request.getAddress())
-                .build();
-    }
+    private final AddressMapper addressMapper;
 
-    public Client toDomain(ClientUpdate request) {
+    public Client toDomain(ClientRequest request) {
         return Client.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .cpf(request.getCpf())
-                .phone(request.getPhone())
-                .address(request.getAddress())
+                .name(request.name())
+                .email(request.email())
+                .cpf(request.cpf())
+                .phone(request.phone())
+                .createdAt(LocalDateTime.now())
+                .address(addressMapper.toDomain(request.address()))
                 .build();
     }
 
     public ClientResponse toResponse(Client client) {
-        return new ClientResponse()
-                .id(client.getId())
-                .name(client.getName())
-                .phone(client.getPhone())
-                .email(client.getEmail())
-                .cpf(client.getCpf())
-                .address(client.getAddress())
-                .createdAt(client.getCreatedAt())
-                .updatedAt(client.getUpdatedAt());
+        if (client == null) {
+            return null;
+        }
+
+        return new ClientResponse(
+                client.getId(),
+                client.getName(),
+                client.getPhone(),
+                client.getEmail(),
+                client.getCpf(),
+                addressMapper.toResponse(client.getAddress()),
+                client.getCreatedAt(),
+                client.getUpdatedAt()
+        );
     }
 }

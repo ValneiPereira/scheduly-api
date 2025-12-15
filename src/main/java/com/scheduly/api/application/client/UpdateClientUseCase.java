@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 /**
  * Use Case: Atualizar cliente existente
  */
@@ -45,7 +47,7 @@ public class UpdateClientUseCase {
                 .phone(updatedClient.getPhone())
                 .address(updatedClient.getAddress())
                 .createdAt(existingClient.getCreatedAt())
-                .updatedAt(existingClient.getUpdatedAt())
+                .updatedAt(LocalDateTime.now())
                 .build();
 
         return clientRepository.save(clientToUpdate);
