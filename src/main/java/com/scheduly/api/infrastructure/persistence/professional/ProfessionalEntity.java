@@ -22,57 +22,57 @@ import java.util.List;
 @AllArgsConstructor
 public class ProfessionalEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+        @Column(nullable = false, length = 100)
+        private String name;
 
-    @Column(length = 15)
-    private String phone;
+        @Column(unique = true, nullable = false)
+        private String email;
 
-    @Embedded
-    private AddressEmbeddable address;
+        @Column(unique = true, nullable = false, length = 14)
+        private String cpf;
 
-    @Column(length = 500)
-    private String bio;
+        @Column(length = 15)
+        private String phone;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "professional_specialties",
-            joinColumns = @JoinColumn(name = "professional_id")
-    )
-    @Column(name = "specialty_id")
-    private List<Long> specialtyIds;
+        @Embedded
+        private AddressEmbeddable address;
 
-    @Column(precision = 2, scale = 1)
-    private BigDecimal rating;
+        @Column(length = 500)
+        private String bio;
 
-    private Integer totalReviews;
+        @ElementCollection
+        @CollectionTable(name = "professional_specialties", joinColumns = @JoinColumn(name = "professional_id"))
+        @Column(name = "specialty_id")
+        private List<Long> specialtyIds;
 
-    @Column(nullable = false)
-    private LocalTime workStartTime;
+        @Column(precision = 2, scale = 1)
+        private BigDecimal rating;
 
-    @Column(nullable = false)
-    private LocalTime workEndTime;
+        private Integer totalReviews;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "professional_working_days",
-            joinColumns = @JoinColumn(name = "professional_id")
-    )
-    @Column(name = "day")
-    private List<String> workingDays;
+        @Column(nullable = false)
+        private LocalTime workStartTime;
 
-    @Column(nullable = false)
-    private Boolean active;
+        @Column(nullable = false)
+        private LocalTime workEndTime;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+        @ElementCollection
+        @CollectionTable(name = "professional_working_days", joinColumns = @JoinColumn(name = "professional_id"))
+        @Column(name = "day")
+        private List<String> workingDays;
 
-    @UpdateTimestamp
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
+        @Column(nullable = false)
+        private Boolean active;
+
+        @CreationTimestamp
+        @Column(nullable = false, updatable = false)
+        private LocalDateTime createdAt;
+
+        @UpdateTimestamp
+        @Column(nullable = false)
+        private LocalDateTime updatedAt;
 }

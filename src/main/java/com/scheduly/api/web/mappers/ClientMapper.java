@@ -16,6 +16,8 @@ public class ClientMapper {
     private final AddressMapper addressMapper;
 
     public Client toDomain(ClientRequest request) {
+        if (request == null)
+            return null;
         return Client.builder()
                 .name(request.name())
                 .email(request.email())

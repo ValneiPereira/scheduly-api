@@ -37,7 +37,7 @@ public class CepServiceViaCep {
                     .retrieve()
                     .body(ViaCepResponse.class);
 
-            if (response == null || Boolean.TRUE.equals(response.getErro())) {
+            if (response == null || Boolean.TRUE.equals(response.erro())) {
                 throw new RuntimeException("CEP não encontrado: " + cep);
             }
 

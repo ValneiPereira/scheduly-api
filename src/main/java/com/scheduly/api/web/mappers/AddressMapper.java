@@ -13,7 +13,8 @@ import org.springframework.stereotype.Component;
 public class AddressMapper {
 
     public Address toDomain(AddressRequest request) {
-        if (request == null) return null;
+        if (request == null)
+            return null;
 
         return Address.builder()
                 .street(request.street())
@@ -27,20 +28,22 @@ public class AddressMapper {
     }
 
     public AddressResponse toResponse(ViaCepResponse address) {
-        if (address == null) return null;
+        if (address == null)
+            return null;
 
         return new AddressResponse(
-                address.getLogradouro(),
+                address.logradouro(),
                 null,
-                address.getComplemento(),
-                address.getBairro(),
-                address.getLocalidade(),
-                address.getUf(),
-                address.getCep());
+                address.complemento(),
+                address.bairro(),
+                address.localidade(),
+                address.uf(),
+                address.cep());
     }
 
     public AddressResponse toResponse(Address address) {
-        if (address == null) return null;
+        if (address == null)
+            return null;
 
         return new AddressResponse(
                 address.getStreet(),
