@@ -210,53 +210,53 @@ Projeto: Scheduly API
 
 **Prioridade:** 🟠 ALTA  
 **Duração:** 1 semana  
-**Status:** 🟡 Não Iniciado
+**Status:** 🏗️ 80% Concluído
 
 ### Tasks:
 
-#### 4.1 - Camada de Persistência
-- [ ] Criar `ProfessionalEntity` com JPA
-- [ ] Criar `ProfessionalJpaRepository`
-- [ ] Implementar `ProfessionalRepositoryImpl`
-- [ ] Configurar relacionamento ManyToMany com Services
+#### ✅ 4.1 - Camada de Persistência
+- [x] Criar `ProfessionalEntity` com JPA
+- [x] Criar `ProfessionalJpaRepository`
+- [x] Implementar `ProfessionalRepositoryImpl`
+- [x] Configurar relacionamento ManyToMany com Services (via IDs por enquanto)
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** 1.3
-- **Status:** Pendente
+- **Status:** Concluído
 
-#### 4.2 - Casos de Uso
-- [ ] Implementar `CreateProfessionalUseCase`
-- [ ] Implementar `UpdateProfessionalUseCase`
-- [ ] Implementar `DeleteProfessionalUseCase`
-- [ ] Implementar `GetProfessionalUseCase`
-- [ ] Implementar `ListProfessionalsUseCase`
-- [ ] Implementar `GetProfessionalsByServiceUseCase`
+#### ✅ 4.2 - Casos de Uso
+- [x] Implementar `CreateProfessionalUseCase`
+- [x] Implementar `UpdateProfessionalUseCase`
+- [x] Implementar `DeleteProfessionalUseCase`
+- [x] Implementar `GetProfessionalUseCase`
+- [x] Implementar `ListProfessionalsUseCase`
+- [ ] Implementar `GetProfessionalsByServiceUseCase` (Integrado na listagem)
 - **Responsável:** Backend Team
 - **Estimativa:** 12h
 - **Dependências:** 4.1
-- **Status:** Pendente
+- **Status:** Concluído
 
-#### 4.3 - Gestão de Horários de Trabalho
-- [ ] Criar entidade `ProfessionalSchedule`
-- [ ] Implementar CRUD de horários
+#### ✅ 4.3 - Gestão de Horários de Trabalho
+- [x] Criar campos de horario na entidade Professional
+- [x] Implementar CRUD de horários (via Professional)
 - [ ] Validar horários de trabalho
 - [ ] Implementar lógica de dias de trabalho
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
 - **Dependências:** 4.1
-- **Status:** Pendente
+- **Status:** Parcialmente Concluído
 
-#### 4.4 - Controllers e DTOs
-- [ ] Criar DTOs (ProfessionalRequest, ProfessionalResponse)
-- [ ] Implementar [ProfessionalController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/ProfessionalController.java#6-10)
-- [ ] Adicionar validações
-- [ ] Implementar mappers
+#### ✅ 4.4 - Controllers e DTOs
+- [x] Criar DTOs (ProfessionalRequest, ProfessionalResponse)
+- [x] Implementar [ProfessionalController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/ProfessionalController.java#6-10)
+- [x] Adicionar validações
+- [x] Implementar mappers
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
 - **Dependências:** 4.2, 4.3
-- **Status:** Pendente
+- **Status:** Concluído
 
-#### 4.5 - Sistema de Avaliações
+#### ⏳ 4.5 - Sistema de Avaliações
 - [ ] Criar entidade `ProfessionalReview`
 - [ ] Implementar cálculo de rating médio
 - [ ] Criar endpoint de avaliação
@@ -265,7 +265,7 @@ Projeto: Scheduly API
 - **Dependências:** 4.1
 - **Status:** Pendente
 
-#### 4.6 - Testes
+#### ⏳ 4.6 - Testes
 - [ ] Testes unitários
 - [ ] Testes de integração
 - [ ] Testes de regras de negócio

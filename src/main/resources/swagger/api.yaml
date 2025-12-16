@@ -237,16 +237,25 @@ components:
 
     ProfessionalRequest:
       type: object
+      required: [name, email, cpf, phone, workStartTime, workEndTime, workingDays, active]
       properties:
         name: { type: string }
-        bio: { type: string }
-        phone: { type: string }
         email: { type: string, format: email}
+        cpf: { type: string }
+        phone: { type: string }
         address:
           $ref: '#/components/schemas/AddressRequest'
-        serviceIds:
+        bio: { type: string }
+        specialtyIds:
           type: array
           items: { type: integer, format: int64 }
+        workStartTime: { type: string, format: time, example: "09:00" }
+        workEndTime: { type: string, format: time, example: "19:00" }
+        workingDays:
+          type: array
+          items: { type: string }
+          example: [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" ]
+        active: { type: boolean }
 
     # SERVICES
     Service:

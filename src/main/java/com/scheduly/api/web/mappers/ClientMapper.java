@@ -6,8 +6,6 @@ import com.scheduly.api.web.dtos.ClientResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 /**
  * Mapper para Client
  */
@@ -18,12 +16,13 @@ public class ClientMapper {
     private final AddressMapper addressMapper;
 
     public Client toDomain(ClientRequest request) {
+        if (request == null)
+            return null;
         return Client.builder()
                 .name(request.name())
                 .email(request.email())
                 .cpf(request.cpf())
                 .phone(request.phone())
-                .createdAt(LocalDateTime.now())
                 .address(addressMapper.toDomain(request.address()))
                 .build();
     }
