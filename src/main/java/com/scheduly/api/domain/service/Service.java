@@ -17,7 +17,8 @@ public class Service {
     private Long id;
     private String name; // Ex: "Manicure Básica"
     private String description; // Descrição detalhada do serviço
-    private ServiceCategory category; // Categoria do serviço
+    private ServiceCategory category; // Ex: BELEZA, SAUDE
+    private ServiceSubcategory subcategory; // Enum rigoroso
 
     // Preço e duração
     private BigDecimal price; // Preço base do serviço
@@ -32,4 +33,35 @@ public class Service {
     private Boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public void merge(Service updated) {
+        if (updated.name != null) this.name = updated.name;
+        if (updated.description != null) this.description = updated.description;
+        if (updated.category != null) this.category = updated.category;
+        if (updated.subcategory != null) this.subcategory = updated.subcategory;
+        if (updated.price != null) this.price = updated.price;
+        if (updated.duration != null) this.duration = updated.duration;
+        if (updated.requirements != null) this.requirements = updated.requirements;
+        if (updated.materials != null) this.materials = updated.materials;
+        if (updated.requiresSpecialist != null) this.requiresSpecialist = updated.requiresSpecialist;
+        if (updated.active != null) this.active = updated.active;
+    }
+
+    public void validate() {
+        validarCategoriaESubcategoria();
+        validarPreco();
+    }
+
+    private void validarCategoriaESubcategoria() {
+        if (subcategory != null && category != null
+            && !subcategory.belongsTo(category)) {
+            throw new IllegalArgumentException("A subcategoria informada não pertence à categoria do serviço");
+        }
+    }
+
+    private void validarPreco() {
+        if (price != null && price.signum() < 0) {
+            throw new IllegalArgumentException("O preço do serviço não pode ser negativo");
+        }
+    }
 }

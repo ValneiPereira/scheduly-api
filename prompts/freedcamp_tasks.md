@@ -284,26 +284,26 @@ Projeto: Scheduly API
 
 ### Tasks:
 
-#### 5.1 - Camada de Persistência
-- [ ] Criar [ServiceEntity](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/persistence/service/ServiceEntity.java#7-14) com JPA
-- [ ] Criar [ServiceJpaRepository](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/persistence/service/ServiceJpaRepository.java#6-9)
-- [ ] Implementar `ServiceRepositoryImpl`
+#### ✅ 5.1 - Camada de Persistência
+- [x] Criar `ServiceEntity` com JPA
+- [x] Criar `ServiceJpaRepository`
+- [x] Implementar `ServiceRepositoryImpl`
 - **Responsável:** Backend Team
 - **Estimativa:** 4h
 - **Dependências:** 1.3
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 5.2 - Casos de Uso
-- [ ] Implementar `CreateServiceUseCase`
-- [ ] Implementar `UpdateServiceUseCase`
-- [ ] Implementar `DeleteServiceUseCase`
-- [ ] Implementar `GetServiceUseCase`
-- [ ] Implementar `ListServicesUseCase`
-- [ ] Implementar `ListServicesByCategoryUseCase`
+#### ✅ 5.2 - Casos de Uso
+- [x] Implementar `CreateServiceUseCase`
+- [x] Implementar `UpdateServiceUseCase`
+- [x] Implementar `DeleteServiceUseCase`
+- [x] Implementar `GetServiceUseCase`
+- [x] Implementar `ListServicesUseCase`
+- [x] Implementar `ListServicesByCategoryUseCase`
 - **Responsável:** Backend Team
 - **Estimativa:** 10h
 - **Dependências:** 5.1
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 5.3 - Catálogo de Serviços
 - [ ] Popular banco com serviços padrão
@@ -315,15 +315,15 @@ Projeto: Scheduly API
 - **Dependências:** 5.1
 - **Status:** Pendente
 
-#### 5.4 - Controllers e DTOs
-- [ ] Criar DTOs (ServiceRequest, ServiceResponse)
-- [ ] Implementar [ServiceController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/ServiceController.java#6-10)
-- [ ] Adicionar validações
-- [ ] Implementar mappers
+#### ✅ 5.4 - Controllers e DTOs
+- [x] Criar DTOs (ServiceRequest, ServiceResponse)
+- [x] Implementar `ServiceController`
+- [x] Adicionar validações
+- [x] Implementar mappers
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** 5.2
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 5.5 - Testes
 - [ ] Testes unitários
