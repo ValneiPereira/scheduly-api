@@ -257,6 +257,27 @@ components:
           example: [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" ]
         active: { type: boolean }
 
+    ReviewRequest:
+      type: object
+      required: [rating]
+      properties:
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+          maxLength: 500
+
+    ReviewResponse:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        professionalId: { type: integer, format: int64 }
+        rating: { type: integer }
+        comment: { type: string }
+        createdAt: { type: string, format: date-time }
+
     # SERVICES
     Service:
       type: object
@@ -629,6 +650,34 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
+
+  /professionals/{professionalId}/reviews:
+    post:
+      tags: [professionals]
+      summary: Avaliar profissional
+      operationId: createReview
+      parameters:
+        - name: professionalId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewRequest'
+      responses:
+        '201':
+          description: Avaliação criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
 
 
   ################################################################

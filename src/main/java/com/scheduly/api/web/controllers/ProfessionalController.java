@@ -2,10 +2,15 @@ package com.scheduly.api.web.controllers;
 
 import com.scheduly.api.ProfessionalsApi;
 import com.scheduly.api.application.professional.*;
+import com.scheduly.api.application.review.CreateReviewUseCase;
 import com.scheduly.api.domain.professional.Professional;
+import com.scheduly.api.domain.review.ProfessionalReview;
 import com.scheduly.api.web.dtos.ProfessionalRequest;
 import com.scheduly.api.web.dtos.ProfessionalResponse;
+import com.scheduly.api.web.dtos.ReviewRequest;
+import com.scheduly.api.web.dtos.ReviewResponse;
 import com.scheduly.api.web.mappers.ProfissionalMapper;
+import com.scheduly.api.web.mappers.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +29,8 @@ public class ProfessionalController implements ProfessionalsApi {
     private final UpdateProfessionalUseCase updateProfessionalUseCase;
     private final DeleteProfessionalUseCase deleteProfessionalUseCase;
     private final ProfissionalMapper mapper;
+    private final CreateReviewUseCase createReviewUseCase;
+    private final ReviewMapper reviewMapper;
 
     @Override
     public ResponseEntity<ProfessionalResponse> createProfessional(ProfessionalRequest professionalRequest) {
@@ -61,5 +68,12 @@ public class ProfessionalController implements ProfessionalsApi {
     public ResponseEntity<Void> deleteProfessional(Long professionalId) {
         deleteProfessionalUseCase.execute(professionalId);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<ReviewResponse> createReview(Long professionalId, ReviewRequest reviewRequest) {
+        ProfessionalReview domainReview = reviewMapper.toDomain(reviewRequest, professionalId);
+        ProfessionalReview savedReview = createReviewUseCase.execute(domainReview);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviewMapper.toResponse(savedReview));
     }
 }
