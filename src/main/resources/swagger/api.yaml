@@ -234,7 +234,6 @@ components:
         active: { type: boolean, example: true }
         createdAt: { type: string, format: date-time, example: "2025-12-15T15:55:16" }
         updatedAt: { type: string, format: date-time, example: "2025-12-15T15:55:16" }
-
     ProfessionalRequest:
       type: object
       required: [name, email, cpf, phone, workStartTime, workEndTime, workingDays, active]
@@ -256,7 +255,6 @@ components:
           items: { type: string }
           example: [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY" ]
         active: { type: boolean }
-
     ReviewRequest:
       type: object
       required: [rating]
@@ -268,7 +266,6 @@ components:
         comment:
           type: string
           maxLength: 500
-
     ReviewResponse:
       type: object
       properties:
@@ -279,26 +276,32 @@ components:
         createdAt: { type: string, format: date-time }
 
     # SERVICES
-    Service:
+    ServiceResponse:
       type: object
-      required: [id, name, durationMinutes, priceCents]
+      required: [id, name, durationMinutes, priceCents, category, subcategory]
       properties:
         id: { type: integer, format: int64 }
         name: { type: string, example: "Manicure Básica" }
         description: { type: string }
-        category: { type: string, example: "tradicional" }
+        category:
+          type: string
+          enum: [BELEZA, SAUDE, SERVICOS, EDUCACAO, OUTROS]
+        subcategory:
+          type: string
+          enum: [CABELEIREIRO, BARBEIRO, ESTETICISTA, DESIGNER_SOBRANCELHA, MANICURE, PSICOLOGO, FISIOTERAPEUTA, NUTRICIONISTA, PERSONAL_TRAINER, ELETRICISTA, ENCANADOR, TECNICO_INFORMATICA, MONTADOR_MOVEIS, AULA_PARTICULAR, PROFESSOR_IDIOMAS, REFORCO_ESCOLAR, MENTOR, OUTROS]
         durationMinutes: { type: integer, example: 45 }
         priceCents: { type: integer, example: 3500 }
         createdAt:
           type: string
           format: date-time
-    ServiceCreate:
+    ServiceRequest:
       type: object
-      required: [name, durationMinutes, priceCents]
+      required: [name, durationMinutes, priceCents, category, subcategory]
       properties:
         name: { type: string }
         description: { type: string }
-        category: { type: string }
+        category: { type: string, example: "BELEZA" }
+        subcategory: { type: string, example: "MANICURE" }
         durationMinutes: { type: integer }
         priceCents: { type: integer }
     ServiceUpdate:
@@ -307,6 +310,7 @@ components:
         name: { type: string }
         description: { type: string }
         category: { type: string }
+        subcategory: { type: string }
         durationMinutes: { type: integer }
         priceCents: { type: integer }
 
@@ -384,54 +388,54 @@ paths:
   ################################################################
   # AUTH
   ################################################################
-#  /auth/login:
-#    post:
-#      tags: [auth]
-#      summary: Login (gera JWT)
-#      operationId: login
-#      requestBody:
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/LoginRequest'
-#      responses:
-#        '200':
-#          description: Login bem-sucedido
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/LoginResponse'
-#        '401':
-#          description: Credenciais inválidas
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/ErrorResponse'
-#  /auth/refresh:
-#    post:
-#      tags: [auth]
-#      summary: Atualiza token com refresh token
-#      operationId: refreshToken
-#      requestBody:
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/RefreshRequest'
-#      responses:
-#        '200':
-#          description: Token atualizado
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/LoginResponse'
-#        '400':
-#          description: Refresh token inválido
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/ErrorResponse'
+  #  /auth/login:
+  #    post:
+  #      tags: [auth]
+  #      summary: Login (gera JWT)
+  #      operationId: login
+  #      requestBody:
+  #        required: true
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: '#/components/schemas/LoginRequest'
+  #      responses:
+  #        '200':
+  #          description: Login bem-sucedido
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/LoginResponse'
+  #        '401':
+  #          description: Credenciais inválidas
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/ErrorResponse'
+  #  /auth/refresh:
+  #    post:
+  #      tags: [auth]
+  #      summary: Atualiza token com refresh token
+  #      operationId: refreshToken
+  #      requestBody:
+  #        required: true
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: '#/components/schemas/RefreshRequest'
+  #      responses:
+  #        '200':
+  #          description: Token atualizado
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/LoginResponse'
+  #        '400':
+  #          description: Refresh token inválido
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/ErrorResponse'
 
 
   /clients:
@@ -650,7 +654,6 @@ paths:
       responses:
         '204':
           $ref: '#/components/responses/NoContent'
-
   /professionals/{professionalId}/reviews:
     post:
       tags: [professionals]
@@ -679,162 +682,265 @@ paths:
         '400':
           $ref: '#/components/responses/BadRequest'
 
+  /services:
+    get:
+      tags: [services]
+      summary: Listar serviços
+      operationId: listServices
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 'Filtrar por categoria (ex: "BELEZA", "SAUDE")'
+      responses:
+        '200':
+          description: Lista de serviços
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceResponse'
+    post:
+      tags: [services]
+      summary: Criar serviço
+      operationId: createService
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRequest'
+      responses:
+        '201':
+          description: Serviço criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /services/{serviceId}:
+    get:
+      tags: [services]
+      summary: Buscar serviço por ID
+      operationId: getService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Serviço encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags: [services]
+      summary: Atualizar serviço
+      operationId: updateService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdate'
+      responses:
+        '200':
+          description: Serviço atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags: [services]
+      summary: Remover serviço
+      operationId: deleteService
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          $ref: '#/components/responses/NoContent'
 
   ################################################################
   # BOOKINGS
   ################################################################
-#  /bookings:
-#    get:
-#      tags: [bookings]
-#      summary: Listar agendamentos
-#      operationId: listBookings
-#      parameters:
-#        - name: clientId
-#          in: query
-#          required: false
-#          schema:
-#            type: integer
-#            format: int64
-#        - name: professionalId
-#          in: query
-#          required: false
-#          schema:
-#            type: integer
-#            format: int64
-#        - name: date
-#          in: query
-#          required: false
-#          schema:
-#            type: string
-#            format: date
-#      responses:
-#        '200':
-#          description: Lista de agendamentos
-#          content:
-#            application/json:
-#              schema:
-#                type: array
-#                items:
-#                  $ref: '#/components/schemas/Booking'
-#    post:
-#      tags: [bookings]
-#      summary: Criar agendamento
-#      operationId: createBooking
-#      requestBody:
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/BookingCreate'
-#      responses:
-#        '201':
-#          description: Agendamento criado
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Booking'
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
-#        '409':
-#          $ref: '#/components/responses/Conflict'
-#  /bookings/{bookingId}:
-#    get:
-#      tags: [bookings]
-#      summary: Buscar agendamento por ID
-#      operationId: getBooking
-#      parameters:
-#        - name: bookingId
-#          in: path
-#          required: true
-#          schema:
-#            type: integer
-#            format: int64
-#      responses:
-#        '200':
-#          description: Agendamento encontrado
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Booking'
-#        '404':
-#          $ref: '#/components/responses/NotFound'
-#    put:
-#      tags: [bookings]
-#      summary: Atualizar agendamento (reagendar / editar)
-#      operationId: updateBooking
-#      parameters:
-#        - name: bookingId
-#          in: path
-#          required: true
-#          schema:
-#            type: integer
-#            format: int64
-#      requestBody:
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/BookingUpdate'
-#      responses:
-#        '200':
-#          description: Agendamento atualizado
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/Booking'
-#        '409':
-#          $ref: '#/components/responses/Conflict'
-#    delete:
-#      tags: [bookings]
-#      summary: Cancelar agendamento (soft delete)
-#      operationId: cancelBooking
-#      parameters:
-#        - name: bookingId
-#          in: path
-#          required: true
-#          schema:
-#            type: integer
-#            format: int64
-#      responses:
-#        '204':
-#          $ref: '#/components/responses/NoContent'
+  #  /bookings:
+  #    get:
+  #      tags: [bookings]
+  #      summary: Listar agendamentos
+  #      operationId: listBookings
+  #      parameters:
+  #        - name: clientId
+  #          in: query
+  #          required: false
+  #          schema:
+  #            type: integer
+  #            format: int64
+  #        - name: professionalId
+  #          in: query
+  #          required: false
+  #          schema:
+  #            type: integer
+  #            format: int64
+  #        - name: date
+  #          in: query
+  #          required: false
+  #          schema:
+  #            type: string
+  #            format: date
+  #      responses:
+  #        '200':
+  #          description: Lista de agendamentos
+  #          content:
+  #            application/json:
+  #              schema:
+  #                type: array
+  #                items:
+  #                  $ref: '#/components/schemas/Booking'
+  #    post:
+  #      tags: [bookings]
+  #      summary: Criar agendamento
+  #      operationId: createBooking
+  #      requestBody:
+  #        required: true
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: '#/components/schemas/BookingCreate'
+  #      responses:
+  #        '201':
+  #          description: Agendamento criado
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/Booking'
+  #        '400':
+  #          $ref: '#/components/responses/BadRequest'
+  #        '409':
+  #          $ref: '#/components/responses/Conflict'
+  #  /bookings/{bookingId}:
+  #    get:
+  #      tags: [bookings]
+  #      summary: Buscar agendamento por ID
+  #      operationId: getBooking
+  #      parameters:
+  #        - name: bookingId
+  #          in: path
+  #          required: true
+  #          schema:
+  #            type: integer
+  #            format: int64
+  #      responses:
+  #        '200':
+  #          description: Agendamento encontrado
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/Booking'
+  #        '404':
+  #          $ref: '#/components/responses/NotFound'
+  #    put:
+  #      tags: [bookings]
+  #      summary: Atualizar agendamento (reagendar / editar)
+  #      operationId: updateBooking
+  #      parameters:
+  #        - name: bookingId
+  #          in: path
+  #          required: true
+  #          schema:
+  #            type: integer
+  #            format: int64
+  #      requestBody:
+  #        required: true
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: '#/components/schemas/BookingUpdate'
+  #      responses:
+  #        '200':
+  #          description: Agendamento atualizado
+  #          content:
+  #            application/json:
+  #              schema:
+  #                $ref: '#/components/schemas/Booking'
+  #        '409':
+  #          $ref: '#/components/responses/Conflict'
+  #    delete:
+  #      tags: [bookings]
+  #      summary: Cancelar agendamento (soft delete)
+  #      operationId: cancelBooking
+  #      parameters:
+  #        - name: bookingId
+  #          in: path
+  #          required: true
+  #          schema:
+  #            type: integer
+  #            format: int64
+  #      responses:
+  #        '204':
+  #          $ref: '#/components/responses/NoContent'
 
   ################################################################
   # NOTIFICATIONS
   ################################################################
-#  /notifications:
-#    get:
-#      tags: [notifications]
-#      summary: Listar notificações
-#      operationId: listNotifications
-#      responses:
-#        '200':
-#          description: Lista de notificações
-#          content:
-#            application/json:
-#              schema:
-#                type: array
-#                items:
-#                  $ref: '#/components/schemas/Notification'
-#    post:
-#      tags: [notifications]
-#      summary: Enviar notificação (manual/testing)
-#      operationId: sendNotification
-#      requestBody:
-#        required: true
-#        content:
-#          application/json:
-#            schema:
-#              $ref: '#/components/schemas/NotificationCreate'
-#      responses:
-#        '202':
-#          description: Notificação aceita para envio
-#        '400':
-#          $ref: '#/components/responses/BadRequest'
+  #  /notifications:
+  #    get:
+  #      tags: [notifications]
+  #      summary: Listar notificações
+  #      operationId: listNotifications
+  #      responses:
+  #        '200':
+  #          description: Lista de notificações
+  #          content:
+  #            application/json:
+  #              schema:
+  #                type: array
+  #                items:
+  #                  $ref: '#/components/schemas/Notification'
+  #    post:
+  #      tags: [notifications]
+  #      summary: Enviar notificação (manual/testing)
+  #      operationId: sendNotification
+  #      requestBody:
+  #        required: true
+  #        content:
+  #          application/json:
+  #            schema:
+  #              $ref: '#/components/schemas/NotificationCreate'
+  #      responses:
+  #        '202':
+  #          description: Notificação aceita para envio
+  #        '400':
+  #          $ref: '#/components/responses/BadRequest'
 
   ################################################################
   # UTILS: CEP / HEALTH
   ################################################################
+
   /cep/{cep}:
     get:
       tags: [utils]
