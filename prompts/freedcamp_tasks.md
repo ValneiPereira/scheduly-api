@@ -256,14 +256,14 @@ Projeto: Scheduly API
 - **Dependências:** 4.2, 4.3
 - **Status:** Concluído
 
-#### ⏳ 4.5 - Sistema de Avaliações
-- [ ] Criar entidade `ProfessionalReview`
-- [ ] Implementar cálculo de rating médio
-- [ ] Criar endpoint de avaliação
+#### ✅ 4.5 - Sistema de Avaliações
+- [x] Criar entidade `ProfessionalReview`
+- [x] Implementar cálculo de rating médio
+- [x] Criar endpoint de avaliação
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** 4.1
-- **Status:** Pendente
+- **Status:** Concluído
 
 #### ⏳ 4.6 - Testes
 - [ ] Testes unitários
