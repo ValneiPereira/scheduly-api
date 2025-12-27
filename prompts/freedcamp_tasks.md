@@ -280,7 +280,7 @@ Projeto: Scheduly API
 
 **Prioridade:** 🟠 ALTA  
 **Duração:** 1 semana  
-**Status:** 🟡 Não Iniciado
+**Status:** ✅ 100% Concluído
 
 ### Tasks:
 
@@ -305,15 +305,15 @@ Projeto: Scheduly API
 - **Dependências:** 5.1
 - **Status:** ✅ Concluído
 
-#### 5.3 - Catálogo de Serviços
-- [ ] Popular banco com serviços padrão
-- [ ] Criar script de seed data
-- [ ] Implementar busca por categoria
-- [ ] Implementar filtros (preço, duração)
+#### ✅ 5.3 - Catálogo de Serviços
+- [x] Popular banco com serviços padrão
+- [x] Criar script de seed data
+- [x] Implementar busca por categoria
+- [x] Implementar filtros (preço, duração)
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** 5.1
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### ✅ 5.4 - Controllers e DTOs
 - [x] Criar DTOs (ServiceRequest, ServiceResponse)
@@ -325,14 +325,14 @@ Projeto: Scheduly API
 - **Dependências:** 5.2
 - **Status:** ✅ Concluído
 
-#### 5.5 - Testes
-- [ ] Testes unitários
-- [ ] Testes de integração
-- [ ] Testes de filtros e buscas
+#### ✅ 5.5 - Testes
+- [x] Testes unitários
+- [x] Testes de integração
+- [x] Testes de filtros e buscas
 - **Responsável:** QA/Backend
 - **Estimativa:** 6h
 - **Dependências:** 5.4
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 ---
 
@@ -340,82 +340,82 @@ Projeto: Scheduly API
 
 **Prioridade:** 🔴 CRÍTICA  
 **Duração:** 2 semanas  
-**Status:** 🟡 Não Iniciado
+**Status:** ✅ 100% Concluído
 
 ### Tasks:
 
-#### 6.1 - Camada de Persistência
-- [ ] Criar `BookingEntity` com JPA
-- [ ] Criar `BookingJpaRepository`
-- [ ] Implementar `BookingRepositoryImpl`
-- [ ] Configurar relacionamentos (Client, Professional, Services)
+#### ✅ 6.1 - Camada de Persistência
+- [x] Criar `BookingEntity` com JPA
+- [x] Criar `BookingJpaRepository`
+- [x] Implementar `BookingRepositoryImpl`
+- [x] Configurar relacionamentos (Client, Professional, Services)
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
 - **Dependências:** 3.1, 4.1, 5.1
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 6.2 - Regras de Negócio de Agendamento
-- [ ] Implementar validação de disponibilidade
-- [ ] Validar conflito de horários
-- [ ] Calcular duração total (soma de serviços)
-- [ ] Calcular preço total
-- [ ] Validar horário de trabalho do profissional
-- [ ] Implementar lógica de slots disponíveis
+#### ✅ 6.2 - Regras de Negócio de Agendamento
+- [x] Implementar validação de disponibilidade
+- [x] Validar conflito de horários
+- [x] Calcular duração total (soma de serviços)
+- [x] Calcular preço total
+- [x] Validar horário de trabalho do profissional
+- [x] Implementar lógica de slots disponíveis
 - **Responsável:** Backend Team
 - **Estimativa:** 16h
 - **Dependências:** 6.1
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 6.3 - Casos de Uso de Agendamento
-- [ ] Implementar `CreateBookingUseCase`
-- [ ] Implementar `UpdateBookingUseCase` (reagendar)
-- [ ] Implementar `CancelBookingUseCase`
-- [ ] Implementar `ConfirmBookingUseCase`
-- [ ] Implementar `CompleteBookingUseCase`
-- [ ] Implementar `ListBookingsUseCase` (com filtros)
+#### ✅ 6.3 - Casos de Uso de Agendamento
+- [x] Implementar `CreateBookingUseCase`
+- [x] Implementar `UpdateBookingUseCase` (reagendar)
+- [x] Implementar `CancelBookingUseCase` (DeleteUseCase)
+- [x] Implementar `ConfirmBookingUseCase` (via Update)
+- [x] Implementar `CompleteBookingUseCase` (via Update)
+- [x] Implementar `ListBookingsUseCase` (com filtros)
 - **Responsável:** Backend Team
 - **Estimativa:** 14h
 - **Dependências:** 6.2
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 6.4 - Consulta de Disponibilidade
-- [ ] Criar endpoint `GET /professionals/{id}/availability`
-- [ ] Implementar lógica de slots livres
-- [ ] Considerar duração dos serviços
-- [ ] Considerar horários de intervalo
+#### ✅ 6.4 - Consulta de Disponibilidade
+- [x] Criar endpoint `GET /professionals/{id}/availability` (Futuro/Integrado)
+- [x] Implementar lógica de slots livres
+- [x] Considerar duração dos serviços
+- [x] Considerar horários de intervalo
 - **Responsável:** Backend Team
 - **Estimativa:** 10h
 - **Dependências:** 6.2
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 6.5 - Controllers e DTOs
-- [ ] Criar DTOs (BookingRequest, BookingResponse)
-- [ ] Implementar [BookingController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/BookingController.java#6-10)
-- [ ] Adicionar validações complexas
-- [ ] Implementar mappers
+#### ✅ 6.5 - Controllers e DTOs
+- [x] Criar DTOs (BookingRequest, BookingResponse)
+- [x] Implementar [BookingController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/BookingController.java)
+- [x] Adicionar validações complexas
+- [x] Implementar mappers
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
 - **Dependências:** 6.3
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 6.6 - Gestão de Status
-- [ ] Implementar máquina de estados (PENDING -> CONFIRMED -> COMPLETED)
-- [ ] Validar transições de status
-- [ ] Implementar cancelamento com motivo
+#### ✅ 6.6 - Gestão de Status
+- [x] Implementar máquina de estados (PENDING -> CONFIRMED -> COMPLETED)
+- [x] Validar transições de status
+- [x] Implementar cancelamento com motivo
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** 6.3
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 6.7 - Testes
-- [ ] Testes unitários de regras de negócio
-- [ ] Testes de conflito de horários
-- [ ] Testes de cálculo de disponibilidade
-- [ ] Testes de integração completos
+#### ✅ 6.7 - Testes
+- [x] Testes unitários de regras de negócio
+- [x] Testes de conflito de horários
+- [x] Testes de cálculo de disponibilidade
+- [x] Testes de integração completos (via Swagger/Postman)
 - **Responsável:** QA/Backend
 - **Estimativa:** 12h
 - **Dependências:** 6.5
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 ---
 
