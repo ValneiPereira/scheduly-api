@@ -3,6 +3,7 @@ package com.scheduly.api.infrastructure.persistence.booking;
 import com.scheduly.api.domain.booking.Booking;
 import com.scheduly.api.domain.booking.BookingFilter;
 import com.scheduly.api.domain.booking.BookingRepository;
+import com.scheduly.api.infrastructure.persistence.address.AddressJpaRepository;
 import com.scheduly.api.infrastructure.persistence.client.ClientJpaRepository;
 import com.scheduly.api.infrastructure.persistence.professional.ProfessionalJpaRepository;
 import com.scheduly.api.infrastructure.persistence.service.ServiceJpaRepository;
@@ -23,6 +24,7 @@ public class BookingRepositoryImpl implements BookingRepository {
     private final ClientJpaRepository clientJpaRepository;
     private final ProfessionalJpaRepository professionalJpaRepository;
     private final ServiceJpaRepository serviceJpaRepository;
+    private final AddressJpaRepository addressJpaRepository;
 
     @Override
     public Booking save(Booking domain) {
@@ -33,7 +35,11 @@ public class BookingRepositoryImpl implements BookingRepository {
         var service = serviceJpaRepository.findById(domain.getServiceId())
                 .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado"));
 
-        BookingEntity entity = mapper.toEntity(domain, client, professional, service);
+        var address = domain.getAddressId() != null
+                ? addressJpaRepository.findById(domain.getAddressId()).orElse(null)
+                : null;
+
+        BookingEntity entity = mapper.toEntity(domain, client, professional, service, address);
         BookingEntity saved = jpaRepository.save(entity);
         return mapper.toDomain(saved);
     }

@@ -1,6 +1,7 @@
 package com.scheduly.api.infrastructure.persistence.booking;
 
 import com.scheduly.api.domain.booking.Booking;
+import com.scheduly.api.infrastructure.persistence.address.AddressEntity;
 import com.scheduly.api.infrastructure.persistence.client.ClientEntity;
 import com.scheduly.api.infrastructure.persistence.professional.ProfessionalEntity;
 import com.scheduly.api.infrastructure.persistence.service.ServiceEntity;
@@ -18,6 +19,7 @@ public class BookingEntityMapper {
                 .clientId(entity.getClient().getId())
                 .professionalId(entity.getProfessional().getId())
                 .serviceId(entity.getService().getId())
+                .addressId(entity.getAddress() != null ? entity.getAddress().getId() : null)
                 .startAt(entity.getStartAt())
                 .endAt(entity.getEndAt())
                 .status(entity.getStatus())
@@ -28,7 +30,7 @@ public class BookingEntityMapper {
     }
 
     public BookingEntity toEntity(Booking domain, ClientEntity client, ProfessionalEntity professional,
-            ServiceEntity service) {
+            ServiceEntity service, AddressEntity address) {
         if (domain == null)
             return null;
 
@@ -37,6 +39,7 @@ public class BookingEntityMapper {
                 .client(client)
                 .professional(professional)
                 .service(service)
+                .address(address)
                 .startAt(domain.getStartAt())
                 .endAt(domain.getEndAt())
                 .status(domain.getStatus())

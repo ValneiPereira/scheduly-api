@@ -45,6 +45,7 @@ public class BookingMapper {
                 domain.getStartAt(),
                 domain.getEndAt(),
                 domain.getStatus(),
+                domain.getAddressId(),
                 domain.getNotes(),
                 domain.getCreatedAt());
     }

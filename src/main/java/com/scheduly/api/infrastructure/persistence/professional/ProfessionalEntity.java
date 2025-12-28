@@ -1,6 +1,6 @@
 package com.scheduly.api.infrastructure.persistence.professional;
 
-import com.scheduly.api.infrastructure.persistence.common.AddressEmbeddable;
+import com.scheduly.api.infrastructure.persistence.address.AddressEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,8 +38,9 @@ public class ProfessionalEntity {
         @Column(length = 15)
         private String phone;
 
-        @Embedded
-        private AddressEmbeddable address;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "primary_address_id")
+        private AddressEntity address;
 
         @Column(length = 500)
         private String bio;
