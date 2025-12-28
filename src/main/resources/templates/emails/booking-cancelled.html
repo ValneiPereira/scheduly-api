@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Agendamento Cancelado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .header {
+            background: #f44336;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Scheduly</h1>
+        </div>
+        <div class="content">
+            <h2>Olá, <span th:text="${clientName}">Cliente</span>!</h2>
+            <p>Informamos que o seu agendamento foi <strong>cancelado</strong>.</p>
+            <p><strong>Detalhes do Agendamento:</strong></p>
+            <ul>
+                <li><strong>Serviço:</strong> <span th:text="${serviceName}">Serviço</span></li>
+                <li><strong>Data:</strong> <span th:text="${date}">Data</span></li>
+            </ul>
+            <p>Se você não solicitou o cancelamento ou deseja reagendar, por favor entre em contato.</p>
+        </div>
+        <div class="footer">
+            <p>Scheduly - Sua agenda inteligente</p>
+        </div>
+    </div>
+</body>
+
+</html>
