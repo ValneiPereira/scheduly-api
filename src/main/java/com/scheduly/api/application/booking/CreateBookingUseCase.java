@@ -3,8 +3,10 @@ package com.scheduly.api.application.booking;
 import com.scheduly.api.domain.booking.Booking;
 import com.scheduly.api.domain.booking.BookingRepository;
 import com.scheduly.api.domain.booking.BookingStatus;
+import com.scheduly.api.domain.booking.events.BookingCreatedEvent;
 import com.scheduly.api.domain.service.ServiceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ public class CreateBookingUseCase {
 
     private final BookingRepository bookingRepository;
     private final ServiceRepository serviceRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public Booking execute(Booking booking) {
         // 1. Get service to calculate duration
@@ -33,7 +36,12 @@ public class CreateBookingUseCase {
         validateBooking(booking);
 
         // 5. Save
-        return bookingRepository.save(booking);
+        Booking saved = bookingRepository.save(booking);
+
+        // 6. Publish Event
+        eventPublisher.publishEvent(new BookingCreatedEvent(this, saved));
+
+        return saved;
     }
 
     private void validateBooking(Booking booking) {

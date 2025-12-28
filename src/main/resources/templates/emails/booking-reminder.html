@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lembrete de Agendamento</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .header {
+            background: #ff9800;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Scheduly</h1>
+        </div>
+        <div class="content">
+            <h2>Olá, <span th:text="${clientName}">Cliente</span>!</h2>
+            <p>Este é um lembrete automático do seu agendamento de <strong>amanhã</strong>.</p>
+            <p><strong>Estamos te esperando:</strong></p>
+            <ul>
+                <li><strong>Serviço:</strong> <span th:text="${serviceName}">Serviço</span></li>
+                <li><strong>Horário:</strong> <span th:text="${time}">Horário</span></li>
+                <li><strong>Profissional:</strong> <span th:text="${professionalName}">Profissional</span></li>
+            </ul>
+            <p>Se precisar cancelar, por favor faça com antecedência.</p>
+        </div>
+        <div class="footer">
+            <p>Scheduly - Sua agenda inteligente</p>
+        </div>
+    </div>
+</body>
+
+</html>
