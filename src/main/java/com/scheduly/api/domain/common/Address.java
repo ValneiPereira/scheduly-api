@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Address {
+    private Long id;
 
     private String street; // Rua
     private String number; // Número

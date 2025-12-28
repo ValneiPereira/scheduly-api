@@ -607,6 +607,37 @@ components:
 security:
     - bearerAuth: []
 paths:
+    /clients/me:
+        get:
+            tags:
+                - clients
+            summary: Obter perfil do cliente logado
+            operationId: getMyClientProfile
+            responses:
+                '200':
+                    description: Perfil do cliente
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ClientResponse'
+        put:
+            tags:
+                - clients
+            summary: Atualizar perfil do cliente logado
+            operationId: updateMyClientProfile
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ClientRequest'
+            responses:
+                '200':
+                    description: Perfil atualizado
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ClientResponse'
     /clients:
         get:
             tags:

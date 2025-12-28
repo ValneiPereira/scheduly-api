@@ -1,14 +1,17 @@
 package com.scheduly.api.infrastructure.persistence.professional;
 
-import com.scheduly.api.domain.common.Address;
 import com.scheduly.api.domain.professional.Professional;
-import com.scheduly.api.infrastructure.persistence.common.AddressEmbeddable;
+import com.scheduly.api.infrastructure.persistence.address.AddressEntityMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
 @Component
+@RequiredArgsConstructor
 public class ProfessionalEntityMapper {
+
+    private final AddressEntityMapper addressMapper;
 
     public Professional toDomain(ProfessionalEntity entity) {
         if (entity == null) {
@@ -20,7 +23,7 @@ public class ProfessionalEntityMapper {
                 .email(entity.getEmail())
                 .cpf(entity.getCpf())
                 .phone(entity.getPhone())
-                .address(toAddressDomain(entity.getAddress()))
+                .address(addressMapper.toDomain(entity.getAddress()))
                 .bio(entity.getBio())
                 .specialtyIds(entity.getSpecialtyIds() != null ? entity.getSpecialtyIds() : Collections.emptyList())
                 .rating(entity.getRating())
@@ -44,7 +47,7 @@ public class ProfessionalEntityMapper {
                 .email(professional.getEmail())
                 .cpf(professional.getCpf())
                 .phone(professional.getPhone())
-                .address(toAddressEmbeddable(professional.getAddress()))
+                .address(addressMapper.toEntity(professional.getAddress()))
                 .bio(professional.getBio())
                 .specialtyIds(professional.getSpecialtyIds())
                 .rating(professional.getRating())
@@ -58,34 +61,4 @@ public class ProfessionalEntityMapper {
                 .build();
     }
 
-    private Address toAddressDomain(AddressEmbeddable embeddable) {
-        if (embeddable == null) {
-            return null;
-        }
-
-        return Address.builder()
-                .street(embeddable.getStreet())
-                .number(embeddable.getNumber())
-                .complement(embeddable.getComplement())
-                .neighborhood(embeddable.getNeighborhood())
-                .city(embeddable.getCity())
-                .state(embeddable.getState())
-                .zipCode(embeddable.getZipCode())
-                .build();
-    }
-
-    private AddressEmbeddable toAddressEmbeddable(Address address) {
-        if (address == null) {
-            return null;
-        }
-        return AddressEmbeddable.builder()
-                .street(address.getStreet())
-                .number(address.getNumber())
-                .complement(address.getComplement())
-                .neighborhood(address.getNeighborhood())
-                .city(address.getCity())
-                .state(address.getState())
-                .zipCode(address.getZipCode())
-                .build();
-    }
 }

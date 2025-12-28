@@ -28,6 +28,6 @@ public class LoginUseCase {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
 
-        return new AuthResponse(jwt, userDetails.getEmail(), role);
+        return new AuthResponse(jwt, userDetails.getEmail(), role, userDetails.getOwnerId());
     }
 }

@@ -1,12 +1,15 @@
 package com.scheduly.api.infrastructure.persistence.client;
 
 import com.scheduly.api.domain.client.Client;
-import com.scheduly.api.domain.common.Address;
-import com.scheduly.api.infrastructure.persistence.common.AddressEmbeddable;
+import com.scheduly.api.infrastructure.persistence.address.AddressEntityMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ClientEntityMapper {
+
+    private final AddressEntityMapper addressMapper;
 
     public Client toDomain(ClientEntity entity) {
         if (entity == null) {
@@ -18,7 +21,7 @@ public class ClientEntityMapper {
                 .email(entity.getEmail())
                 .cpf(entity.getCpf())
                 .phone(entity.getPhone())
-                .address(toAddressDomain(entity.getAddress()))
+                .address(addressMapper.toDomain(entity.getAddress()))
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -34,40 +37,10 @@ public class ClientEntityMapper {
                 .email(client.getEmail())
                 .cpf(client.getCpf())
                 .phone(client.getPhone())
-                .address(toAddressEmbeddable(client.getAddress()))
+                .address(addressMapper.toEntity(client.getAddress()))
                 .createdAt(client.getCreatedAt())
                 .updatedAt(client.getUpdatedAt())
                 .build();
     }
 
-    public Address toAddressDomain(AddressEmbeddable embeddable) {
-        if (embeddable == null) {
-            return null;
-        }
-
-        var address = new Address();
-        address.setStreet(embeddable.getStreet());
-        address.setNumber(embeddable.getNumber());
-        address.setComplement(embeddable.getComplement());
-        address.setNeighborhood(embeddable.getNeighborhood());
-        address.setCity(embeddable.getCity());
-        address.setState(embeddable.getState());
-        address.setZipCode(embeddable.getZipCode());
-        return address;
-    }
-
-    public AddressEmbeddable toAddressEmbeddable(Address address) {
-        if (address == null) {
-            return null;
-        }
-        return AddressEmbeddable.builder()
-                .street(address.getStreet())
-                .number(address.getNumber())
-                .complement(address.getComplement())
-                .neighborhood(address.getNeighborhood())
-                .city(address.getCity())
-                .state(address.getState())
-                .zipCode(address.getZipCode())
-                .build();
-    }
 }
