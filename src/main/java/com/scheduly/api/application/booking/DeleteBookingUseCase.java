@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 public class DeleteBookingUseCase {
 
     private final BookingRepository bookingRepository;
+    private final org.springframework.context.ApplicationEventPublisher eventPublisher;
 
     public void execute(Long id) {
-        if (!bookingRepository.findById(id).isPresent()) {
-            throw new IllegalArgumentException("Agendamento não encontrado");
-        }
+        var booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Agendamento não encontrado"));
+
+        // Publish Event
+        eventPublisher.publishEvent(new com.scheduly.api.domain.booking.events.BookingCancelledEvent(this, booking));
+
         bookingRepository.deleteById(id);
     }
 }

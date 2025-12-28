@@ -1,0 +1,49 @@
+server:
+  application-display-name: ${spring.application.name}
+  port: 8080
+  servlet:
+    contextPath: /
+
+spring:
+  application:
+    name: '@project.name@'
+    version: '@project.version@'
+    description: '@project.description@'
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true
+
+  profiles:
+    active: dev
+
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: ${MAIL_USERNAME:your_username}
+    password: ${MAIL_PASSWORD:your_password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # Configurações do Springdoc/Swagger
+  springdoc:
+    api-docs:
+      path: /v3/api-docs
+    swagger-ui:
+      path: /swagger-ui.html
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    com.scheduly.api: DEBUG
+
+api:
+  host: https://viacep.com.br/ws

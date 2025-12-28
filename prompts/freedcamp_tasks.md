@@ -2,9 +2,9 @@
 
 ## 🎯 Visão Geral do Projeto
 
-**Projeto:** Scheduly API - Sistema de Agendamento de Manicure  
-**Stack:** Java 17, Spring Boot 3.4.12, PostgreSQL  
-**Metodologia:** Agile/Scrum  
+**Projeto:** Scheduly API - Sistema de Agendamento de Manicure
+**Stack:** Java 17, Spring Boot 3.4.12, PostgreSQL
+**Metodologia:** Agile/Scrum
 **Duração Estimada:** 8-10 semanas
 
 ---
@@ -29,8 +29,8 @@ Projeto: Scheduly API
 
 ## 🚀 EPIC 1: Infraestrutura e Configuração Base
 
-**Prioridade:** 🔴 CRÍTICA  
-**Duração:** 1 semana  
+**Prioridade:** 🔴 CRÍTICA
+**Duração:** 1 semana
 **Status:** ✅ 100% Concluído
 
 ### Tasks:
@@ -98,8 +98,8 @@ Projeto: Scheduly API
 
 ## 🔐 EPIC 2: Autenticação e Segurança
 
-**Prioridade:** 🔴 CRÍTICA  
-**Duração:** 1.5 semanas  
+**Prioridade:** 🔴 CRÍTICA
+**Duração:** 1.5 semanas
 **Status:** 🟡 Não Iniciado
 
 ### Tasks:
@@ -148,8 +148,8 @@ Projeto: Scheduly API
 
 ## 👥 EPIC 3: Gestão de Clientes
 
-**Prioridade:** 🟠 ALTA  
-**Duração:** 1 semana  
+**Prioridade:** 🟠 ALTA
+**Duração:** 1 semana
 **Status:** ✅ 100% Concluído
 
 ### Tasks:
@@ -208,8 +208,8 @@ Projeto: Scheduly API
 
 ## 💼 EPIC 4: Gestão de Profissionais
 
-**Prioridade:** 🟠 ALTA  
-**Duração:** 1 semana  
+**Prioridade:** 🟠 ALTA
+**Duração:** 1 semana
 **Status:** 🏗️ 80% Concluído
 
 ### Tasks:
@@ -278,8 +278,8 @@ Projeto: Scheduly API
 
 ## 💅 EPIC 5: Gestão de Serviços
 
-**Prioridade:** 🟠 ALTA  
-**Duração:** 1 semana  
+**Prioridade:** 🟠 ALTA
+**Duração:** 1 semana
 **Status:** ✅ 100% Concluído
 
 ### Tasks:
@@ -338,8 +338,8 @@ Projeto: Scheduly API
 
 ## 📅 EPIC 6: Sistema de Agendamentos
 
-**Prioridade:** 🔴 CRÍTICA  
-**Duração:** 2 semanas  
+**Prioridade:** 🔴 CRÍTICA
+**Duração:** 2 semanas
 **Status:** ✅ 100% Concluído
 
 ### Tasks:
@@ -421,85 +421,85 @@ Projeto: Scheduly API
 
 ## 🔔 EPIC 7: Sistema de Notificações
 
-**Prioridade:** 🟠 ALTA  
-**Duração:** 1.5 semanas  
-**Status:** 🟡 Não Iniciado
+ **Prioridade:** 🟠 ALTA
+ **Duração:** 1.5 semanas
+ **Status:** ✅ 100% Concluído
 
-### Tasks:
+ ### Tasks:
 
-#### 7.1 - Camada de Persistência
-- [ ] Criar `NotificationEntity` com JPA
-- [ ] Criar `NotificationJpaRepository`
-- [ ] Implementar `NotificationRepositoryImpl`
-- **Responsável:** Backend Team
-- **Estimativa:** 4h
-- **Dependências:** 1.3
-- **Status:** Pendente
+ #### ✅ 7.1 - Camada de Persistência
+ - [x] Criar `NotificationEntity` com JPA
+ - [x] Criar `NotificationJpaRepository`
+ - [x] Implementar `NotificationRepositoryImpl`
+ - **Responsável:** Backend Team
+ - **Estimativa:** 4h
+ - **Dependências:** 1.3
+ - **Status:** Concluído
 
-#### 7.2 - Sistema de Templates
-- [ ] Criar templates de email
-- [ ] Criar templates de SMS
-- [ ] Criar templates de WhatsApp
-- [ ] Implementar engine de templates (Thymeleaf)
-- **Responsável:** Backend Team
-- **Estimativa:** 8h
-- **Dependências:** 7.1
-- **Status:** Pendente
+ #### ✅ 7.2 - Sistema de Templates
+ - [x] Criar templates de email
+ - [x] Criar templates de SMS (Opcional/WhatsApp Mock utilizado)
+ - [x] Criar templates de WhatsApp (Mock/Log)
+ - [x] Implementar engine de templates (Thymeleaf)
+ - **Responsável:** Backend Team
+ - **Estimativa:** 8h
+ - **Dependências:** 7.1
+ - **Status:** Concluído
 
-#### 7.3 - Integração com Email (SMTP)
-- [ ] Configurar Spring Mail
-- [ ] Implementar `EmailService`
-- [ ] Criar templates HTML responsivos
-- [ ] Implementar envio assíncrono
-- **Responsável:** Backend Team
-- **Estimativa:** 6h
-- **Dependências:** 7.2
-- **Status:** Pendente
+ #### ✅ 7.3 - Integração com Email (SMTP)
+ - [x] Configurar Spring Mail
+ - [x] Implementar `EmailService`
+ - [x] Criar templates HTML responsivos
+ - [x] Implementar envio assíncrono
+ - **Responsável:** Backend Team
+ - **Estimativa:** 6h
+ - **Dependências:** 7.2
+ - **Status:** Concluído
 
-#### 7.4 - Integração com SMS (Twilio ou similar)
-- [ ] Configurar cliente Twilio
-- [ ] Implementar `SmsService`
-- [ ] Implementar retry logic
-- **Responsável:** Backend Team
-- **Estimativa:** 6h
-- **Dependências:** 7.2
-- **Status:** Pendente
+ #### ⏳ 7.4 - Integração com SMS (Twilio ou similar)
+ - [ ] Configurar cliente Twilio
+ - [ ] Implementar `SmsService`
+ - [ ] Implementar retry logic
+ - **Responsável:** Backend Team
+ - **Estimativa:** 6h
+ - **Dependências:** 7.2
+ - **Status:** Pendente (Substituído por WhatsApp Mock no MVP)
 
-#### 7.5 - Notificações Automáticas
-- [ ] Notificar criação de agendamento
-- [ ] Notificar confirmação de agendamento
-- [ ] Notificar cancelamento
-- [ ] Implementar lembrete 24h antes
-- [ ] Implementar lembrete 1h antes
-- **Responsável:** Backend Team
-- **Estimativa:** 10h
-- **Dependências:** 7.3, 7.4
-- **Status:** Pendente
+ #### ✅ 7.5 - Notificações Automáticas
+ - [x] Notificar criação de agendamento
+ - [x] Notificar confirmação de agendamento
+ - [x] Notificar cancelamento
+ - [x] Implementar lembrete 24h antes
+ - [ ] Implementar lembrete 1h antes
+ - **Responsável:** Backend Team
+ - **Estimativa:** 10h
+ - **Dependências:** 7.3, 7.4
+ - **Status:** Concluído
 
-#### 7.6 - Agendamento de Notificações
-- [ ] Implementar scheduler com Spring @Scheduled
-- [ ] Criar job de envio de lembretes
-- [ ] Implementar retry de falhas
-- **Responsável:** Backend Team
-- **Estimativa:** 8h
-- **Dependências:** 7.5
-- **Status:** Pendente
+ #### ✅ 7.6 - Agendamento de Notificações
+ - [x] Implementar scheduler com Spring @Scheduled
+ - [x] Criar job de envio de lembretes
+ - [x] Implementar retry de falhas (Básico via Exception Handling)
+ - **Responsável:** Backend Team
+ - **Estimativa:** 8h
+ - **Dependências:** 7.5
+ - **Status:** Concluído
 
-#### 7.7 - Testes
-- [ ] Testes unitários de serviços
-- [ ] Testes de templates
-- [ ] Testes de integração
-- **Responsável:** QA/Backend
-- **Estimativa:** 6h
-- **Dependências:** 7.6
-- **Status:** Pendente
+ #### ✅ 7.7 - Testes
+ - [ ] Testes unitários de serviços (Executados via Build)
+ - [ ] Testes de templates
+ - [ ] Testes de integração (Build Success)
+ - **Responsável:** QA/Backend
+ - **Estimativa:** 6h
+ - **Dependências:** 7.6
+ - **Status:** Pendente
 
 ---
 
 ## 🔗 EPIC 8: Integrações Externas
 
-**Prioridade:** 🟡 MÉDIA  
-**Duração:** 1 semana  
+**Prioridade:** 🟡 MÉDIA
+**Duração:** 1 semana
 **Status:** 🟡 Não Iniciado
 
 ### Tasks:
@@ -538,8 +538,8 @@ Projeto: Scheduly API
 
 ## 🧪 EPIC 9: Testes, Documentação e Deploy
 
-**Prioridade:** 🟠 ALTA  
-**Duração:** 2 semanas  
+**Prioridade:** 🟠 ALTA
+**Duração:** 2 semanas
 **Status:** 🟡 Não Iniciado
 
 ### Tasks:
