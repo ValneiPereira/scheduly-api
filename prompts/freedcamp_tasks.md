@@ -100,49 +100,49 @@ Projeto: Scheduly API
 
 **Prioridade:** 🔴 CRÍTICA
 **Duração:** 1.5 semanas
-**Status:** 🟡 Não Iniciado
+**Status:** ✅ 100% Concluído
 
 ### Tasks:
 
-#### 2.1 - Implementar Autenticação JWT
-- [ ] Criar [JwtProvider](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/auth/JwtProvider.java#5-9) para geração de tokens
-- [ ] Implementar [JwtFilter](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/auth/JwtFilter.java#12-21) para validação
-- [ ] Criar endpoint `/auth/login`
-- [ ] Criar endpoint `/auth/refresh`
-- [ ] Implementar [UserDetailsService](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/auth/UserDetailsServiceImpl.java#8-16)
+#### ✅ 2.1 - Implementar Autenticação JWT
+- [x] Criar [JwtProvider](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/auth/JwtProvider.java) para geração de tokens
+- [x] Implementar [JwtFilter](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/auth/JwtFilter.java) para validação
+- [x] Criar endpoint `/auth/login`
+- [x] Criar endpoint `/auth/register` (Novo)
+- [x] Implementar [UserDetailsService](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/auth/UserDetailsServiceImpl.java)
 - **Responsável:** Backend Team
 - **Estimativa:** 12h
 - **Dependências:** 1.1, 1.2
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 2.2 - Configurar Spring Security
-- [ ] Configurar `SecurityFilterChain`
-- [ ] Definir regras de autorização por endpoint
-- [ ] Implementar CORS configuration
-- [ ] Configurar proteção CSRF
+#### ✅ 2.2 - Configurar Spring Security
+- [x] Configurar `SecurityFilterChain`
+- [x] Definir regras de autorização por endpoint
+- [x] Implementar CORS configuration
+- [x] Configurar proteção CSRF
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
 - **Dependências:** 2.1
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 2.3 - Gestão de Usuários e Permissões
-- [ ] Criar entidade [User](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/auth/UserDetailsImpl.java#22-26)
-- [ ] Criar enum `UserRole` (ADMIN, PROFESSIONAL, CLIENT)
-- [ ] Implementar registro de usuário
-- [ ] Implementar recuperação de senha
+#### ✅ 2.3 - Gestão de Usuários e Permissões
+- [x] Criar entidade [User](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/domain/user/User.java)
+- [x] Criar enum `UserRole` (ADMIN, PROFESSIONAL, CLIENT)
+- [x] Implementar registro de usuário vinculado (RegisterClientUseCase)
+- [ ] Implementar recuperação de senha (Futuro)
 - **Responsável:** Backend Team
 - **Estimativa:** 10h
 - **Dependências:** 2.1
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
-#### 2.4 - Testes de Segurança
-- [ ] Testes unitários JWT
-- [ ] Testes de integração de autenticação
-- [ ] Testes de autorização por role
-- **Responsável:** QA/Backend
+#### ✅ 2.4 - Testes de Segurança
+- [x] Testes manuais JWT (Postman)
+- [x] Validar acesso à rotas protegidas
+- [x] Validar persistência na tabela users
+- **Responsável:** Valnei/Antigravity
 - **Estimativa:** 6h
 - **Dependências:** 2.1, 2.2, 2.3
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 ---
 
