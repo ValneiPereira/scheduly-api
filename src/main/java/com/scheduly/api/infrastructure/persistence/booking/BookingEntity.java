@@ -1,6 +1,7 @@
 package com.scheduly.api.infrastructure.persistence.booking;
 
 import com.scheduly.api.domain.booking.BookingStatus;
+import com.scheduly.api.infrastructure.persistence.address.AddressEntity;
 import com.scheduly.api.infrastructure.persistence.client.ClientEntity;
 import com.scheduly.api.infrastructure.persistence.professional.ProfessionalEntity;
 import com.scheduly.api.infrastructure.persistence.service.ServiceEntity;
@@ -47,6 +48,10 @@ public class BookingEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private BookingStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private AddressEntity address;
 
     private String notes;
 

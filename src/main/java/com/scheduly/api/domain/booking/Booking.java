@@ -17,6 +17,7 @@ public class Booking {
     private Long clientId;
     private Long professionalId;
     private Long serviceId;
+    private Long addressId;
 
     private LocalDateTime startAt;
     private LocalDateTime endAt;

@@ -1,6 +1,6 @@
 package com.scheduly.api.infrastructure.persistence.client;
 
-import com.scheduly.api.infrastructure.persistence.common.AddressEmbeddable;
+import com.scheduly.api.infrastructure.persistence.address.AddressEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,8 +38,9 @@ public class ClientEntity {
     @Column(length = 15)
     private String phone;
 
-    @Embedded
-    private AddressEmbeddable address;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "primary_address_id")
+    private AddressEntity address;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

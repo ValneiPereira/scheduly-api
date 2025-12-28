@@ -15,12 +15,14 @@ public class UserDetailsImpl implements UserDetails {
     private final Long id;
     private final String email;
     private final String password;
+    private final Long ownerId;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
+        this.ownerId = user.getOwnerId();
         this.authorities = Collections.singletonList(
                 new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
     }
