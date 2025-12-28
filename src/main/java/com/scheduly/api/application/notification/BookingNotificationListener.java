@@ -1,14 +1,18 @@
 package com.scheduly.api.application.notification;
 
-import com.scheduly.api.domain.booking.events.BookingCreatedEvent;
 import com.scheduly.api.domain.booking.events.BookingCancelledEvent;
+import com.scheduly.api.domain.booking.events.BookingCreatedEvent;
 import com.scheduly.api.domain.notification.Notification;
-import com.scheduly.api.domain.notification.NotificationChannel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.time.format.DateTimeFormatter;
+
+import static com.scheduly.api.domain.notification.NotificationChannel.EMAIL;
+import static com.scheduly.api.domain.notification.NotificationChannel.WHATSAPP;
 
 @Slf4j
 @Component
@@ -32,12 +36,11 @@ public class BookingNotificationListener {
             var professional = professionalRepository.findById(booking.getProfessionalId()).orElseThrow();
             var service = serviceRepository.findById(booking.getServiceId()).orElseThrow();
 
-            java.time.format.DateTimeFormatter dateFormatter = java.time.format.DateTimeFormatter
-                    .ofPattern("dd/MM/yyyy");
-            java.time.format.DateTimeFormatter timeFormatter = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+            var dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            var timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
             // Preparar contexto Thymeleaf
-            org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
+            var context = new org.thymeleaf.context.Context();
             context.setVariable("clientName", client.getName());
             context.setVariable("professionalName", professional.getName());
             context.setVariable("serviceName", service.getName());
@@ -50,7 +53,7 @@ public class BookingNotificationListener {
             // 1. Enviar E-mail
             Notification email = Notification.builder()
                     .bookingId(booking.getId())
-                    .channel(NotificationChannel.EMAIL)
+                    .channel(EMAIL)
                     .recipient(client.getEmail())
                     .subject("Agendamento Confirmado - Scheduly")
                     .content(emailHtml)
@@ -61,7 +64,7 @@ public class BookingNotificationListener {
             // 2. Enviar WhatsApp (Mock)
             Notification whatsapp = Notification.builder()
                     .bookingId(booking.getId())
-                    .channel(NotificationChannel.WHATSAPP)
+                    .channel(WHATSAPP)
                     .recipient(client.getPhone())
                     .content("Olá " + client.getName() + ", seu agendamento de " + service.getName()
                             + " foi confirmado para " + booking.getStartAt().format(dateFormatter) + " às "
@@ -100,7 +103,7 @@ public class BookingNotificationListener {
             // Enviar E-mail
             Notification email = Notification.builder()
                     .bookingId(booking.getId())
-                    .channel(NotificationChannel.EMAIL)
+                    .channel(EMAIL)
                     .recipient(client.getEmail())
                     .subject("Agendamento Cancelado - Scheduly")
                     .content(emailHtml)

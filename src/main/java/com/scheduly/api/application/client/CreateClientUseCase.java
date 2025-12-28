@@ -29,13 +29,14 @@ public class CreateClientUseCase {
         if (clientRepository.existsByEmail(client.getEmail())) {
             throw new ConflictException("Email já cadastrado: " + client.getEmail());
         }
-        //TODO refatorar esta parte aqui
+        // TODO refatorar esta parte aqui
         // Validar formato CPF (básico - apenas dígitos)
         if (!Utils.isValidCpf(client.getCpf())) {
             throw new ValidationException("CPF inválido: " + client.getCpf());
         }
 
         // Salvar cliente
+        client.setActive(true);
         return clientRepository.save(client);
     }
 }

@@ -23,6 +23,8 @@ public class CreateProfessionalUseCase {
             throw new ConflictException("Já existe um profissional cadastrado com o CPF: " + professional.getCpf());
         }
 
+        // Salvar profissional
+        professional.setActive(true);
         return repository.save(professional);
     }
 }

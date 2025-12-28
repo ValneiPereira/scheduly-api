@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Slf4j
@@ -51,10 +51,10 @@ public class NotificationScheduler {
             var professional = professionalRepository.findById(booking.getProfessionalId()).orElseThrow();
             var service = serviceRepository.findById(booking.getServiceId()).orElseThrow();
 
-            java.time.format.DateTimeFormatter timeFormatter = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
+            var timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
             // Preparar contexto Thymeleaf
-            org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
+            var context = new org.thymeleaf.context.Context();
             context.setVariable("clientName", client.getName());
             context.setVariable("professionalName", professional.getName());
             context.setVariable("serviceName", service.getName());
