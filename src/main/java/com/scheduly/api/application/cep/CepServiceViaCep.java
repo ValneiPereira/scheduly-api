@@ -1,6 +1,7 @@
 package com.scheduly.api.application.cep;
 
 import com.scheduly.api.config.ApiProperties;
+import com.scheduly.api.domain.exception.BusinessException;
 import com.scheduly.api.web.dtos.ViaCepResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,13 @@ public class CepServiceViaCep {
                 .build();
     }
 
+    @org.springframework.cache.annotation.Cacheable(value = "ceps", key = "#cep")
     public ViaCepResponse findAddressByCep(String cep) {
         log.info("Buscando endereço para CEP: {}", cep);
         var cleanCep = cep.replaceAll("[^0-9]", "");
 
         if (cleanCep.length() != 8) {
-            throw new IllegalArgumentException("CEP inválido. Deve conter 8 dígitos.");
+            throw new BusinessException("CEP inválido. Deve conter 8 dígitos.");
         }
 
         try {
@@ -38,7 +40,7 @@ public class CepServiceViaCep {
                     .body(ViaCepResponse.class);
 
             if (response == null || Boolean.TRUE.equals(response.erro())) {
-                throw new RuntimeException("CEP não encontrado: " + cep);
+                throw new BusinessException("CEP não encontrado: " + cep);
             }
 
             log.info("Endereço encontrado para CEP {}: ", cep);
@@ -46,7 +48,7 @@ public class CepServiceViaCep {
 
         } catch (Exception e) {
             log.error("Erro ao buscar CEP {}: {}", cep, e.getMessage());
-            throw new RuntimeException("Erro ao consultar CEP: " + e.getMessage(), e);
+            throw new BusinessException("Erro ao consultar CEP: " + e.getMessage(), e);
         }
     }
 }

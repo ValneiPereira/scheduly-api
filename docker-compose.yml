@@ -63,6 +63,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: user@domain.com
       PGADMIN_DEFAULT_PASSWORD: '123456'
       PGADMIN_CONFIG_SERVER_MODE: 'False'
+      LANG: pt_BR.UTF-8
     networks:
       - scheduly-net
     volumes:

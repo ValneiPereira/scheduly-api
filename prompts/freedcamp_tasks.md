@@ -500,20 +500,20 @@ Projeto: Scheduly API
 
 **Prioridade:** 🟡 MÉDIA
 **Duração:** 1 semana
-**Status:** 🟡 Não Iniciado
+**Status:** ✅ 100% Concluído
 
 ### Tasks:
 
-#### 8.1 - Integração com ViaCEP
-- [ ] Criar [CepService](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/external/CepServiceViaCep.java#5-9)
-- [ ] Implementar `GetCepInfoUseCase`
-- [ ] Criar [CepController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/CepController.java#6-10)
-- [ ] Implementar cache de consultas
-- [ ] Tratar erros de API externa
+#### ✅ 8.1 - Integração com ViaCEP
+- [x] Criar [CepService](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/application/cep/CepServiceViaCep.java)
+- [x] Implementar `GetCepInfoUseCase` (Integrado no Service)
+- [x] Criar [CepController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/CepController.java)
+- [x] Implementar cache de consultas
+- [x] Tratar erros de API externa
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** -
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 8.2 - Integração com WhatsApp Business API
 - [ ] Configurar cliente WhatsApp
@@ -523,7 +523,7 @@ Projeto: Scheduly API
 - **Responsável:** Backend Team
 - **Estimativa:** 10h
 - **Dependências:** 7.2
-- **Status:** Pendente
+- **Status:** Pendente (Substituído por Mock no Épico 7)
 
 #### 8.3 - Integração com Gateway de Pagamento (Futuro)
 - [ ] Pesquisar opções (Stripe, Mercado Pago)

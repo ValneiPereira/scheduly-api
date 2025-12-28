@@ -35,9 +35,9 @@ public class ClientMapper {
         return new ClientResponse(
                 client.getId(),
                 client.getName(),
-                client.getPhone(),
                 client.getEmail(),
                 client.getCpf(),
+                client.getPhone(),
                 addressMapper.toResponse(client.getAddress()),
                 client.getCreatedAt(),
                 client.getUpdatedAt()

@@ -16,6 +16,7 @@ public class CreateServiceUseCase {
 
     @Transactional
     public Service execute(Service service) {
+        service.setActive(true);
         validarRegrasDeNegocio(service);
         return repository.save(service);
     }
