@@ -17,16 +17,34 @@ public class JwtProvider {
     @Value("${app.jwt.secret:9a4f2c8d3b7a1e5f8g9h0i1j2k3l4m5n6o7p8q9r0s1t2u3v4w5x6y7z8a9b0c1d}")
     private String jwtSecret;
 
-    @Value("${app.jwt.expiration-ms:86400000}") // 24 hours
-    private int jwtExpirationMs;
+    @Value("${app.jwt.access-expiration-ms:900000}") // 15 minutos
+    private long accessExpirationMs;
 
+    @Value("${app.jwt.refresh-expiration-ms:2592000000}") // 30 dias
+    private long refreshExpirationMs;
+
+    /**
+     * Gera access token (curto - 15 minutos)
+     */
     public String generateToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(new Date((new Date()).getTime() + accessExpirationMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    /**
+     * Gera refresh token (longo - 30 dias)
+     */
+    public String generateRefreshToken(String email) {
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + refreshExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

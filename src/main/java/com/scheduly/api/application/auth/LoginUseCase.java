@@ -17,17 +17,23 @@ public class LoginUseCase {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     public AuthResponse execute(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String role = userDetails.getAuthorities().iterator().next().getAuthority();
 
-        return new AuthResponse(jwt, userDetails.getEmail(), role, userDetails.getOwnerId());
+        // Gera access token (curto - 15 minutos)
+        String accessToken = jwtProvider.generateToken(authentication);
+
+        // Gera refresh token (longo - 30 dias) e salva no banco
+        String refreshToken = refreshTokenService.createRefreshToken(userDetails.getEmail());
+
+        return new AuthResponse(accessToken, refreshToken, userDetails.getEmail(), role, userDetails.getOwnerId());
     }
 }
