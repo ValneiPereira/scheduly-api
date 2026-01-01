@@ -19,6 +19,10 @@ spring:
   profiles:
     active: dev
 
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+
   mail:
     host: sandbox.smtp.mailtrap.io
     port: 2525
