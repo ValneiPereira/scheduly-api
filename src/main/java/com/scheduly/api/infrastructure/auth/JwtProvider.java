@@ -17,14 +17,26 @@ public class JwtProvider {
     @Value("${app.jwt.secret:9a4f2c8d3b7a1e5f8g9h0i1j2k3l4m5n6o7p8q9r0s1t2u3v4w5x6y7z8a9b0c1d}")
     private String jwtSecret;
 
-    @Value("${app.jwt.expiration-ms:86400000}") // 24 hours
+    @Value("${app.jwt.expiration-ms:900000}") // 15 minutes
     private int jwtExpirationMs;
 
-    public String generateToken(Authentication authentication) {
+    @Value("${app.jwt.refresh-expiration-ms:604800000}") // 7 days
+    private int jwtRefreshExpirationMs;
+
+    public String generateAccessToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String generateTokenFromUsername(String username) {
+        return Jwts.builder()
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)

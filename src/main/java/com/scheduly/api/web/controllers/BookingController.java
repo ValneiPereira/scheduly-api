@@ -9,17 +9,15 @@ import com.scheduly.api.web.dtos.BookingResponse;
 import com.scheduly.api.web.dtos.BookingUpdate;
 import com.scheduly.api.web.mappers.BookingMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/bookings")
 @RequiredArgsConstructor
 public class BookingController implements BookingsApi {
 
@@ -31,27 +29,20 @@ public class BookingController implements BookingsApi {
     private final BookingMapper mapper;
 
     @Override
-    @PostMapping
-    public ResponseEntity<BookingResponse> createBooking(@RequestBody BookingRequest request) {
+    public ResponseEntity<BookingResponse> createBooking(BookingRequest request) {
         Booking domain = mapper.toDomain(request);
         Booking created = createBookingUseCase.execute(domain);
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(created));
     }
 
     @Override
-    @GetMapping("/{bookingId}")
-    public ResponseEntity<BookingResponse> getBooking(@PathVariable Long bookingId) {
+    public ResponseEntity<BookingResponse> getBooking(Long bookingId) {
         Booking booking = getBookingUseCase.execute(bookingId);
         return ResponseEntity.ok(mapper.toResponse(booking));
     }
 
     @Override
-    @GetMapping
-    public ResponseEntity<List<BookingResponse>> listBookings(
-            @RequestParam(required = false) Long clientId,
-            @RequestParam(required = false) Long professionalId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-
+    public ResponseEntity<List<BookingResponse>> listBookings(Long clientId, Long professionalId, LocalDate date) {
         BookingFilter filter = BookingFilter.builder()
                 .clientId(clientId)
                 .professionalId(professionalId)
@@ -66,19 +57,14 @@ public class BookingController implements BookingsApi {
     }
 
     @Override
-    @PutMapping("/{bookingId}")
-    public ResponseEntity<BookingResponse> updateBooking(
-            @PathVariable Long bookingId,
-            @RequestBody BookingUpdate request) {
-
+    public ResponseEntity<BookingResponse> updateBooking(Long bookingId, BookingUpdate request) {
         Booking domainUpdate = mapper.toDomain(request);
         Booking updated = updateBookingUseCase.execute(bookingId, domainUpdate);
         return ResponseEntity.ok(mapper.toResponse(updated));
     }
 
     @Override
-    @DeleteMapping("/{bookingId}")
-    public ResponseEntity<Void> cancelBooking(@PathVariable Long bookingId) {
+    public ResponseEntity<Void> cancelBooking(Long bookingId) {
         deleteBookingUseCase.execute(bookingId);
         return ResponseEntity.noContent().build();
     }

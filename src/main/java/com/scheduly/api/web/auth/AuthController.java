@@ -1,10 +1,9 @@
 package com.scheduly.api.web.auth;
 
 import com.scheduly.api.application.auth.LoginUseCase;
+import com.scheduly.api.application.auth.RefreshTokenUseCase;
 import com.scheduly.api.application.auth.RegisterClientUseCase;
-import com.scheduly.api.web.auth.AuthResponse;
-import com.scheduly.api.web.auth.LoginRequest;
-import com.scheduly.api.web.auth.RegisterClientRequest;
+import com.scheduly.api.web.dtos.RefreshTokenRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +19,16 @@ public class AuthController {
 
     private final LoginUseCase loginUseCase;
     private final RegisterClientUseCase registerClientUseCase;
+    private final RefreshTokenUseCase refreshTokenUseCase;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(loginUseCase.execute(request));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@Valid @RequestBody RefreshTokenRequest request) {
+        return ResponseEntity.ok(refreshTokenUseCase.execute(request));
     }
 
     @PostMapping("/register")
