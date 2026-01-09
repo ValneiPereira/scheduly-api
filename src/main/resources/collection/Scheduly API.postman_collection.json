@@ -1,0 +1,3192 @@
+{
+	"info": {
+		"_postman_id": "a58d04fb-a826-447c-8d9d-16c40616f26d",
+		"name": "Scheduly API",
+		"description": "API de agendamento de serviços",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14540384"
+	},
+	"item": [
+		{
+			"name": "services",
+			"item": [
+				{
+					"name": "{serviceId}",
+					"item": [
+						{
+							"name": "Buscar serviço por ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/services/:serviceId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"services",
+										":serviceId"
+									],
+									"variable": [
+										{
+											"key": "serviceId",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Serviço encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/services/:serviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"services",
+												":serviceId"
+											],
+											"variable": [
+												{
+													"key": "serviceId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"Manicure Básica\",\n  \"description\": \"Corte e pintura básica das unhas\",\n  \"category\": \"BELEZA\",\n  \"subcategory\": \"MANICURE\",\n  \"durationMinutes\": 45,\n  \"priceCents\": 3500,\n  \"createdAt\": \"1999-11-16T11:16:28.668Z\"\n}"
+								},
+								{
+									"name": "Recurso não encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/services/:serviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"services",
+												":serviceId"
+											],
+											"variable": [
+												{
+													"key": "serviceId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Atualizar serviço",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Manicure Premium\",\n  \"description\": \"Corte, pintura e hidratação\",\n  \"category\": \"BELEZA\",\n  \"subcategory\": \"MANICURE\",\n  \"durationMinutes\": 60,\n  \"priceCents\": 5000\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/services/:serviceId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"services",
+										":serviceId"
+									],
+									"variable": [
+										{
+											"key": "serviceId",
+											"value": "5103"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Serviço atualizado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Manicure Premium\",\n  \"description\": \"Corte, pintura e hidratação\",\n  \"category\": \"BELEZA\",\n  \"subcategory\": \"MANICURE\",\n  \"durationMinutes\": 60,\n  \"priceCents\": 5000\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/services/:serviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"services",
+												":serviceId"
+											],
+											"variable": [
+												{
+													"key": "serviceId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"name\": \"Manicure Básica\",\n  \"description\": \"Corte e pintura básica das unhas\",\n  \"category\": \"BELEZA\",\n  \"subcategory\": \"MANICURE\",\n  \"durationMinutes\": 45,\n  \"priceCents\": 3500,\n  \"createdAt\": \"1999-11-16T11:16:28.668Z\"\n}"
+								},
+								{
+									"name": "Recurso não encontrado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"name\": \"Manicure Premium\",\n  \"description\": \"Corte, pintura e hidratação\",\n  \"category\": \"BELEZA\",\n  \"subcategory\": \"MANICURE\",\n  \"durationMinutes\": 60,\n  \"priceCents\": 5000\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/services/:serviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"services",
+												":serviceId"
+											],
+											"variable": [
+												{
+													"key": "serviceId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Remover serviço",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/services/:serviceId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"services",
+										":serviceId"
+									],
+									"variable": [
+										{
+											"key": "serviceId",
+											"value": "5103"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Sem conteúdo",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/services/:serviceId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"services",
+												":serviceId"
+											],
+											"variable": [
+												{
+													"key": "serviceId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listar serviços",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/services?category=BELEZA",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"services"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "BELEZA",
+									"description": "Filtrar por categoria (ex: \"BELEZA\", \"SAUDE\")"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de serviços",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/services?category=BELEZA",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"services"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "BELEZA",
+											"description": "Filtrar por categoria (ex: \"BELEZA\", \"SAUDE\")"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Manicure Básica\",\n    \"description\": \"Corte e pintura básica das unhas\",\n    \"category\": \"BELEZA\",\n    \"subcategory\": \"MANICURE\",\n    \"durationMinutes\": 45,\n    \"priceCents\": 3500,\n    \"createdAt\": \"2001-05-01T18:40:59.945Z\"\n  },\n  {\n    \"id\": 1,\n    \"name\": \"Manicure Básica\",\n    \"description\": \"Corte e pintura básica das unhas\",\n    \"category\": \"BELEZA\",\n    \"subcategory\": \"MANICURE\",\n    \"durationMinutes\": 45,\n    \"priceCents\": 3500,\n    \"createdAt\": \"2022-10-27T23:06:30.563Z\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Criar serviço",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Manicure e Pedicure Completa\",\n  \"description\": \"Serviço completo de manicure e pedicure com esmaltação especial e hidratação.\",\n  \"category\": \"BELEZA\",\n  \"subcategory\": \"MANICURE\",\n  \"durationMinutes\": 90,\n  \"priceCents\": 8500\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Serviço criado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"category\": \"BELEZA\",\n  \"durationMinutes\": 45,\n  \"name\": \"Manicure Básica\",\n  \"priceCents\": 3500,\n  \"subcategory\": \"MANICURE\",\n  \"description\": \"Corte e pintura básica\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/services",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"services"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 1,\n  \"name\": \"Manicure Básica\",\n  \"description\": \"Corte e pintura básica das unhas\",\n  \"category\": \"BELEZA\",\n  \"subcategory\": \"MANICURE\",\n  \"durationMinutes\": 45,\n  \"priceCents\": 3500,\n  \"createdAt\": \"1999-11-16T11:16:28.668Z\"\n}"
+						},
+						{
+							"name": "Requisição inválida",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"category\": \"BELEZA\",\n  \"durationMinutes\": 45,\n  \"name\": \"Manicure Básica\",\n  \"priceCents\": 3500,\n  \"subcategory\": \"MANICURE\",\n  \"description\": \"Corte e pintura básica\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/services",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"services"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "professionals",
+			"item": [
+				{
+					"name": "{professionalId}",
+					"item": [
+						{
+							"name": "reviews",
+							"item": [
+								{
+									"name": "Avaliar profissional",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"rating\": 2,\n  \"comment\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/professionals/:professionalId/reviews",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"professionals",
+												":professionalId",
+												"reviews"
+											],
+											"variable": [
+												{
+													"key": "professionalId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Avaliação criada",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"rating\": 2,\n  \"comment\": \"string\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/professionals/:professionalId/reviews",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"professionals",
+														":professionalId",
+														"reviews"
+													],
+													"variable": [
+														{
+															"key": "professionalId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": 4099,\n  \"professionalId\": 4610,\n  \"rating\": 8208,\n  \"comment\": \"string\",\n  \"createdAt\": \"1979-07-26T02:08:29.396Z\"\n}"
+										},
+										{
+											"name": "Requisição inválida",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"rating\": 2,\n  \"comment\": \"string\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/professionals/:professionalId/reviews",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"professionals",
+														":professionalId",
+														"reviews"
+													],
+													"variable": [
+														{
+															"key": "professionalId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Buscar profissional por ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/professionals/:professionalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"professionals",
+										":professionalId"
+									],
+									"variable": [
+										{
+											"key": "professionalId",
+											"value": "5103"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Profissional encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/professionals/:professionalId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"professionals",
+												":professionalId"
+											],
+											"variable": [
+												{
+													"key": "professionalId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 3645,\n  \"name\": \"string\",\n  \"phone\": \"string\",\n  \"address\": {\n    \"street\": \"string\",\n    \"number\": \"string\",\n    \"complement\": \"string\",\n    \"neighborhood\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"string\",\n    \"zipCode\": \"string\"\n  },\n  \"bio\": \"string\",\n  \"specialtyIds\": [\n    1830,\n    9279\n  ],\n  \"rating\": 9848.49415423724,\n  \"totalReviews\": 5709,\n  \"workStartTime\": \"09:00\",\n  \"workEndTime\": \"19:00\",\n  \"workingDays\": [\n    \"string\",\n    \"string\"\n  ],\n  \"active\": false,\n  \"createdAt\": \"1975-12-09T23:51:25.185Z\",\n  \"updatedAt\": \"1998-10-05T15:12:38.824Z\"\n}"
+								},
+								{
+									"name": "Recurso não encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/professionals/:professionalId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"professionals",
+												":professionalId"
+											],
+											"variable": [
+												{
+													"key": "professionalId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Atualizar profissional",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"active\": true,\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"specialtyIds\": [\n    4032,\n    7839\n  ],\n  \"workEndTime\": \"19:00\",\n  \"workStartTime\": \"09:00\",\n  \"workingDays\": [\n    \"string\",\n    \"string\"\n  ],\n  \"phone\": \"28368556069\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"PC\",\n    \"street\": \"string\",\n    \"zipCode\": \"95207-248\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  },\n  \"bio\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/professionals/:professionalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"professionals",
+										":professionalId"
+									],
+									"variable": [
+										{
+											"key": "professionalId",
+											"value": "5103"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Profissional atualizado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"active\": true,\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"specialtyIds\": [\n    4032,\n    7839\n  ],\n  \"workEndTime\": \"19:00\",\n  \"workStartTime\": \"09:00\",\n  \"workingDays\": [\n    \"string\",\n    \"string\"\n  ],\n  \"phone\": \"28368556069\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"PC\",\n    \"street\": \"string\",\n    \"zipCode\": \"95207-248\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  },\n  \"bio\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/professionals/:professionalId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"professionals",
+												":professionalId"
+											],
+											"variable": [
+												{
+													"key": "professionalId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 3645,\n  \"name\": \"string\",\n  \"phone\": \"string\",\n  \"address\": {\n    \"street\": \"string\",\n    \"number\": \"string\",\n    \"complement\": \"string\",\n    \"neighborhood\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"string\",\n    \"zipCode\": \"string\"\n  },\n  \"bio\": \"string\",\n  \"specialtyIds\": [\n    1830,\n    9279\n  ],\n  \"rating\": 9848.49415423724,\n  \"totalReviews\": 5709,\n  \"workStartTime\": \"09:00\",\n  \"workEndTime\": \"19:00\",\n  \"workingDays\": [\n    \"string\",\n    \"string\"\n  ],\n  \"active\": false,\n  \"createdAt\": \"1975-12-09T23:51:25.185Z\",\n  \"updatedAt\": \"1998-10-05T15:12:38.824Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Remover profissional",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/professionals/:professionalId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"professionals",
+										":professionalId"
+									],
+									"variable": [
+										{
+											"key": "professionalId",
+											"value": "5103"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Sem conteúdo",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/professionals/:professionalId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"professionals",
+												":professionalId"
+											],
+											"variable": [
+												{
+													"key": "professionalId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listar profissionais",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/professionals?serviceId=5103",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"professionals"
+							],
+							"query": [
+								{
+									"key": "serviceId",
+									"value": "5103",
+									"description": "filtrar por serviceId"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de profissionais",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/professionals?serviceId=5103",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"professionals"
+									],
+									"query": [
+										{
+											"key": "serviceId",
+											"value": "5103",
+											"description": "filtrar por serviceId"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 4704,\n    \"name\": \"string\",\n    \"phone\": \"string\",\n    \"address\": {\n      \"street\": \"string\",\n      \"number\": \"string\",\n      \"complement\": \"string\",\n      \"neighborhood\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"zipCode\": \"string\"\n    },\n    \"bio\": \"string\",\n    \"specialtyIds\": [\n      5953,\n      5271\n    ],\n    \"rating\": 8299.292447765556,\n    \"totalReviews\": 4757,\n    \"workStartTime\": \"09:00\",\n    \"workEndTime\": \"19:00\",\n    \"workingDays\": [\n      \"string\",\n      \"string\"\n    ],\n    \"active\": false,\n    \"createdAt\": \"1981-03-30T14:02:05.533Z\",\n    \"updatedAt\": \"1961-07-13T04:55:16.409Z\"\n  },\n  {\n    \"id\": 3938,\n    \"name\": \"string\",\n    \"phone\": \"string\",\n    \"address\": {\n      \"street\": \"string\",\n      \"number\": \"string\",\n      \"complement\": \"string\",\n      \"neighborhood\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"zipCode\": \"string\"\n    },\n    \"bio\": \"string\",\n    \"specialtyIds\": [\n      4981,\n      2775\n    ],\n    \"rating\": 7498.469414908713,\n    \"totalReviews\": 4067,\n    \"workStartTime\": \"09:00\",\n    \"workEndTime\": \"19:00\",\n    \"workingDays\": [\n      \"string\",\n      \"string\"\n    ],\n    \"active\": false,\n    \"createdAt\": \"1979-12-22T03:25:09.375Z\",\n    \"updatedAt\": \"2025-10-13T03:23:43.812Z\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Criar profissional",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Mariana Silva\",\n  \"email\": \"mariana.nails@email.com\",\n  \"cpf\": \"14141114014\",\n  \"phone\": \"51988887777\",\n  \"bio\": \"Especialista em alongamento em gel e blindagem de unhas com 5 anos de experiência.\",\n  \"address\": {\n    \"street\": \"Avenida Ipiranga\",\n    \"number\": \"123\",\n    \"neighborhood\": \"Praia de Belas\",\n    \"city\": \"Porto Alegre\",\n    \"state\": \"RS\",\n    \"zipCode\": \"90160-090\"\n  },\n  \"workStartTime\": \"09:00\",\n  \"workEndTime\": \"18:00\",\n  \"workingDays\": [\n    \"MONDAY\",\n    \"TUESDAY\",\n    \"WEDNESDAY\",\n    \"THURSDAY\",\n    \"FRIDAY\",\n    \"SATURDAY\"\n  ],\n  \"specialtyIds\": [2],\n  \"active\": true\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/professionals",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"professionals"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Profissional criado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"active\": true,\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"specialtyIds\": [\n    4032,\n    7839\n  ],\n  \"workEndTime\": \"19:00\",\n  \"workStartTime\": \"09:00\",\n  \"workingDays\": [\n    \"string\",\n    \"string\"\n  ],\n  \"phone\": \"28368556069\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"PC\",\n    \"street\": \"string\",\n    \"zipCode\": \"95207-248\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  },\n  \"bio\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/professionals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"professionals"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 3645,\n  \"name\": \"string\",\n  \"phone\": \"string\",\n  \"address\": {\n    \"street\": \"string\",\n    \"number\": \"string\",\n    \"complement\": \"string\",\n    \"neighborhood\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"string\",\n    \"zipCode\": \"string\"\n  },\n  \"bio\": \"string\",\n  \"specialtyIds\": [\n    1830,\n    9279\n  ],\n  \"rating\": 9848.49415423724,\n  \"totalReviews\": 5709,\n  \"workStartTime\": \"09:00\",\n  \"workEndTime\": \"19:00\",\n  \"workingDays\": [\n    \"string\",\n    \"string\"\n  ],\n  \"active\": false,\n  \"createdAt\": \"1975-12-09T23:51:25.185Z\",\n  \"updatedAt\": \"1998-10-05T15:12:38.824Z\"\n}"
+						},
+						{
+							"name": "Requisição inválida",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"active\": true,\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"specialtyIds\": [\n    4032,\n    7839\n  ],\n  \"workEndTime\": \"19:00\",\n  \"workStartTime\": \"09:00\",\n  \"workingDays\": [\n    \"string\",\n    \"string\"\n  ],\n  \"phone\": \"28368556069\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"PC\",\n    \"street\": \"string\",\n    \"zipCode\": \"95207-248\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  },\n  \"bio\": \"string\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/professionals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"professionals"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "clients",
+			"item": [
+				{
+					"name": "{clientId}",
+					"item": [
+						{
+							"name": "Buscar cliente por ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/clients/:clientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients",
+										":clientId"
+									],
+									"variable": [
+										{
+											"key": "clientId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Cliente encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/clients/:clientId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"clients",
+												":clientId"
+											],
+											"variable": [
+												{
+													"key": "clientId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 8706,\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"cpf\": \"string\",\n  \"phone\": \"string\",\n  \"address\": {\n    \"street\": \"string\",\n    \"number\": \"string\",\n    \"complement\": \"string\",\n    \"neighborhood\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"string\",\n    \"zipCode\": \"string\"\n  },\n  \"createdAt\": \"1953-08-07T16:51:07.490Z\",\n  \"updatedAt\": \"2001-01-31T23:22:31.000Z\"\n}"
+								},
+								{
+									"name": "Recurso não encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/clients/:clientId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"clients",
+												":clientId"
+											],
+											"variable": [
+												{
+													"key": "clientId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Atualizar cliente",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"name\": \"Valnei Pereira\",\n    \"email\": \"valneipereirabarboza@gmail.com\",\n    \"cpf\": \"68561332000\",\n    \"phone\": \"51999999999\",\n    \"address\": null\n    \n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clients/:clientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients",
+										":clientId"
+									],
+									"variable": [
+										{
+											"key": "clientId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Cliente atualizado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"phone\": \"8044757515\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"SM\",\n    \"street\": \"string\",\n    \"zipCode\": \"63334-300\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/clients/:clientId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"clients",
+												":clientId"
+											],
+											"variable": [
+												{
+													"key": "clientId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 8706,\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"cpf\": \"string\",\n  \"phone\": \"string\",\n  \"address\": {\n    \"street\": \"string\",\n    \"number\": \"string\",\n    \"complement\": \"string\",\n    \"neighborhood\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"string\",\n    \"zipCode\": \"string\"\n  },\n  \"createdAt\": \"1953-08-07T16:51:07.490Z\",\n  \"updatedAt\": \"2001-01-31T23:22:31.000Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Remover cliente (soft delete recomendado)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/clients/:clientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients",
+										":clientId"
+									],
+									"variable": [
+										{
+											"key": "clientId",
+											"value": "5103"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Sem conteúdo",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/clients/:clientId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"clients",
+												":clientId"
+											],
+											"variable": [
+												{
+													"key": "clientId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "search",
+					"item": [
+						{
+							"name": "Buscar clientes por Nome (Partial Match)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/clients/search?name=nei",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients",
+										"search"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "nei",
+											"description": "Nome ou parte do nome para pesquisa"
+										}
+									]
+								},
+								"description": "Pesquisa por nome parcial."
+							},
+							"response": [
+								{
+									"name": "Lista de clientes encontrados",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/clients/search?name=string",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"clients",
+												"search"
+											],
+											"query": [
+												{
+													"key": "name",
+													"value": "string",
+													"description": "Nome ou parte do nome para pesquisa"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 2677,\n    \"name\": \"string\",\n    \"email\": \"string\",\n    \"cpf\": \"string\",\n    \"phone\": \"string\",\n    \"address\": {\n      \"street\": \"string\",\n      \"number\": \"string\",\n      \"complement\": \"string\",\n      \"neighborhood\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"zipCode\": \"string\"\n    },\n    \"createdAt\": \"1956-05-13T01:30:46.237Z\",\n    \"updatedAt\": \"2025-08-10T19:28:16.970Z\"\n  },\n  {\n    \"id\": 938,\n    \"name\": \"string\",\n    \"email\": \"string\",\n    \"cpf\": \"string\",\n    \"phone\": \"string\",\n    \"address\": {\n      \"street\": \"string\",\n      \"number\": \"string\",\n      \"complement\": \"string\",\n      \"neighborhood\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"zipCode\": \"string\"\n    },\n    \"createdAt\": \"2015-11-08T21:14:21.163Z\",\n    \"updatedAt\": \"1989-11-20T14:49:40.567Z\"\n  }\n]"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Listar clientes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/clients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Lista de clientes",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": 2677,\n    \"name\": \"string\",\n    \"email\": \"string\",\n    \"cpf\": \"string\",\n    \"phone\": \"string\",\n    \"address\": {\n      \"street\": \"string\",\n      \"number\": \"string\",\n      \"complement\": \"string\",\n      \"neighborhood\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"zipCode\": \"string\"\n    },\n    \"createdAt\": \"1956-05-13T01:30:46.237Z\",\n    \"updatedAt\": \"2025-08-10T19:28:16.970Z\"\n  },\n  {\n    \"id\": 938,\n    \"name\": \"string\",\n    \"email\": \"string\",\n    \"cpf\": \"string\",\n    \"phone\": \"string\",\n    \"address\": {\n      \"street\": \"string\",\n      \"number\": \"string\",\n      \"complement\": \"string\",\n      \"neighborhood\": \"string\",\n      \"city\": \"string\",\n      \"state\": \"string\",\n      \"zipCode\": \"string\"\n    },\n    \"createdAt\": \"2015-11-08T21:14:21.163Z\",\n    \"updatedAt\": \"1989-11-20T14:49:40.567Z\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "Criar cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"phone\": \"8044757515\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"SM\",\n    \"street\": \"string\",\n    \"zipCode\": \"63334-300\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  }\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clients",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"clients"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cliente criado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"phone\": \"8044757515\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"SM\",\n    \"street\": \"string\",\n    \"zipCode\": \"63334-300\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  }\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": 8706,\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"cpf\": \"string\",\n  \"phone\": \"string\",\n  \"address\": {\n    \"street\": \"string\",\n    \"number\": \"string\",\n    \"complement\": \"string\",\n    \"neighborhood\": \"string\",\n    \"city\": \"string\",\n    \"state\": \"string\",\n    \"zipCode\": \"string\"\n  },\n  \"createdAt\": \"1953-08-07T16:51:07.490Z\",\n  \"updatedAt\": \"2001-01-31T23:22:31.000Z\"\n}"
+						},
+						{
+							"name": "Requisição inválida",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cpf\": \"string\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"phone\": \"8044757515\",\n  \"address\": {\n    \"city\": \"string\",\n    \"neighborhood\": \"string\",\n    \"state\": \"SM\",\n    \"street\": \"string\",\n    \"zipCode\": \"63334-300\",\n    \"number\": \"string\",\n    \"complement\": \"string\"\n  }\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/clients",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"clients"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "bookings",
+					"item": [
+						{
+							"name": "{bookingId}",
+							"item": [
+								{
+									"name": "get Booking",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bookings/:bookingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"bookings",
+												":bookingId"
+											],
+											"variable": [
+												{
+													"key": "bookingId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/bookings/:bookingId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														":bookingId"
+													],
+													"variable": [
+														{
+															"key": "bookingId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": 1,\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"endAt\": \"2025-12-25T15:00:00\",\n  \"status\": \"CONFIRMED\",\n  \"notes\": \"Levar esmalte próprio\",\n  \"createdAt\": \"2025-12-19T10:00:00\"\n}"
+										}
+									]
+								},
+								{
+									"name": "update Booking",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"startAt\": \"2025-12-26T10:00:00\",\n  \"notes\": \"Alterado para francesinha\",\n  \"status\": \"CANCELLED\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bookings/:bookingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"bookings",
+												":bookingId"
+											],
+											"variable": [
+												{
+													"key": "bookingId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "*/*"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"startAt\": \"2025-12-26T10:00:00\",\n  \"notes\": \"Alterado para francesinha\",\n  \"status\": \"CANCELLED\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/bookings/:bookingId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														":bookingId"
+													],
+													"variable": [
+														{
+															"key": "bookingId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": 1,\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"endAt\": \"2025-12-25T15:00:00\",\n  \"status\": \"CONFIRMED\",\n  \"notes\": \"Levar esmalte próprio\",\n  \"createdAt\": \"2025-12-19T10:00:00\"\n}"
+										}
+									]
+								},
+								{
+									"name": "cancel Booking",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/bookings/:bookingId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"bookings",
+												":bookingId"
+											],
+											"variable": [
+												{
+													"key": "bookingId",
+													"value": "5103"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/bookings/:bookingId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														":bookingId"
+													],
+													"variable": [
+														{
+															"key": "bookingId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "bookings",
+							"item": [
+								{
+									"name": "{bookingId}",
+									"item": [
+										{
+											"name": "Buscar agendamento por ID",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/bookings/:bookingId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														"bookings",
+														":bookingId"
+													],
+													"variable": [
+														{
+															"key": "bookingId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Agendamento encontrado",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/bookings/:bookingId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"bookings",
+																"bookings",
+																":bookingId"
+															],
+															"variable": [
+																{
+																	"key": "bookingId",
+																	"value": "5103"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"id\": 1,\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"endAt\": \"2025-12-25T15:00:00\",\n  \"status\": \"CONFIRMED\",\n  \"notes\": \"Levar esmalte próprio\",\n  \"createdAt\": \"2025-12-19T10:00:00\"\n}"
+												},
+												{
+													"name": "Recurso não encontrado",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/bookings/:bookingId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"bookings",
+																"bookings",
+																":bookingId"
+															],
+															"variable": [
+																{
+																	"key": "bookingId",
+																	"value": "5103"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+												}
+											]
+										},
+										{
+											"name": "Atualizar agendamento (reagendar / editar)",
+											"request": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"startAt\": \"2025-12-26T10:00:00\",\n  \"notes\": \"Alterado para francesinha\",\n  \"status\": \"CANCELLED\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/bookings/:bookingId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														"bookings",
+														":bookingId"
+													],
+													"variable": [
+														{
+															"key": "bookingId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Agendamento atualizado",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"startAt\": \"2025-12-26T10:00:00\",\n  \"notes\": \"Alterado para francesinha\",\n  \"status\": \"CANCELLED\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/bookings/:bookingId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"bookings",
+																"bookings",
+																":bookingId"
+															],
+															"variable": [
+																{
+																	"key": "bookingId",
+																	"value": "5103"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"id\": 1,\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"endAt\": \"2025-12-25T15:00:00\",\n  \"status\": \"CONFIRMED\",\n  \"notes\": \"Levar esmalte próprio\",\n  \"createdAt\": \"2025-12-19T10:00:00\"\n}"
+												},
+												{
+													"name": "Conflito (ex.: horário indisponível)",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "{\n  \"startAt\": \"2025-12-26T10:00:00\",\n  \"notes\": \"Alterado para francesinha\",\n  \"status\": \"CANCELLED\"\n}",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/bookings/:bookingId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"bookings",
+																"bookings",
+																":bookingId"
+															],
+															"variable": [
+																{
+																	"key": "bookingId",
+																	"value": "5103"
+																}
+															]
+														}
+													},
+													"status": "Conflict",
+													"code": 409,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+												}
+											]
+										},
+										{
+											"name": "Cancelar agendamento (soft delete)",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/bookings/:bookingId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														"bookings",
+														":bookingId"
+													],
+													"variable": [
+														{
+															"key": "bookingId",
+															"value": "5103"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "Sem conteúdo",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/bookings/:bookingId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"bookings",
+																"bookings",
+																":bookingId"
+															],
+															"variable": [
+																{
+																	"key": "bookingId",
+																	"value": "5103"
+																}
+															]
+														}
+													},
+													"status": "No Content",
+													"code": 204,
+													"_postman_previewlanguage": "text",
+													"header": [],
+													"cookie": [],
+													"body": ""
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Listar agendamentos",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bookings?clientId=5103&professionalId=5103&date=1954-08-02",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"bookings",
+												"bookings"
+											],
+											"query": [
+												{
+													"key": "clientId",
+													"value": "5103"
+												},
+												{
+													"key": "professionalId",
+													"value": "5103"
+												},
+												{
+													"key": "date",
+													"value": "1954-08-02"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Lista de agendamentos",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/bookings?clientId=5103&professionalId=5103&date=1954-08-02",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														"bookings"
+													],
+													"query": [
+														{
+															"key": "clientId",
+															"value": "5103"
+														},
+														{
+															"key": "professionalId",
+															"value": "5103"
+														},
+														{
+															"key": "date",
+															"value": "1954-08-02"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n  {\n    \"id\": 1,\n    \"clientId\": 1,\n    \"professionalId\": 1,\n    \"serviceId\": 1,\n    \"startAt\": \"2025-12-25T14:00:00\",\n    \"endAt\": \"2025-12-25T15:00:00\",\n    \"status\": \"CONFIRMED\",\n    \"notes\": \"Levar esmalte próprio\",\n    \"createdAt\": \"2025-12-19T10:00:00\"\n  },\n  {\n    \"id\": 1,\n    \"clientId\": 1,\n    \"professionalId\": 1,\n    \"serviceId\": 1,\n    \"startAt\": \"2025-12-25T14:00:00\",\n    \"endAt\": \"2025-12-25T15:00:00\",\n    \"status\": \"CONFIRMED\",\n    \"notes\": \"Levar esmalte próprio\",\n    \"createdAt\": \"2025-12-19T10:00:00\"\n  }\n]"
+										}
+									]
+								},
+								{
+									"name": "Criar agendamento",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"clientId\": 1,\n  \"professionalId\": 2,\n  \"serviceId\": 2,\n  \"startAt\": \"2025-12-30T14:30:00\",\n  \"notes\": \"Cliente solicitou esmalte hipoalergênico.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bookings",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"bookings",
+												"bookings"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Agendamento criado",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"notes\": \"Levar esmalte próprio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/bookings",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														"bookings"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": 1,\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"endAt\": \"2025-12-25T15:00:00\",\n  \"status\": \"CONFIRMED\",\n  \"notes\": \"Levar esmalte próprio\",\n  \"createdAt\": \"2025-12-19T10:00:00\"\n}"
+										},
+										{
+											"name": "Requisição inválida",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"notes\": \"Levar esmalte próprio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/bookings",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														"bookings"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+										},
+										{
+											"name": "Conflito (ex.: horário indisponível)",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"notes\": \"Levar esmalte próprio\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/bookings",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"bookings",
+														"bookings"
+													]
+												}
+											},
+											"status": "Conflict",
+											"code": 409,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "list Bookings",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/bookings?clientId=5103&professionalId=5103&date=1954-08-02",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"bookings"
+									],
+									"query": [
+										{
+											"key": "clientId",
+											"value": "5103"
+										},
+										{
+											"key": "professionalId",
+											"value": "5103"
+										},
+										{
+											"key": "date",
+											"value": "1954-08-02"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/bookings?clientId=5103&professionalId=5103&date=1954-08-02",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"bookings"
+											],
+											"query": [
+												{
+													"key": "clientId",
+													"value": "5103"
+												},
+												{
+													"key": "professionalId",
+													"value": "5103"
+												},
+												{
+													"key": "date",
+													"value": "1954-08-02"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "[\n  {\n    \"id\": 1,\n    \"clientId\": 1,\n    \"professionalId\": 1,\n    \"serviceId\": 1,\n    \"startAt\": \"2025-12-25T14:00:00\",\n    \"endAt\": \"2025-12-25T15:00:00\",\n    \"status\": \"CONFIRMED\",\n    \"notes\": \"Levar esmalte próprio\",\n    \"createdAt\": \"2025-12-19T10:00:00\"\n  },\n  {\n    \"id\": 1,\n    \"clientId\": 1,\n    \"professionalId\": 1,\n    \"serviceId\": 1,\n    \"startAt\": \"2025-12-25T14:00:00\",\n    \"endAt\": \"2025-12-25T15:00:00\",\n    \"status\": \"CONFIRMED\",\n    \"notes\": \"Levar esmalte próprio\",\n    \"createdAt\": \"2025-12-19T10:00:00\"\n  }\n]"
+								}
+							]
+						},
+						{
+							"name": "create Booking",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"notes\": \"Levar esmalte próprio\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/bookings",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"bookings"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"notes\": \"Levar esmalte próprio\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/bookings",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"bookings"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"clientId\": 1,\n  \"professionalId\": 1,\n  \"serviceId\": 1,\n  \"startAt\": \"2025-12-25T14:00:00\",\n  \"endAt\": \"2025-12-25T15:00:00\",\n  \"status\": \"CONFIRMED\",\n  \"notes\": \"Levar esmalte próprio\",\n  \"createdAt\": \"2025-12-19T10:00:00\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Valnei Pereira\",\n  \"email\": \"valnei@scheduly.com\",\n  \"cpf\": \"68561332000\",\n  \"phone\": \"51999999999\",\n  \"password\": \"senha123\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"18864206196\",\n  \"email\": \"string\",\n  \"name\": \"string\",\n  \"password\": \"string\",\n  \"phone\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/register",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Verifica se o login deu certo (status 200)\r",
+											"if (pm.response.code === 200) {\r",
+											"    // Pega os tokens do corpo da resposta\r",
+											"    var jsonData = pm.response.json();\r",
+											"    \r",
+											"    // Salva o access token em uma variável de ambiente chamada 'token'\r",
+											"    pm.environment.set(\"token\", jsonData.accessToken);\r",
+											"    \r",
+											"    // Salva o refresh token em uma variável de ambiente chamada 'refreshToken'\r",
+											"    pm.environment.set(\"refreshToken\", jsonData.refreshToken);\r",
+											"    \r",
+											"    console.log(\"Tokens salvos com sucesso!\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"valneipereirabarboza@gmail.com\",\n  \"password\": \"senha123\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"email\": \"string\",\n  \"password\": \"string\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/login",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"accessToken\": \"string\",\n  \"refreshToken\": \"string\",\n  \"email\": \"string\",\n  \"role\": \"string\",\n  \"ownerId\": 1\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "refresh",
+					"item": [
+						{
+							"name": "refresh token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Verifica se o refresh deu certo (status 200)\r",
+											"if (pm.response.code === 200) {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    \r",
+											"    // Atualiza o access token\r",
+											"    pm.environment.set(\"token\", jsonData.accessToken);\r",
+											"    \r",
+											"    console.log(\"Access Token renovado com sucesso!\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {},
+										"requests": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/auth/refresh",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/refresh",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"refresh"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"accessToken\": \"string\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cep",
+			"item": [
+				{
+					"name": "{cep}",
+					"item": [
+						{
+							"name": "Consultar CEP (proxy para ViaCEP)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/cep/:cep",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cep",
+										":cep"
+									],
+									"variable": [
+										{
+											"key": "cep",
+											"value": "94950700"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Dados do CEP",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/cep/:cep",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cep",
+												":cep"
+											],
+											"variable": [
+												{
+													"key": "cep",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"street\": \"string\",\n  \"number\": \"string\",\n  \"complement\": \"string\",\n  \"neighborhood\": \"string\",\n  \"city\": \"string\",\n  \"state\": \"string\",\n  \"zipCode\": \"string\"\n}"
+								},
+								{
+									"name": "Recurso não encontrado",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/cep/:cep",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cep",
+												":cep"
+											],
+											"variable": [
+												{
+													"key": "cep",
+													"value": "string"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"message\": \"string\",\n  \"status\": 542,\n  \"error\": \"string\",\n  \"timestamp\": \"2015-05-13T19:47:10.471Z\"\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

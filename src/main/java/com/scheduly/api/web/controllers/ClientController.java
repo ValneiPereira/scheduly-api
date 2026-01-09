@@ -32,9 +32,10 @@ public class ClientController implements ClientsApi {
     @Override
     public ResponseEntity<ClientResponse> createClient(ClientRequest request) {
         var client = clientMapper.toDomain(request);
-        var createdClient = createClientUseCase.execute(client);
-        var response = clientMapper.toResponse(createdClient);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        var created = createClientUseCase.execute(client);
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(clientMapper.toResponse(created));
     }
 
     @Override
