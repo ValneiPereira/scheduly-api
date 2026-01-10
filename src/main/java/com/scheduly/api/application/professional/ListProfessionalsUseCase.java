@@ -18,4 +18,12 @@ public class ListProfessionalsUseCase {
     public List<Professional> execute() {
         return repository.findAll();
     }
+
+    @Transactional(readOnly = true)
+    public List<Professional> execute(Long departmentId) {
+        if (departmentId != null) {
+            return repository.findByDepartmentId(departmentId);
+        }
+        return execute();
+    }
 }

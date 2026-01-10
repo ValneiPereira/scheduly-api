@@ -38,7 +38,7 @@ public class ClientEntity {
     @Column(length = 15)
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "primary_address_id")
     private AddressEntity address;
 

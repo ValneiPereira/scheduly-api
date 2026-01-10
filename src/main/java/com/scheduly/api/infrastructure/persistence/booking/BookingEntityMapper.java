@@ -18,7 +18,7 @@ public class BookingEntityMapper {
                 .id(entity.getId())
                 .clientId(entity.getClient().getId())
                 .professionalId(entity.getProfessional().getId())
-                .serviceId(entity.getDepartment().getId())
+                .departmentId(entity.getDepartment().getId())
                 .addressId(entity.getAddress() != null ? entity.getAddress().getId() : null)
                 .startAt(entity.getStartAt())
                 .endAt(entity.getEndAt())

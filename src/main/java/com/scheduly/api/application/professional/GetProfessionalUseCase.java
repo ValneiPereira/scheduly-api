@@ -1,8 +1,8 @@
 package com.scheduly.api.application.professional;
 
+import com.scheduly.api.domain.professional.ProfessionalRepository;
 import com.scheduly.api.domain.exception.ResourceNotFoundException;
 import com.scheduly.api.domain.professional.Professional;
-import com.scheduly.api.domain.professional.ProfessionalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

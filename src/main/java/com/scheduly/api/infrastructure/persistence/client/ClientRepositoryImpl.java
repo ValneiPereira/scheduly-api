@@ -2,8 +2,11 @@ package com.scheduly.api.infrastructure.persistence.client;
 
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.domain.client.ClientRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +21,28 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     private final ClientJpaRepository jpaRepository;
     private final ClientEntityMapper clientMapper;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Client save(Client client) {
         ClientEntity entity = clientMapper.toEntity(client);
+        
+        // Salvar cliente (endereço será salvo via cascade)
         ClientEntity saved = jpaRepository.save(entity);
+        
+        // Forçar flush para garantir que o ID do cliente seja gerado
+        entityManager.flush();
+        
+        // Atualizar ownerId e ownerType do endereço após o cliente ter ID
+        if (saved.getAddress() != null) {
+            saved.getAddress().setOwnerId(saved.getId());
+            saved.getAddress().setOwnerType("CLIENT");
+            // O endereço já está gerenciado, então será persistido automaticamente
+        }
+        
         return clientMapper.toDomain(saved);
     }
 

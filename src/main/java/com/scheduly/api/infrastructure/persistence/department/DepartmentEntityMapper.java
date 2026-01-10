@@ -42,7 +42,7 @@ public class DepartmentEntityMapper {
                 .requirements(domain.getRequirements())
                 .materials(domain.getMaterials())
                 .requiresSpecialist(domain.getRequiresSpecialist())
-                .active(domain.getActive())
+                .active(domain.getActive() != null ? domain.getActive() : true) // Garante que sempre tenha um valor
                 .createdAt(domain.getCreatedAt())
                 .updatedAt(domain.getUpdatedAt())
                 .build();
