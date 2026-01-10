@@ -1,16 +1,16 @@
-package com.scheduly.api.infrastructure.persistence.service;
+package com.scheduly.api.infrastructure.persistence.department;
 
-import com.scheduly.api.domain.service.Service;
+import com.scheduly.api.domain.department.Department;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ServiceEntityMapper {
+public class DepartmentEntityMapper {
 
-    public Service toDomain(ServiceEntity entity) {
+    public Department toDomain(DepartmentEntity entity) {
         if (entity == null) {
             return null;
         }
-        return Service.builder()
+        return Department.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
@@ -27,11 +27,11 @@ public class ServiceEntityMapper {
                 .build();
     }
 
-    public ServiceEntity toEntity(Service domain) {
+    public DepartmentEntity toEntity(Department domain) {
         if (domain == null) {
             return null;
         }
-        return ServiceEntity.builder()
+        return DepartmentEntity.builder()
                 .id(domain.getId())
                 .name(domain.getName())
                 .description(domain.getDescription())

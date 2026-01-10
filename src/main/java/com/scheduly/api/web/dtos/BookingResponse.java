@@ -13,7 +13,7 @@ public record BookingResponse(
 
                 @Schema(description = "ID do profissional", example = "1") Long professionalId,
 
-                @Schema(description = "ID do serviço", example = "1") Long serviceId,
+                @Schema(description = "ID do departamento (serviceId mantido por compatibilidade)", example = "1") Long serviceId,
 
                 @Schema(description = "Data e hora de início", example = "2025-12-25T14:00:00") LocalDateTime startAt,
 

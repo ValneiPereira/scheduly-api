@@ -22,7 +22,7 @@ public class NotificationScheduler {
     private final SendNotificationUseCase sendNotificationUseCase;
     private final com.scheduly.api.domain.client.ClientRepository clientRepository;
     private final com.scheduly.api.domain.professional.ProfessionalRepository professionalRepository;
-    private final com.scheduly.api.domain.service.ServiceRepository serviceRepository;
+    private final com.scheduly.api.domain.department.DepartmentRepository departmentRepository;
     private final org.thymeleaf.TemplateEngine templateEngine;
 
     // Roda todo dia às 08:00
@@ -49,7 +49,7 @@ public class NotificationScheduler {
         try {
             var client = clientRepository.findById(booking.getClientId()).orElseThrow();
             var professional = professionalRepository.findById(booking.getProfessionalId()).orElseThrow();
-            var service = serviceRepository.findById(booking.getServiceId()).orElseThrow();
+            var department = departmentRepository.findById(booking.getServiceId()).orElseThrow();
 
             java.time.format.DateTimeFormatter timeFormatter = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
 
@@ -57,7 +57,7 @@ public class NotificationScheduler {
             org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
             context.setVariable("clientName", client.getName());
             context.setVariable("professionalName", professional.getName());
-            context.setVariable("serviceName", service.getName());
+            context.setVariable("serviceName", department.getName());
             context.setVariable("time", booking.getStartAt().format(timeFormatter));
 
             // Renderizar HTML

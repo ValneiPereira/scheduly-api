@@ -1,22 +1,22 @@
-package com.scheduly.api.application.service;
+package com.scheduly.api.application.department;
 
-import com.scheduly.api.domain.service.Service;
-import com.scheduly.api.domain.service.ServiceCategory;
-import com.scheduly.api.domain.service.ServiceRepository;
+import com.scheduly.api.domain.department.Department;
+import com.scheduly.api.domain.department.DepartmentCategory;
+import com.scheduly.api.domain.department.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class ListServicesUseCase {
+public class ListDepartmentsUseCase {
 
-    private final ServiceRepository repository;
+    private final DepartmentRepository repository;
 
     @Transactional(readOnly = true)
-    public List<Service> execute(String categoryName) {
+    public List<Department> execute(String categoryName) {
         if (categoriaInformada(categoryName)) {
             return listarPorCategoria(categoryName);
         }
@@ -27,9 +27,9 @@ public class ListServicesUseCase {
         return categoryName != null && !categoryName.isBlank();
     }
 
-    private List<Service> listarPorCategoria(String categoryName) {
+    private List<Department> listarPorCategoria(String categoryName) {
         try {
-            ServiceCategory category = ServiceCategory.valueOf(categoryName);
+            DepartmentCategory category = DepartmentCategory.valueOf(categoryName);
             return repository.findByCategory(category);
         } catch (IllegalArgumentException ex) {
             // Regra de negócio:

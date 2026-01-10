@@ -1,12 +1,12 @@
 package com.scheduly.api.web.mappers;
 
 import com.scheduly.api.domain.common.MoneyConverter;
-import com.scheduly.api.domain.service.Service;
-import com.scheduly.api.domain.service.ServiceCategory;
-import com.scheduly.api.domain.service.ServiceSubcategory;
-import com.scheduly.api.web.dtos.ServiceRequest;
-import com.scheduly.api.web.dtos.ServiceResponse;
-import com.scheduly.api.web.dtos.ServiceUpdate;
+import com.scheduly.api.domain.department.Department;
+import com.scheduly.api.domain.department.DepartmentCategory;
+import com.scheduly.api.domain.department.DepartmentSubcategory;
+import com.scheduly.api.web.dtos.DepartmentRequest;
+import com.scheduly.api.web.dtos.DepartmentResponse;
+import com.scheduly.api.web.dtos.DepartmentUpdate;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -14,19 +14,19 @@ import java.math.BigDecimal;
 import static com.scheduly.api.domain.common.MoneyConverter.toCents;
 
 @Component
-public class ServiceMapper {
+public class DepartmentMapper {
 
-    public Service toDomain(ServiceRequest request) {
+    public Department toDomain(DepartmentRequest request) {
         if (request == null) return null;
 
-        ServiceCategory category = ServiceCategory.valueOf(request.category());
-        ServiceSubcategory subcategory = ServiceSubcategory.valueOf(request.subcategory());
+        DepartmentCategory category = DepartmentCategory.valueOf(request.category());
+        DepartmentSubcategory subcategory = DepartmentSubcategory.valueOf(request.subcategory());
 
         if (!subcategory.belongsTo(category)) {
             throw new IllegalArgumentException("Subcategoria " + subcategory + " não pertence à categoria " + category);
         }
 
-        return Service.builder()
+        return Department.builder()
                 .name(request.name())
                 .description(request.description())
                 .category(category)
@@ -36,10 +36,10 @@ public class ServiceMapper {
                 .build();
     }
 
-    public Service toDomain(ServiceUpdate request, Long id) {
+    public Department toDomain(DepartmentUpdate request, Long id) {
         if (request == null) return null;
 
-        var builder = Service.builder()
+        var builder = Department.builder()
                 .id(id)
                 .name(request.name())
                 .description(request.description())
@@ -47,12 +47,12 @@ public class ServiceMapper {
                 .price(request.priceCents() != null ? MoneyConverter.toDomain(BigDecimal.valueOf(request.priceCents())) : null);
 
         if (request.category() != null) {
-            ServiceCategory category = ServiceCategory.valueOf(request.category());
+            DepartmentCategory category = DepartmentCategory.valueOf(request.category());
             builder.category(category);
 
 
             if (request.subcategory() != null) {
-                ServiceSubcategory subcategory = ServiceSubcategory.valueOf(request.subcategory());
+                DepartmentSubcategory subcategory = DepartmentSubcategory.valueOf(request.subcategory());
                 if (!subcategory.belongsTo(category)) {
                     throw new IllegalArgumentException("Subcategoria " + subcategory + " não pertence à categoria " + category);
                 }
@@ -60,24 +60,24 @@ public class ServiceMapper {
             }
         } else if (request.subcategory() != null) {
             // Se categoria não veio, mas subcategoria veio
-            builder.subcategory(ServiceSubcategory.valueOf(request.subcategory()));
+            builder.subcategory(DepartmentSubcategory.valueOf(request.subcategory()));
             // validação real será feita no merge do UseCase / entidade
         }
         return builder.build();
     }
 
-    public ServiceResponse toResponse(Service service) {
-        if (service == null) return null;
+    public DepartmentResponse toResponse(Department department) {
+        if (department == null) return null;
 
-        return new ServiceResponse(
-                service.getId(),
-                service.getName(),
-                service.getDescription(),
-                service.getCategory().name(),
-                service.getSubcategory().name(),
-                service.getDuration(),
-                toCents(service.getPrice()).intValue(),
-                service.getCreatedAt()
+        return new DepartmentResponse(
+                department.getId(),
+                department.getName(),
+                department.getDescription(),
+                department.getCategory().name(),
+                department.getSubcategory().name(),
+                department.getDuration(),
+                toCents(department.getPrice()).intValue(),
+                department.getCreatedAt()
         );
     }
 }

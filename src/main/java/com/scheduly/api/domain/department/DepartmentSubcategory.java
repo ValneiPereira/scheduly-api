@@ -1,4 +1,4 @@
-package com.scheduly.api.domain.service;
+package com.scheduly.api.domain.department;
 
 import lombok.Getter;
 
@@ -6,10 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.scheduly.api.domain.service.ServiceCategory.*;
+import static com.scheduly.api.domain.department.DepartmentCategory.*;
 
 @Getter
-public enum ServiceSubcategory {
+public enum DepartmentSubcategory {
     // BELEZA
     CABELEIREIRO(BELEZA),
     BARBEIRO(BELEZA),
@@ -37,25 +37,25 @@ public enum ServiceSubcategory {
     MENTOR(EDUCACAO),
 
     // OUTROS
-    OUTROS(ServiceCategory.OUTROS);
+    OUTROS(DepartmentCategory.OUTROS);
 
-    private final ServiceCategory parentCategory;
+    private final DepartmentCategory parentCategory;
 
-    ServiceSubcategory(ServiceCategory parentCategory) {
+    DepartmentSubcategory(DepartmentCategory parentCategory) {
         this.parentCategory = parentCategory;
     }
 
     /**
      * Checks if this subcategory belongs to the given category.
      */
-    public boolean belongsTo(ServiceCategory category) {
+    public boolean belongsTo(DepartmentCategory category) {
         return this.parentCategory == category;
     }
 
     /**
      * Returns all subcategories for a given category.
      */
-    public static List<ServiceSubcategory> getByCategory(ServiceCategory category) {
+    public static List<DepartmentSubcategory> getByCategory(DepartmentCategory category) {
         return Arrays.stream(values())
                 .filter(sub -> sub.getParentCategory() == category)
                 .collect(Collectors.toList());

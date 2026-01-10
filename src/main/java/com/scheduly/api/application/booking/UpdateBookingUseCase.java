@@ -2,7 +2,7 @@ package com.scheduly.api.application.booking;
 
 import com.scheduly.api.domain.booking.Booking;
 import com.scheduly.api.domain.booking.BookingRepository;
-import com.scheduly.api.domain.service.ServiceRepository;
+import com.scheduly.api.domain.department.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class UpdateBookingUseCase {
 
     private final BookingRepository bookingRepository;
-    private final ServiceRepository serviceRepository;
+    private final DepartmentRepository departmentRepository;
 
     public Booking execute(Long id, Booking updateData) {
         Booking booking = bookingRepository.findById(id)
@@ -27,11 +27,11 @@ public class UpdateBookingUseCase {
 
         if (updateData.getStartAt() != null) {
             // Re-calculate end time if start time changed
-            var service = serviceRepository.findById(booking.getServiceId())
-                    .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado"));
+            var department = departmentRepository.findById(booking.getServiceId())
+                    .orElseThrow(() -> new IllegalArgumentException("Departamento não encontrado"));
 
             booking.setStartAt(updateData.getStartAt());
-            booking.setEndAt(booking.getStartAt().plusMinutes(service.getDuration()));
+            booking.setEndAt(booking.getStartAt().plusMinutes(department.getDuration()));
 
             // Validate conflicts for new time
             validateConflicts(booking);
