@@ -1,0 +1,679 @@
+{
+	"info": {
+		"_postman_id": "scheduly-api-collection",
+		"name": "Scheduly API - Collection",
+		"description": "Collection completa para testar a API Scheduly",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "🔐 Autenticação",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@studio.com\",\n    \"password\": \"senha123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						}
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    pm.collectionVariables.set('accessToken', response.accessToken);",
+									"    console.log('Token salvo:', response.accessToken);",
+									"}"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Registro de Cliente",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Maria Silva\",\n    \"email\": \"maria.silva@email.com\",\n    \"password\": \"senha123\",\n    \"cpf\": \"12345678900\",\n    \"phone\": \"11987654321\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/refresh",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "refresh"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "👥 Clientes",
+			"item": [
+				{
+					"name": "Listar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clients",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients"]
+						}
+					}
+				},
+				{
+					"name": "Criar Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"João Santos\",\n    \"email\": \"joao.santos@email.com\",\n    \"cpf\": \"98765432100\",\n    \"phone\": \"11987654321\",\n    \"address\": {\n        \"street\": \"Rua das Flores\",\n        \"number\": \"123\",\n        \"complement\": \"Apto 45\",\n        \"neighborhood\": \"Centro\",\n        \"city\": \"São Paulo\",\n        \"state\": \"SP\",\n        \"zipCode\": \"01310-100\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clients",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients"]
+						}
+					}
+				},
+				{
+					"name": "Buscar Cliente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clients/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"João Santos Silva\",\n    \"email\": \"joao.silva@email.com\",\n    \"phone\": \"11999999999\",\n    \"address\": {\n        \"street\": \"Av. Paulista\",\n        \"number\": \"1000\",\n        \"neighborhood\": \"Bela Vista\",\n        \"city\": \"São Paulo\",\n        \"state\": \"SP\",\n        \"zipCode\": \"01310-100\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clients/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients", "1"]
+						}
+					}
+				},
+				{
+					"name": "Buscar Cliente por Nome",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clients/search?name=João",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients", "search"],
+							"query": [
+								{
+									"key": "name",
+									"value": "João"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Deletar Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clients/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients", "1"]
+						}
+					}
+				},
+				{
+					"name": "Meu Perfil - GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/clients/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients", "me"]
+						}
+					}
+				},
+				{
+					"name": "Meu Perfil - PUT",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Meu Nome Atualizado\",\n    \"phone\": \"11988888888\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/clients/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["clients", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "💼 Profissionais",
+			"item": [
+				{
+					"name": "Listar Profissionais",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/professionals",
+							"host": ["{{baseUrl}}"],
+							"path": ["professionals"]
+						}
+					}
+				},
+				{
+					"name": "Listar Profissionais por Departamento",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/professionals?departmentId=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["professionals"],
+							"query": [
+								{
+									"key": "departmentId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Criar Profissional",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Joana Pereira\",\n    \"email\": \"joana.pereira@email.com\",\n    \"cpf\": \"11122233344\",\n    \"phone\": \"11988887777\",\n    \"bio\": \"Especialista em alongamento e nail art com mais de 10 anos de experiência\",\n    \"specialtyIds\": [1, 2, 3],\n    \"workStartTime\": \"09:00\",\n    \"workEndTime\": \"19:00\",\n    \"workingDays\": [\"MONDAY\", \"TUESDAY\", \"WEDNESDAY\", \"THURSDAY\", \"FRIDAY\"],\n    \"active\": true,\n    \"address\": {\n        \"street\": \"Rua da Beleza\",\n        \"number\": \"456\",\n        \"neighborhood\": \"Jardim Paulista\",\n        \"city\": \"São Paulo\",\n        \"state\": \"SP\",\n        \"zipCode\": \"01415-000\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/professionals",
+							"host": ["{{baseUrl}}"],
+							"path": ["professionals"]
+						}
+					}
+				},
+				{
+					"name": "Buscar Profissional por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/professionals/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["professionals", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Profissional",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Joana Pereira Santos\",\n    \"bio\": \"Especialista em alongamento, nail art e nail art 3D\",\n    \"workStartTime\": \"08:00\",\n    \"workEndTime\": \"20:00\",\n    \"workingDays\": [\"MONDAY\", \"TUESDAY\", \"WEDNESDAY\", \"THURSDAY\", \"FRIDAY\", \"SATURDAY\"],\n    \"active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/professionals/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["professionals", "1"]
+						}
+					}
+				},
+				{
+					"name": "Avaliar Profissional",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": 5,\n    \"comment\": \"Excelente atendimento! Muito profissional e atenciosa.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/professionals/1/reviews",
+							"host": ["{{baseUrl}}"],
+							"path": ["professionals", "1", "reviews"]
+						}
+					}
+				},
+				{
+					"name": "Deletar Profissional",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/professionals/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["professionals", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "💅 Departamentos (Serviços)",
+			"item": [
+				{
+					"name": "Listar Departamentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/departments",
+							"host": ["{{baseUrl}}"],
+							"path": ["departments"]
+						}
+					}
+				},
+				{
+					"name": "Listar Departamentos por Categoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/departments?category=BELEZA",
+							"host": ["{{baseUrl}}"],
+							"path": ["departments"],
+							"query": [
+								{
+									"key": "category",
+									"value": "BELEZA"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Criar Departamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Manicure Básica\",\n    \"description\": \"Manicure tradicional com esmaltação\",\n    \"category\": \"BELEZA\",\n    \"subcategory\": \"MANICURE\",\n    \"durationMinutes\": 45,\n    \"priceCents\": 3500\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/departments",
+							"host": ["{{baseUrl}}"],
+							"path": ["departments"]
+						}
+					}
+				},
+				{
+					"name": "Buscar Departamento por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/departments/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["departments", "1"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Departamento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Manicure Completa\",\n    \"description\": \"Manicure completa com alongamento\",\n    \"durationMinutes\": 60,\n    \"priceCents\": 5500\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/departments/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["departments", "1"]
+						}
+					}
+				},
+				{
+					"name": "Deletar Departamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/departments/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["departments", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "📅 Agendamentos",
+			"item": [
+				{
+					"name": "Listar Agendamentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings"]
+						}
+					}
+				},
+				{
+					"name": "Listar Agendamentos por Cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings?clientId=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings"],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Listar Agendamentos por Profissional",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings?professionalId=1",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings"],
+							"query": [
+								{
+									"key": "professionalId",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Listar Agendamentos por Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings?date=2025-01-15",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings"],
+							"query": [
+								{
+									"key": "date",
+									"value": "2025-01-15"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Criar Agendamento",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"clientId\": 1,\n    \"professionalId\": 1,\n    \"serviceId\": 1,\n    \"startAt\": \"2025-01-15T10:00:00\",\n    \"notes\": \"Cliente prefere esmalte vermelho\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings"]
+						}
+					}
+				},
+				{
+					"name": "Buscar Agendamento por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings", "1"]
+						}
+					}
+				},
+				{
+					"name": "Reagendar (Atualizar)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startAt\": \"2025-01-15T14:00:00\",\n    \"notes\": \"Horário alterado a pedido do cliente\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings", "1"]
+						}
+					}
+				},
+				{
+					"name": "Confirmar Agendamento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"CONFIRMED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings", "1"]
+						}
+					}
+				},
+				{
+					"name": "Completar Agendamento",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"COMPLETED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bookings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings", "1"]
+						}
+					}
+				},
+				{
+					"name": "Cancelar Agendamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bookings/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["bookings", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "🔧 Utilitários",
+			"item": [
+				{
+					"name": "Consultar CEP",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cep/01310100",
+							"host": ["{{baseUrl}}"],
+							"path": ["cep", "01310100"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

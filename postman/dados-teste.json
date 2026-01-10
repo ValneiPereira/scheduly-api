@@ -1,0 +1,382 @@
+{
+	"autenticacao": {
+		"login": {
+			"admin": {
+				"email": "admin@studio.com",
+				"password": "senha123"
+			},
+			"cliente": {
+				"email": "maria.silva@email.com",
+				"password": "senha123"
+			},
+			"profissional": {
+				"email": "joana.pereira@email.com",
+				"password": "senha123"
+			}
+		},
+		"registro": {
+			"novoCliente": {
+				"name": "Pedro Oliveira",
+				"email": "pedro.oliveira@email.com",
+				"password": "senha123",
+				"cpf": "55566677788",
+				"phone": "11977776666"
+			}
+		}
+	},
+	"clientes": {
+		"criar": [
+			{
+				"name": "Maria Silva",
+				"email": "maria.silva@email.com",
+				"cpf": "12345678900",
+				"phone": "11987654321",
+				"address": {
+					"street": "Rua das Flores",
+					"number": "123",
+					"complement": "Apto 45",
+					"neighborhood": "Centro",
+					"city": "São Paulo",
+					"state": "SP",
+					"zipCode": "01310-100"
+				}
+			},
+			{
+				"name": "João Santos",
+				"email": "joao.santos@email.com",
+				"cpf": "98765432100",
+				"phone": "11976543210",
+				"address": {
+					"street": "Av. Paulista",
+					"number": "1000",
+					"neighborhood": "Bela Vista",
+					"city": "São Paulo",
+					"state": "SP",
+					"zipCode": "01310-100"
+				}
+			},
+			{
+				"name": "Ana Costa",
+				"email": "ana.costa@email.com",
+				"cpf": "11122233344",
+				"phone": "11965432109",
+				"address": {
+					"street": "Rua Augusta",
+					"number": "500",
+					"neighborhood": "Consolação",
+					"city": "São Paulo",
+					"state": "SP",
+					"zipCode": "01305-000"
+				}
+			}
+		],
+		"atualizar": {
+			"name": "Maria Silva Santos",
+			"email": "maria.silva@email.com",
+			"phone": "11999999999",
+			"address": {
+				"street": "Av. Faria Lima",
+				"number": "2000",
+				"complement": "Sala 501",
+				"neighborhood": "Itaim Bibi",
+				"city": "São Paulo",
+				"state": "SP",
+				"zipCode": "01452-000"
+			}
+		}
+	},
+	"profissionais": {
+		"criar": [
+			{
+				"name": "Joana Pereira",
+				"email": "joana.pereira@email.com",
+				"cpf": "55566677788",
+				"phone": "11988887777",
+				"bio": "Especialista em alongamento e nail art com mais de 10 anos de experiência",
+				"specialtyIds": [1, 2, 3],
+				"workStartTime": "09:00",
+				"workEndTime": "19:00",
+				"workingDays": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"],
+				"active": true,
+				"address": {
+					"street": "Rua da Beleza",
+					"number": "456",
+					"neighborhood": "Jardim Paulista",
+					"city": "São Paulo",
+					"state": "SP",
+					"zipCode": "01415-000"
+				}
+			},
+			{
+				"name": "Carla Mendes",
+				"email": "carla.mendes@email.com",
+				"cpf": "99988877766",
+				"phone": "11977778888",
+				"bio": "Manicure e pedicure especializada em esmaltação em gel",
+				"specialtyIds": [1],
+				"workStartTime": "08:00",
+				"workEndTime": "18:00",
+				"workingDays": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
+				"active": true,
+				"address": {
+					"street": "Rua Oscar Freire",
+					"number": "789",
+					"neighborhood": "Jardins",
+					"city": "São Paulo",
+					"state": "SP",
+					"zipCode": "01426-001"
+				}
+			},
+			{
+				"name": "Beatriz Lima",
+				"email": "beatriz.lima@email.com",
+				"cpf": "44455566677",
+				"phone": "11966667777",
+				"bio": "Designer de unhas com foco em nail art personalizada",
+				"specialtyIds": [2, 3],
+				"workStartTime": "10:00",
+				"workEndTime": "20:00",
+				"workingDays": ["TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
+				"active": true,
+				"address": {
+					"street": "Alameda Santos",
+					"number": "1001",
+					"neighborhood": "Jardim Paulista",
+					"city": "São Paulo",
+					"state": "SP",
+					"zipCode": "01418-001"
+				}
+			}
+		],
+		"atualizar": {
+			"name": "Joana Pereira Santos",
+			"bio": "Especialista em alongamento, nail art e nail art 3D com mais de 12 anos de experiência",
+			"workStartTime": "08:00",
+			"workEndTime": "20:00",
+			"workingDays": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"],
+			"active": true
+		},
+		"avaliacoes": [
+			{
+				"rating": 5,
+				"comment": "Excelente atendimento! Muito profissional e atenciosa."
+			},
+			{
+				"rating": 4,
+				"comment": "Ótimo serviço, recomendo!"
+			},
+			{
+				"rating": 5,
+				"comment": "Perfeito! Ficou exatamente como eu queria."
+			}
+		]
+	},
+	"departamentos": {
+		"criar": [
+			{
+				"name": "Manicure Básica",
+				"description": "Manicure tradicional com esmaltação",
+				"category": "BELEZA",
+				"subcategory": "MANICURE",
+				"durationMinutes": 45,
+				"priceCents": 3500
+			},
+			{
+				"name": "Manicure com Alongamento",
+				"description": "Manicure completa com alongamento em gel",
+				"category": "BELEZA",
+				"subcategory": "MANICURE",
+				"durationMinutes": 90,
+				"priceCents": 8000
+			},
+			{
+				"name": "Nail Art",
+				"description": "Design artístico de unhas",
+				"category": "BELEZA",
+				"subcategory": "MANICURE",
+				"durationMinutes": 60,
+				"priceCents": 6000
+			},
+			{
+				"name": "Pedicure",
+				"description": "Pedicure completa com esmaltação",
+				"category": "BELEZA",
+				"subcategory": "MANICURE",
+				"durationMinutes": 60,
+				"priceCents": 4000
+			},
+			{
+				"name": "Manicure + Pedicure",
+				"description": "Pacote completo: manicure e pedicure",
+				"category": "BELEZA",
+				"subcategory": "MANICURE",
+				"durationMinutes": 90,
+				"priceCents": 7000
+			}
+		],
+		"atualizar": {
+			"name": "Manicure Completa Premium",
+			"description": "Manicure completa com alongamento em gel e nail art",
+			"durationMinutes": 120,
+			"priceCents": 10000
+		}
+	},
+	"agendamentos": {
+		"criar": [
+			{
+				"clientId": 1,
+				"professionalId": 1,
+				"serviceId": 1,
+				"startAt": "2025-01-15T10:00:00",
+				"notes": "Cliente prefere esmalte vermelho"
+			},
+			{
+				"clientId": 2,
+				"professionalId": 1,
+				"serviceId": 2,
+				"startAt": "2025-01-15T14:00:00",
+				"notes": "Primeira vez fazendo alongamento"
+			},
+			{
+				"clientId": 1,
+				"professionalId": 2,
+				"serviceId": 3,
+				"startAt": "2025-01-16T09:00:00",
+				"notes": "Nail art com tema floral"
+			},
+			{
+				"clientId": 3,
+				"professionalId": 1,
+				"serviceId": 4,
+				"startAt": "2025-01-17T11:00:00",
+				"notes": ""
+			},
+			{
+				"clientId": 2,
+				"professionalId": 2,
+				"serviceId": 5,
+				"startAt": "2025-01-18T15:00:00",
+				"notes": "Pacote completo"
+			}
+		],
+		"reagendar": {
+			"startAt": "2025-01-15T14:00:00",
+			"notes": "Horário alterado a pedido do cliente"
+		},
+		"datasExemplo": [
+			"2025-01-15",
+			"2025-01-16",
+			"2025-01-17",
+			"2025-01-18",
+			"2025-01-19",
+			"2025-01-20"
+		],
+		"horariosExemplo": [
+			"09:00",
+			"10:00",
+			"11:00",
+			"14:00",
+			"15:00",
+			"16:00",
+			"17:00"
+		]
+	},
+	"ceps": [
+		"01310100",
+		"01310-100",
+		"01415000",
+		"01415-000",
+		"01305000",
+		"01305-000"
+	],
+	"statusAgendamento": {
+		"PENDING": "Pendente de confirmação",
+		"CONFIRMED": "Confirmado",
+		"CANCELLED": "Cancelado",
+		"COMPLETED": "Concluído"
+	},
+	"diasSemana": [
+		"MONDAY",
+		"TUESDAY",
+		"WEDNESDAY",
+		"THURSDAY",
+		"FRIDAY",
+		"SATURDAY",
+		"SUNDAY"
+	],
+	"categoriasDepartamento": [
+		"BELEZA",
+		"SAUDE",
+		"SERVICOS",
+		"EDUCACAO",
+		"OUTROS"
+	],
+	"subcategoriasDepartamento": {
+		"BELEZA": [
+			"CABELEIREIRO",
+			"BARBEIRO",
+			"ESTETICISTA",
+			"DESIGNER_SOBRANCELHA",
+			"MANICURE"
+		],
+		"SAUDE": [
+			"PSICOLOGO",
+			"FISIOTERAPEUTA",
+			"NUTRICIONISTA",
+			"PERSONAL_TRAINER"
+		],
+		"SERVICOS": [
+			"ELETRICISTA",
+			"ENCANADOR",
+			"TECNICO_INFORMATICA",
+			"MONTADOR_MOVEIS"
+		],
+		"EDUCACAO": [
+			"AULA_PARTICULAR",
+			"PROFESSOR_IDIOMAS",
+			"REFORCO_ESCOLAR",
+			"MENTOR"
+		],
+		"OUTROS": [
+			"OUTROS"
+		]
+	},
+	"errosComuns": {
+		"camposObrigatorios": "Verifique se todos os campos obrigatórios foram preenchidos",
+		"emailInvalido": "Email deve estar em formato válido",
+		"cpfInvalido": "CPF deve conter apenas números",
+		"telefoneInvalido": "Telefone deve conter 10 ou 11 dígitos",
+		"cepInvalido": "CEP deve estar no formato 00000-000",
+		"estadoInvalido": "Estado deve conter 2 letras maiúsculas (ex: SP)",
+		"horarioInvalido": "Horário deve estar no formato HH:mm",
+		"dataPassado": "Não é possível agendar em data/hora passada",
+		"conflitoHorario": "Já existe um agendamento neste horário",
+		"horarioForaExpediente": "Agendamento fora do horário de trabalho do profissional",
+		"diaNaoTrabalha": "Profissional não trabalha neste dia da semana"
+	},
+	"scenarios": {
+		"fluxoCompleto": {
+			"descricao": "Fluxo completo de agendamento",
+			"passos": [
+				"1. Fazer login",
+				"2. Criar cliente (se não existir)",
+				"3. Criar profissional (se não existir)",
+				"4. Criar departamento/serviço (se não existir)",
+				"5. Criar agendamento",
+				"6. Confirmar agendamento",
+				"7. Avaliar profissional (após concluído)",
+				"8. Completar agendamento"
+			]
+		},
+		"validacoes": {
+			"descricao": "Testes de validação",
+			"casos": [
+				"Tentar criar agendamento em horário já ocupado",
+				"Tentar criar agendamento fora do horário de trabalho",
+				"Tentar criar agendamento em dia que profissional não trabalha",
+				"Tentar criar cliente com email/CPF duplicado",
+				"Tentar criar profissional com horário inválido (início após término)"
+			]
+		}
+	}
+}

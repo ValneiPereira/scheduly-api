@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
     title: Scheduler API
     description: >-
-        API REST para o MVP do SaaS de agendamento de serviços (MVP,     single-tenant).
+        API REST para o MVP do SaaS de agendamento de serviços (MVP,single-tenant).
     version: 1.0.0
 servers:
     - url: 'http://localhost:8080'
@@ -758,6 +758,7 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/ClientResponse'
+
     /professionals:
         get:
             tags:
@@ -891,6 +892,7 @@ paths:
                                 $ref: '#/components/schemas/ReviewResponse'
                 '400':
                     $ref: '#/components/responses/BadRequest'
+
     /departments:
         get:
             tags:

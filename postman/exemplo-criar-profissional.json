@@ -1,0 +1,21 @@
+{
+  "name": "Joana Pereira",
+  "email": "joana.pereira@email.com",
+  "cpf": "55566677788",
+  "phone": "11988887777",
+  "bio": "Especialista em alongamento e nail art com mais de 10 anos de experiência",
+  "specialtyIds": [1],
+  "workStartTime": "09:00",
+  "workEndTime": "19:00",
+  "workingDays": ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"],
+  "active": true,
+  "address": {
+    "street": "Rua da Beleza",
+    "number": "456",
+    "complement": "Sala 2",
+    "neighborhood": "Jardim Paulista",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "01415-000"
+  }
+}

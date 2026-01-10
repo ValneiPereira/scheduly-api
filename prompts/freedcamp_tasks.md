@@ -210,7 +210,7 @@ Projeto: Scheduly API
 
 **Prioridade:** 🟠 ALTA
 **Duração:** 1 semana
-**Status:** 🏗️ 80% Concluído
+**Status:** ✅ 95% Concluído
 
 ### Tasks:
 
@@ -239,12 +239,12 @@ Projeto: Scheduly API
 #### ✅ 4.3 - Gestão de Horários de Trabalho
 - [x] Criar campos de horario na entidade Professional
 - [x] Implementar CRUD de horários (via Professional)
-- [ ] Validar horários de trabalho
-- [ ] Implementar lógica de dias de trabalho
+- [x] Validar horários de trabalho (no Create/Update e no Booking)
+- [x] Implementar lógica de dias de trabalho (validação no Booking)
 - **Responsável:** Backend Team
 - **Estimativa:** 8h
 - **Dependências:** 4.1
-- **Status:** Parcialmente Concluído
+- **Status:** ✅ Concluído
 
 #### ✅ 4.4 - Controllers e DTOs
 - [x] Criar DTOs (ProfessionalRequest, ProfessionalResponse)
@@ -265,14 +265,14 @@ Projeto: Scheduly API
 - **Dependências:** 4.1
 - **Status:** Concluído
 
-#### ⏳ 4.6 - Testes
-- [ ] Testes unitários
-- [ ] Testes de integração
-- [ ] Testes de regras de negócio
+#### ✅ 4.6 - Testes
+- [x] Testes unitários (Use Cases implementados)
+- [ ] Testes de integração (será feito junto com front-end/smoke tests)
+- [x] Testes de regras de negócio (validações cobertas nos testes unitários)
 - **Responsável:** QA/Backend
 - **Estimativa:** 8h
 - **Dependências:** 4.4
-- **Status:** Pendente
+- **Status:** ✅ Parcialmente Concluído (Unitários OK, Integração com front-end)
 
 ---
 
@@ -505,15 +505,15 @@ Projeto: Scheduly API
 ### Tasks:
 
 #### 8.1 - Integração com ViaCEP
-- [ ] Criar [CepService](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/external/CepServiceViaCep.java#5-9)
-- [ ] Implementar `GetCepInfoUseCase`
-- [ ] Criar [CepController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/CepController.java#6-10)
-- [ ] Implementar cache de consultas
-- [ ] Tratar erros de API externa
+- [x] Criar [CepService](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/infrastructure/external/CepServiceViaCep.java#5-9)
+- [x] Implementar `GetCepInfoUseCase`
+- [x] Criar [CepController](file:///c:/tools/projetos/scheduly-api/src/main/java/com/scheduly/api/web/controllers/CepController.java#6-10)
+- [x] Implementar cache de consultas
+- [x] Tratar erros de API externa
 - **Responsável:** Backend Team
 - **Estimativa:** 6h
 - **Dependências:** -
-- **Status:** Pendente
+- **Status:** ✅ Concluído
 
 #### 8.2 - Integração com WhatsApp Business API
 - [ ] Configurar cliente WhatsApp
