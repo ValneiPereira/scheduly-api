@@ -52,28 +52,8 @@ services:
       retries: 3
       start_period: 40s
 
-  # pgAdmin
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: scheduly-pgadmin
-    restart: always
-    ports:
-      - '8089:80'
-    environment:
-      PGADMIN_DEFAULT_EMAIL: user@domain.com
-      PGADMIN_DEFAULT_PASSWORD: '123456'
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    networks:
-      - scheduly-net
-    volumes:
-      - pgadmin:/var/lib/pgadmin
-    depends_on:
-      - postgres
-
 volumes:
   db-data:
-    driver: local
-  pgadmin:
     driver: local
 
 networks:

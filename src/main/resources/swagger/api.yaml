@@ -16,8 +16,8 @@ tags:
       description: Operações de clientes
     - name: professionals
       description: Operações de profissionais
-    - name: services
-      description: Operações de serviços
+    - name: departments
+      description: Operações de departamentos
     - name: bookings
       description: Agendamentos
     - name: notifications
@@ -355,7 +355,7 @@ components:
                 createdAt:
                     type: string
                     format: date-time
-        ServiceResponse:
+        DepartmentResponse:
             type: object
             required:
                 - id
@@ -411,7 +411,7 @@ components:
                 createdAt:
                     type: string
                     format: date-time
-        ServiceRequest:
+        DepartmentRequest:
             type: object
             required:
                 - name
@@ -434,7 +434,7 @@ components:
                     type: integer
                 priceCents:
                     type: integer
-        ServiceUpdate:
+        DepartmentUpdate:
             type: object
             properties:
                 name:
@@ -765,7 +765,7 @@ paths:
             summary: Listar profissionais
             operationId: listProfessionals
             parameters:
-                - name: serviceId
+                - name: departmentId
                   in: query
                   required: false
                   schema:
@@ -891,12 +891,12 @@ paths:
                                 $ref: '#/components/schemas/ReviewResponse'
                 '400':
                     $ref: '#/components/responses/BadRequest'
-    /services:
+    /departments:
         get:
             tags:
-                - services
-            summary: Listar serviços
-            operationId: listServices
+                - departments
+            summary: Listar departamentos
+            operationId: listDepartments
             parameters:
                 - name: category
                   in: query
@@ -906,41 +906,41 @@ paths:
                   description: 'Filtrar por categoria (ex: "BELEZA", "SAUDE")'
             responses:
                 '200':
-                    description: Lista de serviços
+                    description: Lista de departamentos
                     content:
                         application/json:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/ServiceResponse'
+                                    $ref: '#/components/schemas/DepartmentResponse'
         post:
             tags:
-                - services
-            summary: Criar serviço
-            operationId: createService
+                - departments
+            summary: Criar departamento
+            operationId: createDepartment
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ServiceRequest'
+                            $ref: '#/components/schemas/DepartmentRequest'
             responses:
                 '201':
-                    description: Serviço criado
+                    description: Departamento criado
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ServiceResponse'
+                                $ref: '#/components/schemas/DepartmentResponse'
                 '400':
                     $ref: '#/components/responses/BadRequest'
-    '/services/{serviceId}':
+    '/departments/{departmentId}':
         get:
             tags:
-                - services
-            summary: Buscar serviço por ID
-            operationId: getService
+                - departments
+            summary: Buscar departamento por ID
+            operationId: getDepartment
             parameters:
-                - name: serviceId
+                - name: departmentId
                   in: path
                   required: true
                   schema:
@@ -948,20 +948,20 @@ paths:
                       format: int64
             responses:
                 '200':
-                    description: Serviço encontrado
+                    description: Departamento encontrado
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ServiceResponse'
+                                $ref: '#/components/schemas/DepartmentResponse'
                 '404':
                     $ref: '#/components/responses/NotFound'
         put:
             tags:
-                - services
-            summary: Atualizar serviço
-            operationId: updateService
+                - departments
+            summary: Atualizar departamento
+            operationId: updateDepartment
             parameters:
-                - name: serviceId
+                - name: departmentId
                   in: path
                   required: true
                   schema:
@@ -972,23 +972,23 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ServiceUpdate'
+                            $ref: '#/components/schemas/DepartmentUpdate'
             responses:
                 '200':
-                    description: Serviço atualizado
+                    description: Departamento atualizado
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ServiceResponse'
+                                $ref: '#/components/schemas/DepartmentResponse'
                 '404':
                     $ref: '#/components/responses/NotFound'
         delete:
             tags:
-                - services
-            summary: Remover serviço
-            operationId: deleteService
+                - departments
+            summary: Remover departamento
+            operationId: deleteDepartment
             parameters:
-                - name: serviceId
+                - name: departmentId
                   in: path
                   required: true
                   schema:
