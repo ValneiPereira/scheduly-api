@@ -4,7 +4,7 @@ import com.scheduly.api.domain.booking.Booking;
 import com.scheduly.api.infrastructure.persistence.address.AddressEntity;
 import com.scheduly.api.infrastructure.persistence.client.ClientEntity;
 import com.scheduly.api.infrastructure.persistence.professional.ProfessionalEntity;
-import com.scheduly.api.infrastructure.persistence.service.ServiceEntity;
+import com.scheduly.api.infrastructure.persistence.department.DepartmentEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,7 +18,7 @@ public class BookingEntityMapper {
                 .id(entity.getId())
                 .clientId(entity.getClient().getId())
                 .professionalId(entity.getProfessional().getId())
-                .serviceId(entity.getService().getId())
+                .serviceId(entity.getDepartment().getId())
                 .addressId(entity.getAddress() != null ? entity.getAddress().getId() : null)
                 .startAt(entity.getStartAt())
                 .endAt(entity.getEndAt())
@@ -30,7 +30,7 @@ public class BookingEntityMapper {
     }
 
     public BookingEntity toEntity(Booking domain, ClientEntity client, ProfessionalEntity professional,
-            ServiceEntity service, AddressEntity address) {
+            DepartmentEntity department, AddressEntity address) {
         if (domain == null)
             return null;
 
@@ -38,7 +38,7 @@ public class BookingEntityMapper {
                 .id(domain.getId())
                 .client(client)
                 .professional(professional)
-                .service(service)
+                .department(department)
                 .address(address)
                 .startAt(domain.getStartAt())
                 .endAt(domain.getEndAt())

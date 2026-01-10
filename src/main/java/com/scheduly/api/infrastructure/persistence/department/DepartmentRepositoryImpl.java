@@ -1,7 +1,7 @@
-package com.scheduly.api.infrastructure.persistence.service;
+package com.scheduly.api.infrastructure.persistence.department;
 
-import com.scheduly.api.domain.service.Service;
-import com.scheduly.api.domain.service.ServiceRepository;
+import com.scheduly.api.domain.department.Department;
+import com.scheduly.api.domain.department.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,32 +11,32 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class ServiceRepositoryImpl implements ServiceRepository {
+public class DepartmentRepositoryImpl implements DepartmentRepository {
 
-    private final ServiceJpaRepository jpaRepository;
-    private final ServiceEntityMapper mapper;
+    private final DepartmentJpaRepository jpaRepository;
+    private final DepartmentEntityMapper mapper;
 
     @Override
-    public Service save(Service service) {
-        ServiceEntity entity = mapper.toEntity(service);
-        ServiceEntity saved = jpaRepository.save(entity);
+    public Department save(Department department) {
+        DepartmentEntity entity = mapper.toEntity(department);
+        DepartmentEntity saved = jpaRepository.save(entity);
         return mapper.toDomain(saved);
     }
 
     @Override
-    public Optional<Service> findById(Long id) {
+    public Optional<Department> findById(Long id) {
         return jpaRepository.findById(id).map(mapper::toDomain);
     }
 
     @Override
-    public List<Service> findAll() {
+    public List<Department> findAll() {
         return jpaRepository.findAll().stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Service> findByCategory(com.scheduly.api.domain.service.ServiceCategory category) {
+    public List<Department> findByCategory(com.scheduly.api.domain.department.DepartmentCategory category) {
         return jpaRepository.findByCategory(category).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());

@@ -4,23 +4,23 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-@Schema(description = "Resposta detalhada de um serviço")
-public record ServiceResponse(
-                @Schema(description = "ID único do serviço", example = "1")
+@Schema(description = "Resposta detalhada de um departamento")
+public record DepartmentResponse(
+                @Schema(description = "ID único do departamento", example = "1")
                 Long id,
 
-                @Schema(description = "Nome do serviço", example = "Manicure Básica")
+                @Schema(description = "Nome do departamento", example = "Manicure Básica")
                 String name,
 
-                @Schema(description = "Descrição detalhada do serviço", example = "Corte e pintura básica das unhas")
+                @Schema(description = "Descrição detalhada do departamento", example = "Corte e pintura básica das unhas")
                 String description,
 
-                @Schema(description = "Categoria do serviço", allowableValues = {
+                @Schema(description = "Categoria do departamento", allowableValues = {
                         "BELEZA", "SAUDE", "SERVICOS", "EDUCACAO",
                         "OUTROS"}, example = "BELEZA")
                 String category,
 
-                @Schema(description = "Subcategoria do serviço", allowableValues = { "CABELEIREIRO", "BARBEIRO",
+                @Schema(description = "Subcategoria do departamento", allowableValues = { "CABELEIREIRO", "BARBEIRO",
                                 "ESTETICISTA", "DESIGNER_SOBRANCELHA", "MANICURE", "PSICOLOGO", "FISIOTERAPEUTA",
                                 "NUTRICIONISTA", "PERSONAL_TRAINER", "ELETRICISTA", "ENCANADOR", "TECNICO_INFORMATICA",
                                 "MONTADOR_MOVEIS", "AULA_PARTICULAR", "PROFESSOR_IDIOMAS", "REFORCO_ESCOLAR", "MENTOR",

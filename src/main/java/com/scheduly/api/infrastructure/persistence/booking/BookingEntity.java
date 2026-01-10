@@ -4,7 +4,7 @@ import com.scheduly.api.domain.booking.BookingStatus;
 import com.scheduly.api.infrastructure.persistence.address.AddressEntity;
 import com.scheduly.api.infrastructure.persistence.client.ClientEntity;
 import com.scheduly.api.infrastructure.persistence.professional.ProfessionalEntity;
-import com.scheduly.api.infrastructure.persistence.service.ServiceEntity;
+import com.scheduly.api.infrastructure.persistence.department.DepartmentEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,8 +36,8 @@ public class BookingEntity {
     private ProfessionalEntity professional;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_id", nullable = false)
-    private ServiceEntity service;
+    @JoinColumn(name = "service_id", nullable = false) // Mantém nome da coluna por compatibilidade
+    private DepartmentEntity department;
 
     @Column(nullable = false)
     private LocalDateTime startAt;

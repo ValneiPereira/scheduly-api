@@ -6,7 +6,7 @@ import com.scheduly.api.domain.booking.BookingRepository;
 import com.scheduly.api.infrastructure.persistence.address.AddressJpaRepository;
 import com.scheduly.api.infrastructure.persistence.client.ClientJpaRepository;
 import com.scheduly.api.infrastructure.persistence.professional.ProfessionalJpaRepository;
-import com.scheduly.api.infrastructure.persistence.service.ServiceJpaRepository;
+import com.scheduly.api.infrastructure.persistence.department.DepartmentJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +23,7 @@ public class BookingRepositoryImpl implements BookingRepository {
     private final BookingEntityMapper mapper;
     private final ClientJpaRepository clientJpaRepository;
     private final ProfessionalJpaRepository professionalJpaRepository;
-    private final ServiceJpaRepository serviceJpaRepository;
+    private final DepartmentJpaRepository departmentJpaRepository;
     private final AddressJpaRepository addressJpaRepository;
 
     @Override
@@ -32,14 +32,14 @@ public class BookingRepositoryImpl implements BookingRepository {
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
         var professional = professionalJpaRepository.findById(domain.getProfessionalId())
                 .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado"));
-        var service = serviceJpaRepository.findById(domain.getServiceId())
-                .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado"));
+        var department = departmentJpaRepository.findById(domain.getServiceId())
+                .orElseThrow(() -> new IllegalArgumentException("Departamento não encontrado"));
 
         var address = domain.getAddressId() != null
                 ? addressJpaRepository.findById(domain.getAddressId()).orElse(null)
                 : null;
 
-        BookingEntity entity = mapper.toEntity(domain, client, professional, service, address);
+        BookingEntity entity = mapper.toEntity(domain, client, professional, department, address);
         BookingEntity saved = jpaRepository.save(entity);
         return mapper.toDomain(saved);
     }

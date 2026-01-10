@@ -1,4 +1,4 @@
-package com.scheduly.api.domain.service;
+package com.scheduly.api.domain.department;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,16 +12,16 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Service {
+public class Department {
 
     private Long id;
     private String name; // Ex: "Manicure Básica"
-    private String description; // Descrição detalhada do serviço
-    private ServiceCategory category; // Ex: BELEZA, SAUDE
-    private ServiceSubcategory subcategory; // Enum rigoroso
+    private String description; // Descrição detalhada do departamento
+    private DepartmentCategory category; // Ex: BELEZA, SAUDE
+    private DepartmentSubcategory subcategory; // Enum rigoroso
 
     // Preço e duração
-    private BigDecimal price; // Preço base do serviço
+    private BigDecimal price; // Preço base do departamento
     private Integer duration; // Duração em minutos
 
     // Informações adicionais
@@ -34,7 +34,7 @@ public class Service {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public void merge(Service updated) {
+    public void merge(Department updated) {
         if (updated.name != null) this.name = updated.name;
         if (updated.description != null) this.description = updated.description;
         if (updated.category != null) this.category = updated.category;
@@ -55,13 +55,13 @@ public class Service {
     private void validarCategoriaESubcategoria() {
         if (subcategory != null && category != null
             && !subcategory.belongsTo(category)) {
-            throw new IllegalArgumentException("A subcategoria informada não pertence à categoria do serviço");
+            throw new IllegalArgumentException("A subcategoria informada não pertence à categoria do departamento");
         }
     }
 
     private void validarPreco() {
         if (price != null && price.signum() < 0) {
-            throw new IllegalArgumentException("O preço do serviço não pode ser negativo");
+            throw new IllegalArgumentException("O preço do departamento não pode ser negativo");
         }
     }
 }

@@ -1,7 +1,7 @@
-package com.scheduly.api.infrastructure.persistence.service;
+package com.scheduly.api.infrastructure.persistence.department;
 
-import com.scheduly.api.domain.service.ServiceCategory;
-import com.scheduly.api.domain.service.ServiceSubcategory;
+import com.scheduly.api.domain.department.DepartmentCategory;
+import com.scheduly.api.domain.department.DepartmentSubcategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,12 +14,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "services")
+@Table(name = "departments")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceEntity {
+public class DepartmentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +33,11 @@ public class ServiceEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ServiceCategory category;
+    private DepartmentCategory category;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ServiceSubcategory subcategory;
+    private DepartmentSubcategory subcategory;
 
     @Column(nullable = false)
     private BigDecimal price;

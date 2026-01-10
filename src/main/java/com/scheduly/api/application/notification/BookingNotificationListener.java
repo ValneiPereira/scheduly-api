@@ -18,7 +18,7 @@ public class BookingNotificationListener {
     private final SendNotificationUseCase sendNotificationUseCase;
     private final com.scheduly.api.domain.client.ClientRepository clientRepository;
     private final com.scheduly.api.domain.professional.ProfessionalRepository professionalRepository;
-    private final com.scheduly.api.domain.service.ServiceRepository serviceRepository;
+    private final com.scheduly.api.domain.department.DepartmentRepository departmentRepository;
     private final org.thymeleaf.TemplateEngine templateEngine;
 
     @Async
@@ -30,7 +30,7 @@ public class BookingNotificationListener {
         try {
             var client = clientRepository.findById(booking.getClientId()).orElseThrow();
             var professional = professionalRepository.findById(booking.getProfessionalId()).orElseThrow();
-            var service = serviceRepository.findById(booking.getServiceId()).orElseThrow();
+            var department = departmentRepository.findById(booking.getServiceId()).orElseThrow();
 
             java.time.format.DateTimeFormatter dateFormatter = java.time.format.DateTimeFormatter
                     .ofPattern("dd/MM/yyyy");
@@ -40,7 +40,7 @@ public class BookingNotificationListener {
             org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
             context.setVariable("clientName", client.getName());
             context.setVariable("professionalName", professional.getName());
-            context.setVariable("serviceName", service.getName());
+            context.setVariable("serviceName", department.getName());
             context.setVariable("date", booking.getStartAt().format(dateFormatter));
             context.setVariable("time", booking.getStartAt().format(timeFormatter));
 
@@ -63,7 +63,7 @@ public class BookingNotificationListener {
                     .bookingId(booking.getId())
                     .channel(NotificationChannel.WHATSAPP)
                     .recipient(client.getPhone())
-                    .content("Olá " + client.getName() + ", seu agendamento de " + service.getName()
+                    .content("Olá " + client.getName() + ", seu agendamento de " + department.getName()
                             + " foi confirmado para " + booking.getStartAt().format(dateFormatter) + " às "
                             + booking.getStartAt().format(timeFormatter))
                     .build();
@@ -83,7 +83,7 @@ public class BookingNotificationListener {
 
         try {
             var client = clientRepository.findById(booking.getClientId()).orElseThrow();
-            var service = serviceRepository.findById(booking.getServiceId()).orElseThrow();
+            var department = departmentRepository.findById(booking.getServiceId()).orElseThrow();
 
             java.time.format.DateTimeFormatter dateFormatter = java.time.format.DateTimeFormatter
                     .ofPattern("dd/MM/yyyy");
@@ -91,7 +91,7 @@ public class BookingNotificationListener {
             // Preparar contexto Thymeleaf
             org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
             context.setVariable("clientName", client.getName());
-            context.setVariable("serviceName", service.getName());
+            context.setVariable("serviceName", department.getName());
             context.setVariable("date", booking.getStartAt().format(dateFormatter));
 
             // Renderizar HTML

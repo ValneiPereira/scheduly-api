@@ -48,7 +48,7 @@ public class ProfessionalController implements ProfessionalsApi {
 
     @Override
     public ResponseEntity<List<ProfessionalResponse>> listProfessionals(Long serviceId) {
-        // TODO: Implementar filtro por serviceId
+        // TODO: Implementar filtro por departmentId (serviceId mantido por compatibilidade com API)
         List<Professional> professionals = listProfessionalsUseCase.execute();
         List<ProfessionalResponse> response = professionals.stream()
                 .map(mapper::toResponse)
