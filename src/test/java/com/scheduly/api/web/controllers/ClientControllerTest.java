@@ -180,7 +180,7 @@ class ClientControllerTest {
                 .accept(ContentType.JSON)
                 .body(updateRequest)
             .when()
-                .put()
+                .patch()
             .then()
                 .statusCode(HttpStatus.OK.value())
                 .contentType(ContentType.JSON)
@@ -250,7 +250,7 @@ class ClientControllerTest {
                 .contentType(ContentType.JSON)
                 .body(updateRequest)
             .when()
-                .put()
+                .patch()
             .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
     }

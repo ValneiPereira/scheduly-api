@@ -5,6 +5,7 @@ import com.scheduly.api.application.client.*;
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.web.dtos.ClientRequest;
 import com.scheduly.api.web.dtos.ClientResponse;
+import com.scheduly.api.web.dtos.ClientUpdate;
 import com.scheduly.api.web.mappers.ClientMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -64,7 +65,7 @@ public class ClientController implements ClientsApi {
     }
 
     @Override
-    public ResponseEntity<ClientResponse> updateClient(Long id, ClientRequest request) {
+    public ResponseEntity<ClientResponse> updateClient(Long id, ClientUpdate request) {
         Client client = clientMapper.toDomain(request);
         Client updatedClient = updateClientUseCase.execute(id, client);
         ClientResponse response = clientMapper.toResponse(updatedClient);

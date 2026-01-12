@@ -36,24 +36,47 @@ public class ClientRepositoryImpl implements ClientRepository {
             ClientEntity existingEntity = jpaRepository.findById(client.getId())
                     .orElseThrow(() -> new RuntimeException("Cliente não encontrado com ID: " + client.getId()));
 
-            // Atualizar campos do cliente
-            existingEntity.setName(client.getName());
-            existingEntity.setEmail(client.getEmail());
-            existingEntity.setCpf(client.getCpf());
-            existingEntity.setPhone(client.getPhone());
+            // Atualizar campos do cliente apenas se forem fornecidos (não-null)
+            if (client.getName() != null) {
+                existingEntity.setName(client.getName());
+            }
+            if (client.getEmail() != null) {
+                existingEntity.setEmail(client.getEmail());
+            }
+            if (client.getCpf() != null) {
+                existingEntity.setCpf(client.getCpf());
+            }
+            if (client.getPhone() != null) {
+                existingEntity.setPhone(client.getPhone());
+            }
 
-            // Atualizar endereço se existir
+            // Atualizar endereço apenas se for fornecido
             if (client.getAddress() != null) {
                 if (existingEntity.getAddress() != null) {
-                    // Atualizar endereço existente
+                    // Atualizar endereço existente (apenas campos não-null)
                     AddressEntity existingAddress = existingEntity.getAddress();
-                    existingAddress.setStreet(client.getAddress().getStreet());
-                    existingAddress.setNumber(client.getAddress().getNumber());
-                    existingAddress.setComplement(client.getAddress().getComplement());
-                    existingAddress.setNeighborhood(client.getAddress().getNeighborhood());
-                    existingAddress.setCity(client.getAddress().getCity());
-                    existingAddress.setState(client.getAddress().getState());
-                    existingAddress.setZipCode(client.getAddress().getZipCode());
+                    
+                    if (client.getAddress().getStreet() != null) {
+                        existingAddress.setStreet(client.getAddress().getStreet());
+                    }
+                    if (client.getAddress().getNumber() != null) {
+                        existingAddress.setNumber(client.getAddress().getNumber());
+                    }
+                    if (client.getAddress().getComplement() != null) {
+                        existingAddress.setComplement(client.getAddress().getComplement());
+                    }
+                    if (client.getAddress().getNeighborhood() != null) {
+                        existingAddress.setNeighborhood(client.getAddress().getNeighborhood());
+                    }
+                    if (client.getAddress().getCity() != null) {
+                        existingAddress.setCity(client.getAddress().getCity());
+                    }
+                    if (client.getAddress().getState() != null) {
+                        existingAddress.setState(client.getAddress().getState());
+                    }
+                    if (client.getAddress().getZipCode() != null) {
+                        existingAddress.setZipCode(client.getAddress().getZipCode());
+                    }
                     existingAddress.setOwnerId(existingEntity.getId());
                     existingAddress.setOwnerType("CLIENT");
                 } else {

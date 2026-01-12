@@ -3,6 +3,7 @@ package com.scheduly.api.web.mappers;
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.web.dtos.ClientRequest;
 import com.scheduly.api.web.dtos.ClientResponse;
+import com.scheduly.api.web.dtos.ClientUpdate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,18 @@ public class ClientMapper {
                 .cpf(request.cpf())
                 .phone(request.phone())
                 .address(addressMapper.toDomain(request.address()))
+                .build();
+    }
+
+    public Client toDomain(ClientUpdate update) {
+        if (update == null)
+            return null;
+        return Client.builder()
+                .name(update.name())
+                .email(update.email())
+                .cpf(update.cpf())
+                .phone(update.phone())
+                .address(update.address() != null ? addressMapper.toDomain(update.address()) : null)
                 .build();
     }
 
