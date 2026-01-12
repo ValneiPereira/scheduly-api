@@ -2,6 +2,7 @@ package com.scheduly.api.infrastructure.persistence.client;
 
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.domain.client.ClientRepository;
+import com.scheduly.api.infrastructure.persistence.address.AddressEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -21,28 +22,68 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     private final ClientJpaRepository jpaRepository;
     private final ClientEntityMapper clientMapper;
-    
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     @Transactional
     public Client save(Client client) {
-        ClientEntity entity = clientMapper.toEntity(client);
-        
+        ClientEntity entity;
+
+        if (client.getId() != null) {
+            // Atualização: carregar entidade gerenciada
+            ClientEntity existingEntity = jpaRepository.findById(client.getId())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado com ID: " + client.getId()));
+
+            // Atualizar campos do cliente
+            existingEntity.setName(client.getName());
+            existingEntity.setEmail(client.getEmail());
+            existingEntity.setCpf(client.getCpf());
+            existingEntity.setPhone(client.getPhone());
+
+            // Atualizar endereço se existir
+            if (client.getAddress() != null) {
+                if (existingEntity.getAddress() != null) {
+                    // Atualizar endereço existente
+                    AddressEntity existingAddress = existingEntity.getAddress();
+                    existingAddress.setStreet(client.getAddress().getStreet());
+                    existingAddress.setNumber(client.getAddress().getNumber());
+                    existingAddress.setComplement(client.getAddress().getComplement());
+                    existingAddress.setNeighborhood(client.getAddress().getNeighborhood());
+                    existingAddress.setCity(client.getAddress().getCity());
+                    existingAddress.setState(client.getAddress().getState());
+                    existingAddress.setZipCode(client.getAddress().getZipCode());
+                    existingAddress.setOwnerId(existingEntity.getId());
+                    existingAddress.setOwnerType("CLIENT");
+                } else {
+                    // Criar novo endereço se não existir
+                    AddressEntity newAddress = clientMapper.getAddressMapper().toEntity(client.getAddress());
+                    newAddress.setOwnerId(existingEntity.getId());
+                    newAddress.setOwnerType("CLIENT");
+                    existingEntity.setAddress(newAddress);
+                }
+            }
+
+            entity = existingEntity;
+        } else {
+            // Criação: criar nova entidade
+            entity = clientMapper.toEntity(client);
+        }
+
         // Salvar cliente (endereço será salvo via cascade)
         ClientEntity saved = jpaRepository.save(entity);
-        
+
         // Forçar flush para garantir que o ID do cliente seja gerado
         entityManager.flush();
-        
-        // Atualizar ownerId e ownerType do endereço após o cliente ter ID
-        if (saved.getAddress() != null) {
+
+        // Atualizar ownerId e ownerType do endereço após o cliente ter ID (apenas na criação)
+        if (client.getId() == null && saved.getAddress() != null) {
             saved.getAddress().setOwnerId(saved.getId());
             saved.getAddress().setOwnerType("CLIENT");
             // O endereço já está gerenciado, então será persistido automaticamente
         }
-        
+
         return clientMapper.toDomain(saved);
     }
 

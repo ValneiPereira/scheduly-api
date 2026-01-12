@@ -37,17 +37,29 @@ public class UpdateClientUseCase {
             }
         }
 
-        Client clientToUpdate = Client.builder()
-                .id(id)
-                .name(updatedClient.getName())
-                .email(updatedClient.getEmail())
-                .cpf(updatedClient.getCpf())
-                .phone(updatedClient.getPhone())
-                .address(updatedClient.getAddress())
-                .createdAt(existingClient.getCreatedAt())
-                .updatedAt(existingClient.getUpdatedAt())
-                .build();
+        // Atualizar endereço existente ou criar novo
+        if (updatedClient.getAddress() != null) {
+            if (existingClient.getAddress() != null) {
+                // Atualizar endereço existente
+                existingClient.getAddress().setStreet(updatedClient.getAddress().getStreet());
+                existingClient.getAddress().setNumber(updatedClient.getAddress().getNumber());
+                existingClient.getAddress().setComplement(updatedClient.getAddress().getComplement());
+                existingClient.getAddress().setNeighborhood(updatedClient.getAddress().getNeighborhood());
+                existingClient.getAddress().setCity(updatedClient.getAddress().getCity());
+                existingClient.getAddress().setState(updatedClient.getAddress().getState());
+                existingClient.getAddress().setZipCode(updatedClient.getAddress().getZipCode());
+            } else {
+                // Criar novo endereço se não existir
+                existingClient.setAddress(updatedClient.getAddress());
+            }
+        }
 
-        return clientRepository.save(clientToUpdate);
+        // Atualizar campos do cliente
+        existingClient.setName(updatedClient.getName());
+        existingClient.setEmail(updatedClient.getEmail());
+        existingClient.setCpf(updatedClient.getCpf());
+        existingClient.setPhone(updatedClient.getPhone());
+
+        return clientRepository.save(existingClient);
     }
 }
