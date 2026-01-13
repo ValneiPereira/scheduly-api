@@ -508,6 +508,9 @@
                 <div class="endpoint-info">
                     <span class="endpoint-method method-post">POST</span>
                     <span>/auth/login</span>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">
+                        Recuperação: POST /auth/forgot-password | POST /auth/reset-password
+                    </div>
                 </div>
                 
                 <div class="phone-mockup">
@@ -543,7 +546,7 @@
                 <div class="screen-title">Home</div>
                 <div class="endpoint-info">
                     <span class="endpoint-method method-get">GET</span>
-                    <span>/services | /professionals</span>
+                    <span>/departments | /professionals</span>
                 </div>
                 
                 <div class="phone-mockup">
@@ -639,7 +642,10 @@
                 <div class="screen-title">Selecionar Profissional</div>
                 <div class="endpoint-info">
                     <span class="endpoint-method method-get">GET</span>
-                    <span>/professionals?serviceId=X</span>
+                    <span>/professionals?departmentId=X</span>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">
+                        (serviceId compatível via mapeamento)
+                    </div>
                 </div>
                 
                 <div class="phone-mockup">
@@ -681,7 +687,7 @@
                 <div class="screen-title">Agendar Horário</div>
                 <div class="endpoint-info">
                     <span class="endpoint-method method-get">GET</span>
-                    <span>/availability?professionalId=X&date=YYYY-MM-DD</span>
+                    <span>/api/professionals/{id}/availability?date=YYYY-MM-DD&durationMinutes=30</span>
                 </div>
                 
                 <div class="phone-mockup">
@@ -738,7 +744,7 @@
                 <div class="screen-title">Confirmar Agendamento</div>
                 <div class="endpoint-info">
                     <span class="endpoint-method method-post">POST</span>
-                    <span>/bookings</span>
+                    <span>/api/bookings</span>
                 </div>
                 
                 <div class="phone-mockup">
@@ -780,7 +786,10 @@
                 <div class="screen-title">Meus Agendamentos</div>
                 <div class="endpoint-info">
                     <span class="endpoint-method method-get">GET</span>
-                    <span>/bookings?clientId=X</span>
+                    <span>/api/bookings?clientId=X</span>
+                    <div style="font-size: 12px; color: var(--text-secondary); margin-top: 5px;">
+                        DELETE /api/bookings/{id} para cancelar
+                    </div>
                 </div>
                 
                 <div class="phone-mockup">
@@ -815,7 +824,12 @@
 
         <!-- Tabela Comparativa -->
         <div style="background: white; border-radius: 16px; padding: 30px; margin-top: 40px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            <h2 style="margin-bottom: 20px; color: #2c3e50;">📊 Status de Implementação por Tela</h2>
+            <h2 style="margin-bottom: 10px; color: #2c3e50;">📊 Status de Implementação por Tela</h2>
+            <p style="color: #666; font-size: 14px; margin-bottom: 20px;">
+                <strong>Nota:</strong> Esta tabela mostra apenas os endpoints <strong>principais</strong> do fluxo do usuário. 
+                O sistema implementa <strong>~30+ endpoints</strong> no total, incluindo CRUD completo, recuperação de senha, 
+                refresh token, busca, e outras funcionalidades. Veja <code>ENDPOINTS_COMPLETOS.md</code> para lista completa.
+            </p>
             
             <table class="comparison-table">
                 <thead>
@@ -829,52 +843,55 @@
                 <tbody>
                     <tr>
                         <td><strong>1. Login</strong></td>
-                        <td><code>POST /auth/login</code></td>
+                        <td><code>POST /auth/login</code><br><code>POST /auth/forgot-password</code><br><code>POST /auth/reset-password</code></td>
                         <td class="status-ok">✅ Implementado</td>
-                        <td>Funcional. Falta recuperação de senha.</td>
+                        <td>Funcional. Recuperação de senha implementada completamente.</td>
                     </tr>
                     <tr>
                         <td><strong>2. Home</strong></td>
-                        <td><code>GET /services</code></td>
-                        <td class="status-warning">⚠️ Parcial</td>
-                        <td>Backend usa <code>/departments</code>. Precisa alias ou ajuste.</td>
+                        <td><code>GET /departments</code><br><code>GET /professionals</code></td>
+                        <td class="status-ok">✅ Implementado</td>
+                        <td>Frontend já usa <code>/departments</code> corretamente. Abas Serviço e Especialista funcionais.</td>
                     </tr>
                     <tr>
                         <td><strong>3. Selecionar Profissional</strong></td>
-                        <td><code>GET /professionals?serviceId=X</code></td>
-                        <td class="status-warning">⚠️ Parcial</td>
-                        <td>Backend usa <code>departmentId</code>. Precisa mapeamento.</td>
+                        <td><code>GET /professionals?departmentId=X</code></td>
+                        <td class="status-ok">✅ Implementado</td>
+                        <td>Mapeamento <code>serviceId</code> → <code>departmentId</code> funcionando. Campos <code>specialization</code> e <code>totalReviews</code> disponíveis.</td>
                     </tr>
                     <tr>
                         <td><strong>4. Agendar Horário</strong></td>
-                        <td><code>GET /availability</code></td>
-                        <td class="status-error">❌ Não Implementado</td>
-                        <td><strong>CRÍTICO:</strong> Endpoint necessário para mostrar slots disponíveis.</td>
+                        <td><code>GET /api/professionals/{id}/availability?date=YYYY-MM-DD</code></td>
+                        <td class="status-ok">✅ Implementado</td>
+                        <td><strong>IMPLEMENTADO:</strong> Endpoint completo retornando slots disponíveis com todas as validações.</td>
                     </tr>
                     <tr>
                         <td><strong>5. Confirmar Agendamento</strong></td>
-                        <td><code>POST /bookings</code></td>
+                        <td><code>POST /api/bookings</code></td>
                         <td class="status-ok">✅ Implementado</td>
-                        <td>Funcional com validações completas.</td>
+                        <td>Funcional com validações completas e notificações por email.</td>
                     </tr>
                     <tr>
                         <td><strong>6. Meus Agendamentos</strong></td>
-                        <td><code>GET /bookings?clientId=X</code></td>
+                        <td><code>GET /api/bookings?clientId=X</code><br><code>DELETE /api/bookings/{id}</code></td>
                         <td class="status-ok">✅ Implementado</td>
-                        <td>Funcional com filtros.</td>
+                        <td>Funcional com filtros e cancelamento.</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Resumo de Ações -->
-        <div style="background: rgba(252, 211, 42, 0.2); border-left: 4px solid var(--primary); padding: 20px; border-radius: 8px; margin-top: 30px;">
-            <h3 style="margin-bottom: 15px; color: var(--text-dark);">🔴 Ações Críticas Necessárias</h3>
+        <!-- Resumo de Status -->
+        <div style="background: rgba(104, 211, 145, 0.2); border-left: 4px solid var(--success); padding: 20px; border-radius: 8px; margin-top: 30px;">
+            <h3 style="margin-bottom: 15px; color: var(--text-dark);">✅ Status Geral: TODAS AS FUNCIONALIDADES IMPLEMENTADAS</h3>
             <ul style="line-height: 2; color: var(--text-dark);">
-                <li><strong>1. Implementar endpoint de disponibilidade</strong> - <code>GET /availability</code></li>
-                <li><strong>2. Criar alias ou ajustar frontend</strong> - <code>/services</code> → <code>/departments</code></li>
-                <li><strong>3. Ajustar filtro de profissionais</strong> - Suportar <code>serviceId</code> além de <code>departmentId</code></li>
+                <li><strong>✅ Endpoint de disponibilidade</strong> - <code>GET /api/professionals/{id}/availability</code> implementado</li>
+                <li><strong>✅ Compatibilidade serviceId/departmentId</strong> - Mapeamento validado e funcionando</li>
+                <li><strong>✅ Campos de profissionais</strong> - <code>specialization</code> e <code>totalReviews</code> adicionados</li>
+                <li><strong>✅ Recuperação de senha</strong> - Fluxo completo implementado</li>
+                <li><strong>✅ Todas as telas</strong> - Backend 100% funcional para MVP</li>
             </ul>
+            <p style="margin-top: 15px; font-weight: 600; color: var(--text-dark);">🎉 O sistema está pronto para integração com o frontend!</p>
         </div>
     </div>
 
