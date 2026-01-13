@@ -6,6 +6,7 @@ import com.scheduly.api.domain.booking.BookingStatus;
 import com.scheduly.api.domain.booking.events.BookingCreatedEvent;
 import com.scheduly.api.domain.client.ClientRepository;
 import com.scheduly.api.domain.exception.ResourceNotFoundException;
+import com.scheduly.api.domain.professional.Professional;
 import com.scheduly.api.domain.professional.ProfessionalRepository;
 import com.scheduly.api.domain.department.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Use Case: Criar novo agendamento
@@ -41,7 +44,7 @@ public class CreateBookingUseCase {
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + booking.getClientId()));
 
         // 2. Validar se o profissional existe (comunicação com módulo Professional)
-        professionalRepository.findById(booking.getProfessionalId())
+        Professional professional = professionalRepository.findById(booking.getProfessionalId())
                 .orElseThrow(() -> new ResourceNotFoundException("Profissional não encontrado: " + booking.getProfessionalId()));
 
         // 3. Validar se o departamento existe e calcular duração (comunicação com módulo Department)
@@ -57,7 +60,7 @@ public class CreateBookingUseCase {
         }
 
         // 6. Validar regras de negócio do agendamento
-        validateBooking(booking);
+        validateBooking(booking, professional);
 
         // 7. Salvar agendamento
         Booking saved = bookingRepository.save(booking);
@@ -68,10 +71,16 @@ public class CreateBookingUseCase {
         return saved;
     }
 
-    private void validateBooking(Booking booking) {
+    private void validateBooking(Booking booking, Professional professional) {
         if (booking.getStartAt().isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException("Data de agendamento não pode ser no passado");
         }
+
+        // Validar horário de trabalho do profissional
+        validateWorkSchedule(booking, professional);
+
+        // Validar dias de trabalho do profissional
+        validateWorkingDays(booking, professional);
 
         // Check for conflicts
         var conflicts = bookingRepository.findOverlapping(
@@ -81,6 +90,43 @@ public class CreateBookingUseCase {
 
         if (!conflicts.isEmpty()) {
             throw new IllegalStateException("O profissional já possui um agendamento neste horário");
+        }
+    }
+
+    private void validateWorkSchedule(Booking booking, Professional professional) {
+        if (professional.getWorkStartTime() == null || professional.getWorkEndTime() == null) {
+            // Se o profissional não tem horários definidos, não validamos
+            return;
+        }
+
+        LocalTime bookingStartTime = booking.getStartAt().toLocalTime();
+        LocalTime bookingEndTime = booking.getEndAt().toLocalTime();
+        LocalTime workStartTime = professional.getWorkStartTime();
+        LocalTime workEndTime = professional.getWorkEndTime();
+
+        // Verificar se o agendamento está dentro do horário de trabalho
+        if (bookingStartTime.isBefore(workStartTime) || bookingEndTime.isAfter(workEndTime)) {
+            throw new IllegalArgumentException(
+                    String.format("O agendamento está fora do horário de trabalho do profissional. " +
+                                    "Horário disponível: %s às %s",
+                            workStartTime, workEndTime));
+        }
+    }
+
+    private void validateWorkingDays(Booking booking, Professional professional) {
+        if (professional.getWorkingDays() == null || professional.getWorkingDays().isEmpty()) {
+            // Se o profissional não tem dias definidos, não validamos
+            return;
+        }
+
+        DayOfWeek bookingDay = booking.getStartAt().getDayOfWeek();
+        String bookingDayName = bookingDay.name();
+
+        if (!professional.getWorkingDays().contains(bookingDayName)) {
+            throw new IllegalArgumentException(
+                    String.format("O profissional não trabalha no dia %s. " +
+                                    "Dias disponíveis: %s",
+                            bookingDayName, String.join(", ", professional.getWorkingDays())));
         }
     }
 }
