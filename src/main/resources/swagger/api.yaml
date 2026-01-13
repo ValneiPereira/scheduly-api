@@ -207,6 +207,22 @@ components:
                     pattern: '\d{10,11}'
                 address:
                     $ref: '#/components/schemas/AddressRequest'
+        ClientUpdate:
+            type: object
+            properties:
+                name:
+                    type: string
+                    minLength: 1
+                email:
+                    type: string
+                    format: email
+                cpf:
+                    type: string
+                phone:
+                    type: string
+                    pattern: '\d{10,11}'
+                address:
+                    $ref: '#/components/schemas/AddressRequest'
         ProfessionalResponse:
             type: object
             required:
@@ -695,7 +711,7 @@ paths:
                                 $ref: '#/components/schemas/ClientResponse'
                 '404':
                     $ref: '#/components/responses/NotFound'
-        put:
+        patch:
             tags:
                 - clients
             summary: Atualizar cliente
@@ -712,7 +728,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/ClientRequest'
+                            $ref: '#/components/schemas/ClientUpdate'
             responses:
                 '200':
                     description: Cliente atualizado

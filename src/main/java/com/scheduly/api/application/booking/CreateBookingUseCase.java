@@ -5,9 +5,9 @@ import com.scheduly.api.domain.booking.BookingRepository;
 import com.scheduly.api.domain.booking.BookingStatus;
 import com.scheduly.api.domain.booking.events.BookingCreatedEvent;
 import com.scheduly.api.domain.client.ClientRepository;
+import com.scheduly.api.domain.professional.ProfessionalRepository;
 import com.scheduly.api.domain.exception.ResourceNotFoundException;
 import com.scheduly.api.domain.professional.Professional;
-import com.scheduly.api.domain.professional.ProfessionalRepository;
 import com.scheduly.api.domain.department.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -20,7 +20,7 @@ import java.time.LocalTime;
 
 /**
  * Use Case: Criar novo agendamento
- * 
+ *
  * Este Use Case demonstra a comunicação entre módulos do Monolito Modular:
  * - Usa ClientRepository (módulo Client) para validar se cliente existe
  * - Usa ProfessionalRepository (módulo Professional) para validar se profissional existe
@@ -32,9 +32,9 @@ import java.time.LocalTime;
 public class CreateBookingUseCase {
 
     private final BookingRepository bookingRepository;
-    private final ClientRepository clientRepository;           // Módulo Client
-    private final ProfessionalRepository professionalRepository; // Módulo Professional
-    private final DepartmentRepository departmentRepository;    // Módulo Department
+    private final ClientRepository clientRepository;
+    private final ProfessionalRepository professionalRepository;
+    private final DepartmentRepository departmentRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
@@ -48,8 +48,8 @@ public class CreateBookingUseCase {
                 .orElseThrow(() -> new ResourceNotFoundException("Profissional não encontrado: " + booking.getProfessionalId()));
 
         // 3. Validar se o departamento existe e calcular duração (comunicação com módulo Department)
-        var department = departmentRepository.findById(booking.getServiceId())
-                .orElseThrow(() -> new ResourceNotFoundException("Departamento não encontrado: " + booking.getServiceId()));
+        var department = departmentRepository.findById(booking.getDepartmentId())
+                .orElseThrow(() -> new ResourceNotFoundException("Departamento não encontrado: " + booking.getDepartmentId()));
 
         // 4. Calcular horário de término baseado na duração do departamento
         booking.setEndAt(booking.getStartAt().plusMinutes(department.getDuration()));

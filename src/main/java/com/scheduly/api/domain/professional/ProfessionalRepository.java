@@ -10,6 +10,8 @@ public interface ProfessionalRepository {
 
     List<Professional> findAll();
 
+    List<Professional> findByDepartmentId(Long departmentId);
+
     void deleteById(Long id);
 
     boolean existsById(Long id);

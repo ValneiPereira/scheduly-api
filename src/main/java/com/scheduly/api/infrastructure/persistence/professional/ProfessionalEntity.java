@@ -38,7 +38,7 @@ public class ProfessionalEntity {
         @Column(length = 15)
         private String phone;
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
         @JoinColumn(name = "primary_address_id")
         private AddressEntity address;
 
@@ -63,7 +63,7 @@ public class ProfessionalEntity {
 
         @ElementCollection
         @CollectionTable(name = "professional_working_days", joinColumns = @JoinColumn(name = "professional_id"))
-        @Column(name = "day")
+        @Column(name = "working_day")
         private List<String> workingDays;
 
         @Column(nullable = false)

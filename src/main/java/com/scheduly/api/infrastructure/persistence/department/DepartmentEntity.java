@@ -54,7 +54,8 @@ public class DepartmentEntity {
     private Boolean requiresSpecialist;
 
     @Column(nullable = false)
-    private Boolean active;
+    @Builder.Default
+    private Boolean active = true;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

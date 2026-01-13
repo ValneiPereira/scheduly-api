@@ -33,6 +33,7 @@ public class DepartmentMapper {
                 .subcategory(subcategory)
                 .duration(request.durationMinutes())
                 .price(MoneyConverter.toDomain(BigDecimal.valueOf(request.priceCents())))
+                .active(true) // Por padrão, departamento criado sempre fica ativo
                 .build();
     }
 

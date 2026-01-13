@@ -1,9 +1,12 @@
 package com.scheduly.api.infrastructure.persistence.professional;
 
-import com.scheduly.api.domain.professional.Professional;
 import com.scheduly.api.domain.professional.ProfessionalRepository;
+import com.scheduly.api.domain.professional.Professional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +18,28 @@ public class ProfessionalRepositoryImpl implements ProfessionalRepository {
 
     private final ProfessionalJpaRepository jpaRepository;
     private final ProfessionalEntityMapper mapper;
+    
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Professional save(Professional professional) {
         ProfessionalEntity entity = mapper.toEntity(professional);
+        
+        // Salvar profissional (endereço será salvo via cascade)
         ProfessionalEntity saved = jpaRepository.save(entity);
+        
+        // Forçar flush para garantir que o ID do profissional seja gerado
+        entityManager.flush();
+        
+        // Atualizar ownerId e ownerType do endereço após o profissional ter ID
+        if (saved.getAddress() != null) {
+            saved.getAddress().setOwnerId(saved.getId());
+            saved.getAddress().setOwnerType("PROFESSIONAL");
+            // O endereço já está gerenciado, então será persistido automaticamente
+        }
+        
         return mapper.toDomain(saved);
     }
 
@@ -32,6 +52,13 @@ public class ProfessionalRepositoryImpl implements ProfessionalRepository {
     @Override
     public List<Professional> findAll() {
         return jpaRepository.findAll().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Professional> findByDepartmentId(Long departmentId) {
+        return jpaRepository.findByDepartmentId(departmentId).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }

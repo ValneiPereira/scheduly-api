@@ -3,9 +3,9 @@ package com.scheduly.api.infrastructure.persistence.booking;
 import com.scheduly.api.domain.booking.Booking;
 import com.scheduly.api.domain.booking.BookingFilter;
 import com.scheduly.api.domain.booking.BookingRepository;
+import com.scheduly.api.infrastructure.persistence.professional.ProfessionalJpaRepository;
 import com.scheduly.api.infrastructure.persistence.address.AddressJpaRepository;
 import com.scheduly.api.infrastructure.persistence.client.ClientJpaRepository;
-import com.scheduly.api.infrastructure.persistence.professional.ProfessionalJpaRepository;
 import com.scheduly.api.infrastructure.persistence.department.DepartmentJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -32,7 +32,7 @@ public class BookingRepositoryImpl implements BookingRepository {
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
         var professional = professionalJpaRepository.findById(domain.getProfessionalId())
                 .orElseThrow(() -> new IllegalArgumentException("Profissional não encontrado"));
-        var department = departmentJpaRepository.findById(domain.getServiceId())
+        var department = departmentJpaRepository.findById(domain.getDepartmentId())
                 .orElseThrow(() -> new IllegalArgumentException("Departamento não encontrado"));
 
         var address = domain.getAddressId() != null

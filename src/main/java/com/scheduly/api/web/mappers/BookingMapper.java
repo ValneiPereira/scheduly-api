@@ -16,7 +16,7 @@ public class BookingMapper {
         return Booking.builder()
                 .clientId(request.clientId())
                 .professionalId(request.professionalId())
-                .serviceId(request.serviceId())
+                .departmentId(request.serviceId())
                 .startAt(request.startAt())
                 .notes(request.notes())
                 .build();
@@ -41,7 +41,7 @@ public class BookingMapper {
                 domain.getId(),
                 domain.getClientId(),
                 domain.getProfessionalId(),
-                domain.getServiceId(),
+                domain.getDepartmentId(),
                 domain.getStartAt(),
                 domain.getEndAt(),
                 domain.getStatus(),
