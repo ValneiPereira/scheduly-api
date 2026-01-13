@@ -1,5 +1,5 @@
 # 📅 Scheduly API
-API de agendamento de serviços para salões de beleza, manicures e profissionais autônomos.
+API de agendamento de serviços para profissionais autônomos e empresas.
 Desenvolvido em **Java 17** com **Spring Boot 3**.
 
 ---
