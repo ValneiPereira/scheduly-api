@@ -1,8 +1,8 @@
 # 📋 Plano de Ação - Implementação de Funcionalidades Críticas
 
 **Data de Criação:** 2025-01-XX  
-**Versão:** 1.1  
-**Status Geral:** 🟢 Fase 1 Concluída | 🟡 Fases 2 e 3 Pendentes
+**Versão:** 1.2  
+**Status Geral:** 🟢 Fases 1 e 2 Concluídas | 🟡 Fase 3 Pendente
 
 ---
 
@@ -49,12 +49,12 @@ Este plano detalha a implementação de 5 funcionalidades principais:
 |------------|--------|--------------|------------|--------|
 | 🔴 CRÍTICA | Endpoint de Disponibilidade | Alta | 8h | ✅ Concluída |
 | 🔴 CRÍTICA | Verificar Compatibilidade serviceId/departmentId | Baixa | 0.5h | ✅ Concluída |
-| 🟠 ALTA | Adicionar reviewCount (alias totalReviews) | Baixa | 1h | ⏳ Pendente |
-| 🟠 ALTA | Adicionar specialization ao ProfessionalResponse | Média | 2h | ⏳ Pendente |
+| 🟠 ALTA | Adicionar reviewCount (alias totalReviews) | Baixa | 1h | ✅ Concluída |
+| 🟠 ALTA | Adicionar specialization ao ProfessionalResponse | Média | 2h | ✅ Concluída |
 | 🟡 MÉDIA | Recuperação de Senha | Média | 6h | ⏳ Pendente |
 
 **Tempo Total Estimado:** ~17.5 horas  
-**Tempo Restante:** ~9 horas
+**Tempo Restante:** ~6 horas
 
 ---
 
@@ -370,33 +370,19 @@ public ResponseEntity<AvailabilityResponse> getAvailability(
 
 **Backend:**
 - ✅ Já tem `totalReviews` em `ProfessionalResponse`
-- ❌ Frontend pode estar esperando `reviewCount`
+- ✅ Frontend já usa `totalReviews` corretamente
 
-**Solução:** Adicionar `reviewCount` como alias ou garantir que frontend use `totalReviews`.
-
-#### 📋 Opções de Implementação
-
-**Opção 1: Adicionar campo reviewCount (Duplicação)**
-```java
-public record ProfessionalResponse(
-    // ... campos existentes
-    Integer totalReviews,
-    Integer reviewCount // Alias para totalReviews
-) {}
-```
-
-**Opção 2: Ajustar Frontend (Recomendado)**
-- Ajustar frontend para usar `totalReviews` que já existe
+**Solução:** Frontend já está usando `totalReviews` que já existe no backend. Não foi necessário adicionar `reviewCount` como alias.
 
 #### 📋 Checklist
 
-- [ ] Verificar se frontend realmente precisa de `reviewCount`
-- [ ] Se sim, adicionar campo `reviewCount` no DTO
-- [ ] Atualizar mapper para preencher `reviewCount = totalReviews`
-- [ ] Atualizar Swagger (`api.yaml`)
-- [ ] Testar resposta da API
+- [x] Verificar se frontend realmente precisa de `reviewCount` ✅ (não precisa)
+- [x] Frontend já usa `totalReviews` ✅
+- [x] Confirmado que não são necessárias alterações ✅
 
-#### ⏱️ Estimativa: 1 hora
+#### ⏱️ Estimativa: 1 hora | ✅ Realizado: ~0.2h (apenas verificação)
+
+**Status:** ✅ **CONCLUÍDA** - Frontend já usa `totalReviews` corretamente, sem necessidade de ajustes.
 
 ---
 
@@ -408,62 +394,68 @@ public record ProfessionalResponse(
 
 **Problema:** Frontend precisa mostrar a especialização do profissional, mas atualmente só tem `specialtyIds` (array de IDs).
 
-**Solução:** Adicionar campo `specialization` que pode ser:
-- A especialização principal (primeira do array)
-- Uma descrição formatada baseada nos IDs
-- Ou um campo calculado no backend
+**Solução Implementada:** Adicionar campo `specialization` calculado no backend baseado no primeiro `specialtyId`, buscando o nome do departamento correspondente e formatando como "Especialista em [nome do serviço]".
 
-#### 📋 Opções de Implementação
+#### 📋 Implementação Realizada
 
-**Opção 1: Especialização Principal**
+**1. Adicionado campo `specialization` ao `ProfessionalResponse`:**
 ```java
 public record ProfessionalResponse(
     // ... campos existentes
     List<Long> specialtyIds,
-    String specialization // Primeira especialização ou concatenada
+    BigDecimal rating,
+    Integer totalReviews,
+    String specialization, // ✅ NOVO CAMPO
+    // ... outros campos
 ) {}
 ```
 
-**Opção 2: Buscar Nome do Department**
-- Buscar os departments correspondentes aos `specialtyIds`
-- Retornar nome(s) formatado(s)
-
-**Opção 3: Campo no Professional**
-- Adicionar campo `specialization` na entidade `Professional`
-- Preencher no cadastro
-
-#### 📋 Implementação Recomendada (Opção 1 Simples)
-
+**2. Atualizado `ProfissionalMapper` para calcular specialization:**
 ```java
-public ProfessionalResponse toResponse(Professional professional) {
-    String specialization = professional.getSpecialtyIds() != null && 
-                           !professional.getSpecialtyIds().isEmpty()
-        ? "Especialista em " + formatSpecialty(professional.getSpecialtyIds().get(0))
-        : null;
-    
-    return new ProfessionalResponse(
-        // ... campos existentes
-        professional.getSpecialtyIds(),
-        specialization
-    );
+private String calculateSpecialization(List<Long> specialtyIds) {
+    if (specialtyIds == null || specialtyIds.isEmpty()) {
+        return null;
+    }
+    // Busca o primeiro specialtyId (primeira especialização)
+    Long firstSpecialtyId = specialtyIds.get(0);
+    return departmentRepository.findById(firstSpecialtyId)
+            .map(department -> "Especialista em " + department.getName())
+            .orElse(null);
 }
 ```
 
+**3. Atualizado Swagger (`api.yaml`):**
+- Adicionado campo `specialization` no schema `ProfessionalResponse`
+- Campo nullable: true
+- Exemplo: "Especialista em Manicure Basica"
+
+**4. Atualizado Frontend:**
+- Adicionado campo `specialization?: string` no tipo `ProfessionalResponse`
+
 #### 📋 Checklist
 
-- [ ] Decidir estratégia de implementação
-- [ ] Adicionar campo `specialization` no `ProfessionalResponse`
-- [ ] Atualizar mapper para calcular/formatar specialization
-- [ ] Atualizar Swagger (`api.yaml`)
-- [ ] Testar resposta da API
-- [ ] Verificar se frontend precisa de ajustes
+- [x] Decidir estratégia de implementação ✅ (buscar primeiro specialtyId)
+- [x] Adicionar campo `specialization` no `ProfessionalResponse` ✅
+- [x] Atualizar mapper para calcular/formatar specialization ✅
+- [x] Atualizar Swagger (`api.yaml`) ✅
+- [x] Compilar e verificar sem erros ✅
+- [x] Atualizar frontend (tipo TypeScript) ✅
+- [x] Verificar protótipo HTML (já estava correto) ✅
 
-#### ⏱️ Estimativa: 2 horas
+#### ⏱️ Estimativa: 2 horas | ✅ Realizado: ~1.5h
 
 **Breakdown:**
-- Análise e decisão: 0.5h
-- Implementação: 1h
-- Testes: 0.5h
+- Análise e decisão: 0.2h ✅
+- Implementação: 1h ✅
+- Atualização frontend e documentação: 0.3h ✅
+
+**Status:** ✅ **IMPLEMENTADO** - Campo `specialization` adicionado ao `ProfessionalResponse`, calculado automaticamente no mapper baseado no primeiro `specialtyId`.
+
+**Arquivos Modificados:**
+- `ProfessionalResponse.java` (adicionado campo `specialization`)
+- `ProfissionalMapper.java` (adicionado método `calculateSpecialization` e dependência `DepartmentRepository`)
+- `api.yaml` (adicionado campo no schema)
+- `api.ts` (frontend - adicionado campo no tipo)
 
 ---
 
@@ -579,9 +571,9 @@ public record ResetPasswordRequest(
 - [ ] Sem erros de console
 
 ### Melhorias UX
-- [ ] `reviewCount` ou `totalReviews` disponível
-- [ ] `specialization` disponível no response
-- [ ] Frontend pode exibir informações corretamente
+- [x] `reviewCount` ou `totalReviews` disponível ✅
+- [x] `specialization` disponível no response ✅
+- [x] Frontend pode exibir informações corretamente ✅
 
 ### Recuperação de Senha
 - [ ] Email é enviado corretamente
@@ -596,17 +588,17 @@ public record ResetPasswordRequest(
 1. ✅ **Aprovar plano de ação** ✓
 2. ✅ **Branch criada:** `feature/fase-um`
 3. ✅ **Implementar Fase 1** (Funcionalidades Críticas) - **CONCLUÍDA**
-4. **Testar endpoint** via Swagger UI ou testes automatizados
-5. **Code Review**
-6. **Merge para develop**
-7. **Implementar Fase 2** (Melhorias)
-8. **Implementar Fase 3** (Complementos)
+4. ✅ **Implementar Fase 2** (Melhorias de UX) - **CONCLUÍDA**
+5. **Testar endpoints** via Swagger UI ou testes automatizados
+6. **Code Review**
+7. **Merge para develop**
+8. **Implementar Fase 3** (Recuperação de Senha)
 
 ---
 
-## ✅ Status de Implementação - FASE 1
+## ✅ Status de Implementação - FASES 1 e 2
 
-### Resumo da Implementação:
+### Resumo da Implementação - FASE 1:
 
 **✅ Endpoint de Disponibilidade:**
 - Endpoint: `GET /api/professionals/{professionalId}/availability`
@@ -624,6 +616,25 @@ public record ResetPasswordRequest(
 - ✅ Documentação atualizada
 - ✅ Sistema funcionando corretamente
 - **Status:** Documentado e validado
+
+---
+
+### Resumo da Implementação - FASE 2:
+
+**✅ ReviewCount/TotalReviews:**
+- ✅ Verificado que frontend já usa `totalReviews` corretamente
+- ✅ Não foi necessário adicionar alias `reviewCount`
+- **Status:** Validado - sem necessidade de alterações
+
+**✅ Specialization:**
+- ✅ Campo `specialization` adicionado ao `ProfessionalResponse`
+- ✅ Mapper atualizado para calcular specialization automaticamente
+- ✅ Busca o primeiro `specialtyId` e formata como "Especialista em [nome do serviço]"
+- ✅ Swagger atualizado com novo campo
+- ✅ Frontend atualizado (tipo TypeScript)
+- ✅ Protótipo HTML já estava correto
+- **Compilação:** ✅ Sem erros
+- **Status:** Implementado e pronto para uso
 
 ### Exemplo de Uso do Endpoint:
 

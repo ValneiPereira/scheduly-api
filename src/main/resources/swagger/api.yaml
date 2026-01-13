@@ -264,6 +264,11 @@ components:
                 totalReviews:
                     type: integer
                     example: 152
+                specialization:
+                    type: string
+                    nullable: true
+                    example: Especialista em Manicure Basica
+                    description: Especializacao principal do profissional (derivada do primeiro specialtyId)
                 workStartTime:
                     type: string
                     format: time

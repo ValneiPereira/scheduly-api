@@ -17,6 +17,7 @@ public record ProfessionalResponse(
         List<Long> specialtyIds,
         BigDecimal rating,
         Integer totalReviews,
+        String specialization,
 
         @JsonFormat(pattern = "HH:mm")
         @Schema(type = "string", example = "09:00")
