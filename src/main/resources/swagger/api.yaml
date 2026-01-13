@@ -371,6 +371,41 @@ components:
                 createdAt:
                     type: string
                     format: date-time
+        AvailabilityResponse:
+            type: object
+            required:
+                - professionalId
+                - date
+                - durationMinutes
+                - availableSlots
+            properties:
+                professionalId:
+                    type: integer
+                    format: int64
+                    example: 1
+                    description: ID do profissional
+                date:
+                    type: string
+                    format: date
+                    example: '2024-04-25'
+                    description: Data consultada
+                durationMinutes:
+                    type: integer
+                    example: 30
+                    description: Duração em minutos considerada para os slots
+                availableSlots:
+                    type: array
+                    items:
+                        type: string
+                        format: time
+                        pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$'
+                    example:
+                        - '09:00'
+                        - '09:30'
+                        - '10:00'
+                        - '10:30'
+                        - '14:00'
+                    description: Lista de horarios disponiveis no formato HH:mm
         DepartmentResponse:
             type: object
             required:
@@ -788,7 +823,10 @@ paths:
                   schema:
                       type: integer
                       format: int64
-                  description: filtrar por serviceId
+                  description: |
+                    Filtrar por ID do departamento/serviço (departmentId).
+                    Nota: O parâmetro é chamado 'departmentId' mas pode ser referenciado como 'serviceId' 
+                    no frontend - ambos representam o mesmo conceito.
             responses:
                 '200':
                     description: Lista de profissionais
@@ -908,6 +946,56 @@ paths:
                                 $ref: '#/components/schemas/ReviewResponse'
                 '400':
                     $ref: '#/components/responses/BadRequest'
+    '/professionals/{professionalId}/availability':
+        get:
+            tags:
+                - professionals
+            summary: Consultar disponibilidade de horarios de um profissional
+            description: |
+                Retorna lista de slots de horarios disponiveis para agendamento em uma data especifica.
+                Considera:
+                - Horário de trabalho do profissional (workStartTime, workEndTime)
+                - Dias de trabalho (workingDays)
+                - Agendamentos já existentes (confirmados ou pendentes)
+                - Duração do serviço (durationMinutes)
+            operationId: getProfessionalAvailability
+            parameters:
+                - name: professionalId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                  description: ID do profissional
+                - name: date
+                  in: query
+                  required: true
+                  schema:
+                      type: string
+                      format: date
+                      example: '2024-04-25'
+                  description: Data para consulta (formato YYYY-MM-DD)
+                - name: durationMinutes
+                  in: query
+                  required: false
+                  schema:
+                      type: integer
+                      minimum: 15
+                      maximum: 480
+                      default: 30
+                      example: 30
+                  description: 'Duracao do servico em minutos (padrao: 30)'
+            responses:
+                '200':
+                    description: Lista de horarios disponiveis
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AvailabilityResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                '404':
+                    $ref: '#/components/responses/NotFound'
 
     /departments:
         get:

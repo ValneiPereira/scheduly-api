@@ -2,7 +2,10 @@
 
 ## 🎯 Visão Geral do Projeto
 
-**Projeto:** Scheduly API - Sistema de Agendamento de Manicure
+**Projeto:** Scheduly API - Sistema de agendamento de serviços em geral, serviços Tradicionais.
+
+Ex.: Salão de Beleza, Clínicas, Consultorias, Eletricistas, Encanadores, etc.
+
 **Stack:** Java 17, Spring Boot 3.4.12, PostgreSQL
 **Metodologia:** Agile/Scrum
 **Duração Estimada:** 8-10 semanas

@@ -1,12 +1,19 @@
 # 📅 Scheduly API
-API de agendamento de serviços para salões de beleza, manicures e profissionais autônomos.
+API de agendamento de serviços em geral - Sistema para prestadores de serviços tradicionais diversos.
 Desenvolvido em **Java 17** com **Spring Boot 3**.
 
 ---
 
 ## 🚀 Visão Geral
 
-O **Scheduly** é uma plataforma de agendamento SaaS voltada para prestadores de serviços.
+O **Scheduly** é uma plataforma de agendamento SaaS para diversos tipos de prestadores de serviços tradicionais, incluindo:
+
+- **Salões de Beleza** (Cabeleireiro, Barbeiro, Esteticista, Designer de Sobrancelha, Manicure)
+- **Clínicas** (Psicólogo, Fisioterapeuta, Nutricionista, Personal Trainer)
+- **Serviços Técnicos** (Eletricista, Encanador, Técnico em Informática, Montador de Móveis, Pedreiro)
+- **Educação** (Aulas Particulares, Professor de Idiomas, Reforço Escolar, Mentor)
+- **Outros** serviços personalizados
+
 A API fornece recursos para:
 
 - Cadastro de clientes e profissionais (CRUD completo)
