@@ -11,7 +11,9 @@ import java.util.List;
 public record ProfessionalResponse(
         Long id,
         String name,
+        String email,
         String phone,
+        String cpf,
         AddressResponse address,
         String bio,
         List<Long> specialtyIds,
@@ -26,6 +28,7 @@ public record ProfessionalResponse(
         @JsonFormat(pattern = "HH:mm")
         @Schema(type = "string", example = "19:00")
         LocalTime workEndTime,
+        Integer intervalMinutes,
         List<String> workingDays,
         Boolean active,
         @JsonFormat(pattern = "dd-MM-yyyy") LocalDateTime createdAt,

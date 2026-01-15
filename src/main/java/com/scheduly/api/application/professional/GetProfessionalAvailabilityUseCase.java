@@ -134,7 +134,11 @@ public class GetProfessionalAvailabilityUseCase {
 
         // Gerar slots de DEFAULT_SLOT_INTERVAL em DEFAULT_SLOT_INTERVAL minutos
         // Mas verificar se cada slot cabe no horário considerando a duração do serviço
-        while (currentSlot.plusMinutes(durationMinutes).isBefore(workEndTime) 
+        int slotInterval = professional.getIntervalMinutes() != null
+                ? professional.getIntervalMinutes()
+                : DEFAULT_SLOT_INTERVAL;
+
+        while (currentSlot.plusMinutes(durationMinutes).isBefore(workEndTime)
                 || currentSlot.plusMinutes(durationMinutes).equals(workEndTime)) {
             
             LocalDateTime slotStart = LocalDateTime.of(date, currentSlot);
@@ -148,7 +152,7 @@ public class GetProfessionalAvailabilityUseCase {
             }
 
             // Avançar para o próximo slot (intervalo padrão de 30 minutos)
-            currentSlot = currentSlot.plusMinutes(DEFAULT_SLOT_INTERVAL);
+            currentSlot = currentSlot.plusMinutes(slotInterval);
             
             // Evitar loop infinito se o intervalo for muito grande
             if (currentSlot.isAfter(workEndTime)) {
