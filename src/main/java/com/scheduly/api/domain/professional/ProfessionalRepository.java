@@ -12,6 +12,8 @@ public interface ProfessionalRepository {
 
     List<Professional> findByDepartmentId(Long departmentId);
 
+    Optional<Professional> findByEmail(String email);
+
     void deleteById(Long id);
 
     boolean existsById(Long id);

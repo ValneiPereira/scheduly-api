@@ -14,6 +14,7 @@ public record ProfessionalResponse(
         String email,
         String phone,
         AddressResponse address,
+        String avatarUrl,
         String bio,
         List<Long> specialtyIds,
         BigDecimal rating,
@@ -27,7 +28,7 @@ public record ProfessionalResponse(
         @JsonFormat(pattern = "HH:mm")
         @Schema(type = "string", example = "19:00")
         LocalTime workEndTime,
-        Integer intervalMinutes,
+
         List<String> workingDays,
         Boolean active,
         @JsonFormat(pattern = "dd-MM-yyyy") LocalDateTime createdAt,

@@ -13,6 +13,7 @@ public record ClientRequest(
         String email,
         @Pattern(regexp = "\\d{10,11}", message = "Telefone deve ter 10 ou 11 dígitos")
         String phone,
+        String avatarUrl,
         @Valid
         AddressRequest address){
 }

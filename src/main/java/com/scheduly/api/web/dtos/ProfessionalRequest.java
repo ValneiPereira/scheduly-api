@@ -21,6 +21,9 @@ public record ProfessionalRequest(
         @Valid
         AddressRequest address,
 
+        @Schema(description = "URL do avatar no Cloudinary", example = "https://res.cloudinary.com/...")
+        String avatarUrl,
+
         @Size(max = 500, message = "Bio deve ter no máximo 500 caracteres")
         String bio,
 
@@ -34,9 +37,6 @@ public record ProfessionalRequest(
         @Schema(type = "string", example = "19:00")
         @NotNull(message = "Horário de término é obrigatório")
         LocalTime workEndTime,
-
-        @NotNull(message = "Intervalo entre atendimentos é obrigatório")
-        Integer intervalMinutes,
 
         @NotEmpty(message = "É necessário informar os dias de trabalho")
         List<String> workingDays,

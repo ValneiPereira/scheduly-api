@@ -19,6 +19,7 @@ public class Client {
     private String name;
     private String email;
     private String phone;
+    private String avatarUrl;
 
     // Endereço
     private Address address;

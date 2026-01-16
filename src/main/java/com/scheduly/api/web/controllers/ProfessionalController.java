@@ -16,6 +16,7 @@ import com.scheduly.api.web.mappers.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ public class ProfessionalController implements ProfessionalsApi {
 
     private final CreateProfessionalUseCase createProfessionalUseCase;
     private final GetProfessionalUseCase getProfessionalUseCase;
+    private final GetMyProfessionalProfileUseCase getMyProfessionalProfileUseCase;
     private final ListProfessionalsUseCase listProfessionalsUseCase;
     private final UpdateProfessionalUseCase updateProfessionalUseCase;
     private final DeleteProfessionalUseCase deleteProfessionalUseCase;
@@ -47,6 +49,12 @@ public class ProfessionalController implements ProfessionalsApi {
     @Override
     public ResponseEntity<ProfessionalResponse> getProfessional(Long professionalId) {
         Professional professional = getProfessionalUseCase.execute(professionalId);
+        return ResponseEntity.ok(mapper.toResponse(professional));
+    }
+
+    @GetMapping("/professionals/me")
+    public ResponseEntity<ProfessionalResponse> getMyProfessionalProfile() {
+        Professional professional = getMyProfessionalProfileUseCase.execute();
         return ResponseEntity.ok(mapper.toResponse(professional));
     }
 

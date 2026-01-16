@@ -1,5 +1,6 @@
 package com.scheduly.api.application.client;
 
+import com.scheduly.api.application.common.AddressUpdateHelper;
 import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.domain.client.ClientRepository;
 import com.scheduly.api.domain.exception.ConflictException;
@@ -27,6 +28,7 @@ public class UpdateClientUseCase {
         updateNome(updatedClient, existingClient);
         updateEmail(id, updatedClient, existingClient);
         updatePhone(updatedClient, existingClient);
+        updateAvatarUrl(updatedClient, existingClient);
 
         // Atualizar endereço apenas se for fornecido
         updateEndereco(updatedClient, existingClient);
@@ -35,43 +37,23 @@ public class UpdateClientUseCase {
     }
 
     private static void updateEndereco(Client updatedClient, Client existingClient) {
-        if (updatedClient.getAddress() != null) {
-            if (existingClient.getAddress() != null) {
-                // Atualizar endereço existente (apenas campos não-null)
-                var existingAddress = existingClient.getAddress();
-                var newAddress = updatedClient.getAddress();
-
-                if (newAddress.getStreet() != null) {
-                    existingAddress.setStreet(newAddress.getStreet());
-                }
-                if (newAddress.getNumber() != null) {
-                    existingAddress.setNumber(newAddress.getNumber());
-                }
-                if (newAddress.getComplement() != null) {
-                    existingAddress.setComplement(newAddress.getComplement());
-                }
-                if (newAddress.getNeighborhood() != null) {
-                    existingAddress.setNeighborhood(newAddress.getNeighborhood());
-                }
-                if (newAddress.getCity() != null) {
-                    existingAddress.setCity(newAddress.getCity());
-                }
-                if (newAddress.getState() != null) {
-                    existingAddress.setState(newAddress.getState());
-                }
-                if (newAddress.getZipCode() != null) {
-                    existingAddress.setZipCode(newAddress.getZipCode());
-                }
-            } else {
-                // Criar novo endereço se não existir e foi fornecido
-                existingClient.setAddress(updatedClient.getAddress());
-            }
-        }
+        // Usa o helper para evitar duplicação de código
+        var updatedAddress = AddressUpdateHelper.updateAddress(
+            updatedClient.getAddress(), 
+            existingClient.getAddress()
+        );
+        existingClient.setAddress(updatedAddress);
     }
 
     private static void updatePhone(Client updatedClient, Client existingClient) {
         if (updatedClient.getPhone() != null) {
             existingClient.setPhone(updatedClient.getPhone());
+        }
+    }
+
+    private static void updateAvatarUrl(Client updatedClient, Client existingClient) {
+        if (updatedClient.getAvatarUrl() != null) {
+            existingClient.setAvatarUrl(updatedClient.getAvatarUrl());
         }
     }
 

@@ -8,6 +8,7 @@ public record ClientResponse(
         String name,
         String email,
         String phone,
+        String avatarUrl,
         AddressResponse address,
         @JsonFormat(pattern = "dd-MM-yyyy") LocalDateTime createdAt,
         @JsonFormat(pattern = "dd-MM-yyyy") LocalDateTime updatedAt) {

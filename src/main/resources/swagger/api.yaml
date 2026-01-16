@@ -836,6 +836,23 @@ paths:
                                 items:
                                     $ref: '#/components/schemas/ClientResponse'
 
+    /professionals/me:
+        get:
+            tags:
+                - professionals
+            summary: Obter perfil do profissional logado
+            operationId: getMyProfessionalProfile
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Perfil do profissional
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfessionalResponse'
+                '404':
+                    $ref: '#/components/responses/NotFound'
     /professionals:
         get:
             tags:

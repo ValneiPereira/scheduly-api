@@ -32,15 +32,18 @@ public class ProfessionalEntity {
         @Column(unique = true, nullable = false)
         private String email;
 
-        @Column(length = 15)
-        private String phone;
+    @Column(length = 15)
+    private String phone;
 
-        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-        @JoinColumn(name = "primary_address_id")
-        private AddressEntity address;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "primary_address_id")
+    private AddressEntity address;
 
-        @Column(length = 500)
-        private String bio;
+    @Column(name = "avatar_url", length = 500)
+    private String avatarUrl;
+
+    @Column(length = 500)
+    private String bio;
 
         @ElementCollection
         @CollectionTable(name = "professional_specialties", joinColumns = @JoinColumn(name = "professional_id"))
@@ -57,9 +60,6 @@ public class ProfessionalEntity {
 
         @Column(nullable = false)
         private LocalTime workEndTime;
-
-        @Column(nullable = false)
-        private Integer intervalMinutes;
 
         @ElementCollection
         @CollectionTable(name = "professional_working_days", joinColumns = @JoinColumn(name = "professional_id"))

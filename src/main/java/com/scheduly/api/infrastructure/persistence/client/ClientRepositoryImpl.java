@@ -46,6 +46,10 @@ public class ClientRepositoryImpl implements ClientRepository {
             if (client.getPhone() != null) {
                 existingEntity.setPhone(client.getPhone());
             }
+            if (client.getAvatarUrl() != null) {
+                System.out.println("[ClientRepositoryImpl] Setando avatarUrl: " + client.getAvatarUrl());
+                existingEntity.setAvatarUrl(client.getAvatarUrl());
+            }
 
             // Atualizar endereço apenas se for fornecido
             if (client.getAddress() != null) {
@@ -110,6 +114,12 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public Optional<Client> findById(Long id) {
         return jpaRepository.findById(id)
+                .map(clientMapper::toDomain);
+    }
+
+    @Override
+    public Optional<Client> findByEmail(String email) {
+        return jpaRepository.findByEmail(email)
                 .map(clientMapper::toDomain);
     }
 

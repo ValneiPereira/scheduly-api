@@ -26,6 +26,9 @@ public class Professional {
     // Endereço (local de atendimento)
     private Address address;
 
+    // Avatar do profissional
+    private String avatarUrl;
+
     // Informações profissionais
     private String bio; // Biografia/descrição do profissional
     private List<Long> specialtyIds; // IDs dos serviços que oferece
@@ -35,10 +38,6 @@ public class Professional {
     // Horários de trabalho (podem ser expandidos para dias específicos)
     private LocalTime workStartTime; // Horário de início (ex: 09:00)
     private LocalTime workEndTime; // Horário de término (ex: 18:00)
-
-    // Intervalo entre atendimentos (minutos)
-    private Integer intervalMinutes;
-
 
     // Dias de trabalho (pode ser uma lista de dias da semana)
     private List<String> workingDays; // Ex: ["MONDAY", "TUESDAY", "WEDNESDAY"]

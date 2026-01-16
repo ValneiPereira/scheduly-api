@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProfessionalJpaRepository extends JpaRepository<ProfessionalEntity, Long> {
@@ -15,4 +16,10 @@ public interface ProfessionalJpaRepository extends JpaRepository<ProfessionalEnt
             "INNER JOIN professional_specialties ps ON p.id = ps.professional_id " +
             "WHERE ps.specialty_id = :departmentId", nativeQuery = true)
     List<ProfessionalEntity> findByDepartmentId(@Param("departmentId") Long departmentId);
+
+    @Query("SELECT p FROM ProfessionalEntity p LEFT JOIN FETCH p.address WHERE p.id = :id")
+    Optional<ProfessionalEntity> findByIdWithAddress(@Param("id") Long id);
+
+    @Query("SELECT p FROM ProfessionalEntity p LEFT JOIN FETCH p.address WHERE p.email = :email")
+    Optional<ProfessionalEntity> findByEmailWithAddress(@Param("email") String email);
 }

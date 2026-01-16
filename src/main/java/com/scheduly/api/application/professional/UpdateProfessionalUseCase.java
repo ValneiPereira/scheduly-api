@@ -1,6 +1,8 @@
 package com.scheduly.api.application.professional;
 
+import com.scheduly.api.application.common.AddressUpdateHelper;
 import com.scheduly.api.domain.professional.ProfessionalRepository;
+import com.scheduly.api.domain.exception.ConflictException;
 import com.scheduly.api.domain.exception.ResourceNotFoundException;
 import com.scheduly.api.domain.exception.ValidationException;
 import com.scheduly.api.domain.professional.Professional;
@@ -24,18 +26,97 @@ public class UpdateProfessionalUseCase {
         // Validar horários de trabalho antes de atualizar
         validateWorkSchedule(updatedProfessional);
 
-        existing.setName(updatedProfessional.getName());
-        existing.setPhone(updatedProfessional.getPhone());
-        existing.setEmail(updatedProfessional.getEmail());
-        existing.setAddress(updatedProfessional.getAddress());
-        existing.setBio(updatedProfessional.getBio());
-        existing.setSpecialtyIds(updatedProfessional.getSpecialtyIds());
-        existing.setWorkStartTime(updatedProfessional.getWorkStartTime());
-        existing.setWorkEndTime(updatedProfessional.getWorkEndTime());
-        existing.setWorkingDays(updatedProfessional.getWorkingDays());
-        existing.setActive(updatedProfessional.getActive());
+        // Atualizar campos do profissional apenas se forem fornecidos (não-null)
+        updateName(updatedProfessional, existing);
+        updateEmail(id, updatedProfessional, existing);
+        updatePhone(updatedProfessional, existing);
+        updateAvatarUrl(updatedProfessional, existing);
+        
+        // Atualizar endereço apenas se for fornecido
+        updateEndereco(updatedProfessional, existing);
+        
+        updateBio(updatedProfessional, existing);
+        updateSpecialtyIds(updatedProfessional, existing);
+        updateWorkStartTime(updatedProfessional, existing);
+        updateWorkEndTime(updatedProfessional, existing);
+        updateWorkingDays(updatedProfessional, existing);
+        updateActive(updatedProfessional, existing);
 
         return repository.save(existing);
+    }
+
+    private static void updateEndereco(Professional updatedProfessional, Professional existing) {
+        // Usa o helper para evitar duplicação de código
+        var updatedAddress = AddressUpdateHelper.updateAddress(
+            updatedProfessional.getAddress(), 
+            existing.getAddress()
+        );
+        existing.setAddress(updatedAddress);
+    }
+
+    private static void updateName(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getName() != null) {
+            existing.setName(updatedProfessional.getName());
+        }
+    }
+
+    private void updateEmail(Long id, Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getEmail() != null) {
+            if (!existing.getEmail().equals(updatedProfessional.getEmail())) {
+                if (repository.existsByEmail(updatedProfessional.getEmail())) {
+                    throw new ConflictException("Email já cadastrado: " + updatedProfessional.getEmail());
+                }
+            }
+            existing.setEmail(updatedProfessional.getEmail());
+        }
+    }
+
+    private static void updatePhone(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getPhone() != null) {
+            existing.setPhone(updatedProfessional.getPhone());
+        }
+    }
+
+    private static void updateAvatarUrl(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getAvatarUrl() != null) {
+            existing.setAvatarUrl(updatedProfessional.getAvatarUrl());
+        }
+    }
+
+    private static void updateBio(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getBio() != null) {
+            existing.setBio(updatedProfessional.getBio());
+        }
+    }
+
+    private static void updateSpecialtyIds(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getSpecialtyIds() != null) {
+            existing.setSpecialtyIds(updatedProfessional.getSpecialtyIds());
+        }
+    }
+
+    private static void updateWorkStartTime(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getWorkStartTime() != null) {
+            existing.setWorkStartTime(updatedProfessional.getWorkStartTime());
+        }
+    }
+
+    private static void updateWorkEndTime(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getWorkEndTime() != null) {
+            existing.setWorkEndTime(updatedProfessional.getWorkEndTime());
+        }
+    }
+
+    private static void updateWorkingDays(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getWorkingDays() != null) {
+            existing.setWorkingDays(updatedProfessional.getWorkingDays());
+        }
+    }
+
+    private static void updateActive(Professional updatedProfessional, Professional existing) {
+        if (updatedProfessional.getActive() != null) {
+            existing.setActive(updatedProfessional.getActive());
+        }
     }
 
     private void validateWorkSchedule(Professional professional) {

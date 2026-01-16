@@ -25,6 +25,7 @@ public class ClientController implements ClientsApi {
 
     private final CreateClientUseCase createClientUseCase;
     private final GetClientUseCase getClientUseCase;
+    private final GetMyClientProfileUseCase getMyClientProfileUseCase;
     private final ListClientsUseCase listClientsUseCase;
     private final UpdateClientUseCase updateClientUseCase;
     private final DeleteClientUseCase deleteClientUseCase;
@@ -43,6 +44,26 @@ public class ClientController implements ClientsApi {
     public ResponseEntity<ClientResponse> getClient(Long id) {
         Client client = getClientUseCase.execute(id);
         ClientResponse response = clientMapper.toResponse(client);
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<ClientResponse> getMyClientProfile() {
+        Client client = getMyClientProfileUseCase.execute();
+        ClientResponse response = clientMapper.toResponse(client);
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<ClientResponse> updateMyClientProfile(ClientRequest request) {
+        // Busca o cliente autenticado
+        Client currentClient = getMyClientProfileUseCase.execute();
+
+        // Atualiza com os novos dados
+        Client clientToUpdate = clientMapper.toDomain(request);
+        Client updatedClient = updateClientUseCase.execute(currentClient.getId(), clientToUpdate);
+
+        ClientResponse response = clientMapper.toResponse(updatedClient);
         return ResponseEntity.ok(response);
     }
 

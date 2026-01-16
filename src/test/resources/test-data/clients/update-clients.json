@@ -10,7 +10,7 @@
       "neighborhood": "Itaim Bibi",
       "city": "São Paulo",
       "state": "SP",
-      "zipCode": "01452-000"
+      "zipCode": "01452000"
     }
   },
   "clienteInexistente": {
@@ -23,7 +23,7 @@
       "neighborhood": "Teste",
       "city": "São Paulo",
       "state": "SP",
-      "zipCode": "01310-100"
+      "zipCode": "01310100"
     }
   }
 }

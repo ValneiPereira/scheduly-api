@@ -11,5 +11,6 @@ public record ClientUpdate(
         @Email(message = "Email inválido") String email,
         @Schema(description = "Telefone do cliente", example = "11987654321")
         @Pattern(regexp = "\\d{10,11}", message = "Telefone deve ter 10 ou 11 dígitos") String phone,
+        @Schema(description = "URL do avatar no Cloudinary", example = "https://res.cloudinary.com/...") String avatarUrl,
         @Schema(description = "Endereço do cliente") AddressRequest address) {
 }

@@ -45,7 +45,8 @@ public class ProfessionalRepositoryImpl implements ProfessionalRepository {
 
     @Override
     public Optional<Professional> findById(Long id) {
-        return jpaRepository.findById(id)
+        // Usa o método que faz JOIN FETCH do endereço para garantir que seja carregado
+        return jpaRepository.findByIdWithAddress(id)
                 .map(mapper::toDomain);
     }
 
@@ -61,6 +62,13 @@ public class ProfessionalRepositoryImpl implements ProfessionalRepository {
         return jpaRepository.findByDepartmentId(departmentId).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Professional> findByEmail(String email) {
+        // Usa o método que faz JOIN FETCH do endereço para garantir que seja carregado
+        return jpaRepository.findByEmailWithAddress(email)
+                .map(mapper::toDomain);
     }
 
     @Override

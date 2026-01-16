@@ -8,6 +8,8 @@ public interface ClientRepository {
 
     Optional<Client> findById(Long id);
 
+    Optional<Client> findByEmail(String email);
+
     List<Client> findByName(String name);
 
     List<Client> findAll();
