@@ -3,7 +3,6 @@ package com.scheduly.api.web.dtos;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -18,9 +17,6 @@ public record ProfessionalRequest(
 
         @NotBlank(message = "Email é obrigatório") @Email(message = "Email inválido")
         String email,
-
-        @NotBlank(message = "CPF é obrigatório") @CPF(message = "CPF inválido")
-        String cpf,
 
         @Valid
         AddressRequest address,

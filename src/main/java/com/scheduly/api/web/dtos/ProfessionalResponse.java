@@ -13,7 +13,6 @@ public record ProfessionalResponse(
         String name,
         String email,
         String phone,
-        String cpf,
         AddressResponse address,
         String bio,
         List<Long> specialtyIds,

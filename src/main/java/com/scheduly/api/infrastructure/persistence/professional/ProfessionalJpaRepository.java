@@ -11,8 +11,6 @@ import java.util.List;
 public interface ProfessionalJpaRepository extends JpaRepository<ProfessionalEntity, Long> {
     boolean existsByEmail(String email);
 
-    boolean existsByCpf(String cpf);
-
     @Query(value = "SELECT DISTINCT p.* FROM professionals p " +
             "INNER JOIN professional_specialties ps ON p.id = ps.professional_id " +
             "WHERE ps.specialty_id = :departmentId", nativeQuery = true)

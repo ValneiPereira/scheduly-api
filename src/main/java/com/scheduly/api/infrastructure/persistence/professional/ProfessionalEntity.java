@@ -32,9 +32,6 @@ public class ProfessionalEntity {
         @Column(unique = true, nullable = false)
         private String email;
 
-        @Column(unique = true, nullable = false, length = 14)
-        private String cpf;
-
         @Column(length = 15)
         private String phone;
 

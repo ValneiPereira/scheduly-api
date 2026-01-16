@@ -43,9 +43,6 @@ public class ClientRepositoryImpl implements ClientRepository {
             if (client.getEmail() != null) {
                 existingEntity.setEmail(client.getEmail());
             }
-            if (client.getCpf() != null) {
-                existingEntity.setCpf(client.getCpf());
-            }
             if (client.getPhone() != null) {
                 existingEntity.setPhone(client.getPhone());
             }
@@ -141,21 +138,8 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public boolean existsByCpf(String cpf) {
-        return jpaRepository.existsByCpf(cpf);
-    }
-
-    @Override
     public boolean existsByEmailAndIdNot(String email, Long id) {
         return jpaRepository.findByEmail(email)
-                .map(ClientEntity::getId)
-                .filter(foundId -> !foundId.equals(id))
-                .isPresent();
-    }
-
-    @Override
-    public boolean existsByCpfAndIdNot(String cpf, Long id) {
-        return jpaRepository.findByCpf(cpf)
                 .map(ClientEntity::getId)
                 .filter(foundId -> !foundId.equals(id))
                 .isPresent();

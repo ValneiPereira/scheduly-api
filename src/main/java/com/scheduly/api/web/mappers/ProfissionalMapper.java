@@ -25,7 +25,6 @@ public class ProfissionalMapper {
                 .name(request.name())
                 .email(request.email())
                 .phone(request.phone())
-                .cpf(request.cpf())
                 .address(addressMapper.toDomain(request.address()))
                 .bio(request.bio())
                 .specialtyIds(request.specialtyIds())
@@ -48,7 +47,6 @@ public class ProfissionalMapper {
                 professional.getName(),
                 professional.getEmail(),
                 professional.getPhone(),
-                professional.getCpf(),
                 addressMapper.toResponse(professional.getAddress()),
                 professional.getBio(),
                 professional.getSpecialtyIds(),

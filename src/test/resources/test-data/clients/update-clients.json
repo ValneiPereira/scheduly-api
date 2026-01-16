@@ -2,7 +2,6 @@
   "pedroOliveiraAtualizado": {
     "name": "Pedro Oliveira Santos",
     "email": "pedro.oliveira@email.com",
-    "cpf": "92151629090",
     "phone": "11999999999",
     "address": {
       "street": "Av. Faria Lima",
@@ -17,7 +16,6 @@
   "clienteInexistente": {
     "name": "Nome Atualizado",
     "email": "atualizado@email.com",
-    "cpf": "62290121037",
     "phone": "11911112222",
     "address": {
       "street": "Rua Teste",

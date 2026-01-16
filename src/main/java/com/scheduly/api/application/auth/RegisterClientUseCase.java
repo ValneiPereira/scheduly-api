@@ -21,12 +21,10 @@ public class RegisterClientUseCase {
 
     @Transactional
     public void execute(RegisterClientRequest request) {
-        // 1. Criar o Cliente (reaproveitando lógica de validação de CPF/Email já
-        // existente)
+        // 1. Criar o Cliente (reaproveitando lógica de validação de Email)
         Client client = Client.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .cpf(request.getCpf())
                 .phone(request.getPhone())
                 .build();
 

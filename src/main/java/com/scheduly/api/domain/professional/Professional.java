@@ -22,7 +22,6 @@ public class Professional {
     private String name;
     private String email;
     private String phone;
-    private String cpf;
 
     // Endereço (local de atendimento)
     private Address address;

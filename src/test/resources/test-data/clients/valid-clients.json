@@ -1,7 +1,6 @@
 {
   "mariaSilva": {
     "name": "Maria Silva",
-    "cpf": "78621572060",
     "email": "maria.silva@email.com",
     "phone": "11987654321",
     "address": {
@@ -17,7 +16,6 @@
   "joaoSantos": {
     "name": "João Santos",
     "email": "joao.santos@email.com",
-    "cpf": "63954172070",
     "phone": "11976543210",
     "address": {
       "street": "Av. Paulista",
@@ -31,7 +29,6 @@
   "anaCosta": {
     "name": "Ana Costa",
     "email": "ana.costa@email.com",
-    "cpf": "98765432100",
     "phone": "11965432109",
     "address": {
       "street": "Rua Augusta",
@@ -45,7 +42,6 @@
   "pedroOliveira": {
     "name": "Pedro Oliveira",
     "email": "pedro.oliveira@email.com",
-    "cpf": "92151629090",
     "phone": "11977776666",
     "address": {
       "street": "Rua das Flores",
@@ -59,7 +55,6 @@
   "clienteParaDeletar": {
     "name": "Cliente para Deletar",
     "email": "deletar@email.com",
-    "cpf": "12345678909",
     "phone": "11988887777",
     "address": {
       "street": "Rua Teste",

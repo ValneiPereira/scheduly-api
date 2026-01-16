@@ -55,7 +55,6 @@ class ClientControllerTest {
                 .statusCode(HttpStatus.CREATED.value())
                 .contentType(ContentType.JSON)
                 .body("name", equalTo("Maria Silva"))
-                .body("cpf", equalTo("78621572060"))
                 .body("email", equalTo("maria.silva@email.com"))
                 .body("phone", equalTo("11987654321"))
                 .body("id", notNullValue())

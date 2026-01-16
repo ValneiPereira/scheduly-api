@@ -2,7 +2,6 @@ package com.scheduly.api.web.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -14,10 +13,6 @@ public class RegisterClientRequest {
     @NotBlank(message = "Email é obrigatório")
     @Email(message = "Email inválido")
     private String email;
-
-    @NotBlank(message = "CPF é obrigatório")
-    @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos")
-    private String cpf;
 
     @NotBlank(message = "Telefone é obrigatório")
     private String phone;

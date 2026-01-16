@@ -27,7 +27,6 @@ public class UpdateProfessionalUseCase {
         existing.setName(updatedProfessional.getName());
         existing.setPhone(updatedProfessional.getPhone());
         existing.setEmail(updatedProfessional.getEmail());
-        existing.setCpf(updatedProfessional.getCpf());
         existing.setAddress(updatedProfessional.getAddress());
         existing.setBio(updatedProfessional.getBio());
         existing.setSpecialtyIds(updatedProfessional.getSpecialtyIds());
@@ -44,7 +43,7 @@ public class UpdateProfessionalUseCase {
         LocalTime workEndTime = professional.getWorkEndTime();
 
         // Se um horário está definido, o outro também deve estar
-        if ((workStartTime != null && workEndTime == null) || 
+        if ((workStartTime != null && workEndTime == null) ||
             (workStartTime == null && workEndTime != null)) {
             throw new ValidationException("Os horários de início e término devem ser ambos informados ou ambos vazios");
         }

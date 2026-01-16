@@ -17,6 +17,4 @@ public interface ProfessionalRepository {
     boolean existsById(Long id);
 
     boolean existsByEmail(String email);
-
-    boolean existsByCpf(String cpf);
 }

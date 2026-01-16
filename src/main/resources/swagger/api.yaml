@@ -163,7 +163,6 @@ components:
                 - id
                 - name
                 - email
-                - cpf
             properties:
                 id:
                     type: integer
@@ -173,8 +172,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                 address:
@@ -192,7 +189,6 @@ components:
             required:
                 - name
                 - email
-                - cpf
             properties:
                 name:
                     type: string
@@ -200,8 +196,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                     pattern: '\d{10,11}'
@@ -216,8 +210,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                     pattern: '\d{10,11}'
@@ -303,7 +295,6 @@ components:
             required:
                 - name
                 - email
-                - cpf
                 - phone
                 - workStartTime
                 - workEndTime
@@ -315,8 +306,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                 address:

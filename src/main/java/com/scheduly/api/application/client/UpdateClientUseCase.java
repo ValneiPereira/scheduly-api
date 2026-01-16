@@ -26,7 +26,6 @@ public class UpdateClientUseCase {
         // Atualizar campos do cliente apenas se forem fornecidos (não-null)
         updateNome(updatedClient, existingClient);
         updateEmail(id, updatedClient, existingClient);
-        updateCpf(id, updatedClient, existingClient);
         updatePhone(updatedClient, existingClient);
 
         // Atualizar endereço apenas se for fornecido
@@ -76,16 +75,6 @@ public class UpdateClientUseCase {
         }
     }
 
-    private void updateCpf(Long id, Client updatedClient, Client existingClient) {
-        if (updatedClient.getCpf() != null) {
-            if (!existingClient.getCpf().equals(updatedClient.getCpf())) {
-                if (clientRepository.existsByCpfAndIdNot(updatedClient.getCpf(), id)) {
-                    throw new ConflictException("CPF já cadastrado: " + updatedClient.getCpf());
-                }
-            }
-            existingClient.setCpf(updatedClient.getCpf());
-        }
-    }
 
     private void updateEmail(Long id, Client updatedClient, Client existingClient) {
         if (updatedClient.getEmail() != null) {

@@ -16,13 +16,9 @@ public interface ClientJpaRepository extends JpaRepository<ClientEntity, Long> {
 
     Optional<ClientEntity> findByEmail(String email);
 
-    Optional<ClientEntity> findByCpf(String cpf);
-
     @Query("SELECT c FROM ClientEntity c WHERE c.name ILIKE %:name%")
     List<ClientEntity> findByName(@Param("name") String name);
 
     boolean existsByEmail(String email);
-
-    boolean existsByCpf(String cpf);
 
 }
