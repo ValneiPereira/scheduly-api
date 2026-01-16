@@ -51,11 +51,15 @@ public class BookingRepositoryImpl implements BookingRepository {
 
     @Override
     public List<Booking> findAll(BookingFilter filter) {
-        // Implementation for filtering could be added here using Specification or Query
-        // by Example
-        // For now, listing all for simplicity as per common pattern in the project
         return jpaRepository.findAll().stream()
                 .map(mapper::toDomain)
+                .filter(booking -> filter.getClientId() == null
+                        || booking.getClientId().equals(filter.getClientId()))
+                .filter(booking -> filter.getProfessionalId() == null
+                        || booking.getProfessionalId().equals(filter.getProfessionalId()))
+                .filter(booking -> filter.getDate() == null
+                        || booking.getStartAt().toLocalDate().equals(filter.getDate()))
+                .sorted((left, right) -> left.getStartAt().compareTo(right.getStartAt()))
                 .collect(Collectors.toList());
     }
 

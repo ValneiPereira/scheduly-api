@@ -51,3 +51,8 @@ logging:
 
 api:
   host: https://viacep.com.br/ws
+
+app:
+  reset-password:
+    url: ${APP_RESET_PASSWORD_URL:http://localhost:8080/reset-password}
+    token-validity-hours: ${APP_RESET_PASSWORD_TOKEN_VALIDITY_HOURS:1}

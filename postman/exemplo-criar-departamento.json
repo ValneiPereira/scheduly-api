@@ -1,8 +1,0 @@
-{
-  "name": "Manicure Básica",
-  "description": "Manicure tradicional com esmaltação",
-  "category": "BELEZA",
-  "subcategory": "MANICURE",
-  "durationMinutes": 45,
-  "priceCents": 3500
-}
