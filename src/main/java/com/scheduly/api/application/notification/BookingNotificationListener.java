@@ -30,7 +30,7 @@ public class BookingNotificationListener {
         try {
             var client = clientRepository.findById(booking.getClientId()).orElseThrow();
             var professional = professionalRepository.findById(booking.getProfessionalId()).orElseThrow();
-            var department = departmentRepository.findById(booking.getServiceId()).orElseThrow();
+            var department = departmentRepository.findById(booking.getDepartmentId()).orElseThrow();
 
             java.time.format.DateTimeFormatter dateFormatter = java.time.format.DateTimeFormatter
                     .ofPattern("dd/MM/yyyy");
@@ -83,7 +83,7 @@ public class BookingNotificationListener {
 
         try {
             var client = clientRepository.findById(booking.getClientId()).orElseThrow();
-            var department = departmentRepository.findById(booking.getServiceId()).orElseThrow();
+            var department = departmentRepository.findById(booking.getDepartmentId()).orElseThrow();
 
             java.time.format.DateTimeFormatter dateFormatter = java.time.format.DateTimeFormatter
                     .ofPattern("dd/MM/yyyy");

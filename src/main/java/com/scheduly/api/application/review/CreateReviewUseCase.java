@@ -1,9 +1,9 @@
 package com.scheduly.api.application.review;
 
+import com.scheduly.api.domain.professional.ProfessionalRepository;
 import com.scheduly.api.domain.exception.ResourceNotFoundException;
 import com.scheduly.api.domain.exception.ValidationException;
 import com.scheduly.api.domain.professional.Professional;
-import com.scheduly.api.domain.professional.ProfessionalRepository;
 import com.scheduly.api.domain.review.ProfessionalReview;
 import com.scheduly.api.domain.review.ReviewRepository;
 import jakarta.transaction.Transactional;

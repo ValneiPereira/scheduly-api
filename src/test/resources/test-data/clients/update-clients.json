@@ -1,0 +1,31 @@
+{
+  "pedroOliveiraAtualizado": {
+    "name": "Pedro Oliveira Santos",
+    "email": "pedro.oliveira@email.com",
+    "cpf": "92151629090",
+    "phone": "11999999999",
+    "address": {
+      "street": "Av. Faria Lima",
+      "number": "2000",
+      "complement": "Sala 501",
+      "neighborhood": "Itaim Bibi",
+      "city": "São Paulo",
+      "state": "SP",
+      "zipCode": "01452-000"
+    }
+  },
+  "clienteInexistente": {
+    "name": "Nome Atualizado",
+    "email": "atualizado@email.com",
+    "cpf": "62290121037",
+    "phone": "11911112222",
+    "address": {
+      "street": "Rua Teste",
+      "number": "100",
+      "neighborhood": "Teste",
+      "city": "São Paulo",
+      "state": "SP",
+      "zipCode": "01310-100"
+    }
+  }
+}

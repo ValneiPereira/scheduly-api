@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -49,7 +48,7 @@ public class NotificationScheduler {
         try {
             var client = clientRepository.findById(booking.getClientId()).orElseThrow();
             var professional = professionalRepository.findById(booking.getProfessionalId()).orElseThrow();
-            var department = departmentRepository.findById(booking.getServiceId()).orElseThrow();
+            var department = departmentRepository.findById(booking.getDepartmentId()).orElseThrow();
 
             java.time.format.DateTimeFormatter timeFormatter = java.time.format.DateTimeFormatter.ofPattern("HH:mm");
 

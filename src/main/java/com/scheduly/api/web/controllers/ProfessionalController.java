@@ -5,6 +5,8 @@ import com.scheduly.api.application.professional.*;
 import com.scheduly.api.application.review.CreateReviewUseCase;
 import com.scheduly.api.domain.professional.Professional;
 import com.scheduly.api.domain.review.ProfessionalReview;
+import com.scheduly.api.web.dtos.AvailabilityRequest;
+import com.scheduly.api.web.dtos.AvailabilityResponse;
 import com.scheduly.api.web.dtos.ProfessionalRequest;
 import com.scheduly.api.web.dtos.ProfessionalResponse;
 import com.scheduly.api.web.dtos.ReviewRequest;
@@ -16,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,7 @@ public class ProfessionalController implements ProfessionalsApi {
     private final ProfissionalMapper mapper;
     private final CreateReviewUseCase createReviewUseCase;
     private final ReviewMapper reviewMapper;
+    private final GetProfessionalAvailabilityUseCase getAvailabilityUseCase;
 
     @Override
     public ResponseEntity<ProfessionalResponse> createProfessional(ProfessionalRequest professionalRequest) {
@@ -47,9 +51,8 @@ public class ProfessionalController implements ProfessionalsApi {
     }
 
     @Override
-    public ResponseEntity<List<ProfessionalResponse>> listProfessionals(Long serviceId) {
-        // TODO: Implementar filtro por departmentId (serviceId mantido por compatibilidade com API)
-        List<Professional> professionals = listProfessionalsUseCase.execute();
+    public ResponseEntity<List<ProfessionalResponse>> listProfessionals(Long departmentId) {
+        List<Professional> professionals = listProfessionalsUseCase.execute(departmentId);
         List<ProfessionalResponse> response = professionals.stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
@@ -75,5 +78,16 @@ public class ProfessionalController implements ProfessionalsApi {
         ProfessionalReview domainReview = reviewMapper.toDomain(reviewRequest, professionalId);
         ProfessionalReview savedReview = createReviewUseCase.execute(domainReview);
         return ResponseEntity.status(HttpStatus.CREATED).body(reviewMapper.toResponse(savedReview));
+    }
+
+    @Override
+    public ResponseEntity<AvailabilityResponse> getProfessionalAvailability(
+            Long professionalId,
+            LocalDate date,
+            Integer durationMinutes) {
+        
+        AvailabilityRequest request = new AvailabilityRequest(professionalId, date, durationMinutes);
+        AvailabilityResponse response = getAvailabilityUseCase.execute(request);
+        return ResponseEntity.ok(response);
     }
 }

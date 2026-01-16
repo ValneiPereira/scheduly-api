@@ -27,7 +27,7 @@ public class UpdateBookingUseCase {
 
         if (updateData.getStartAt() != null) {
             // Re-calculate end time if start time changed
-            var department = departmentRepository.findById(booking.getServiceId())
+            var department = departmentRepository.findById(booking.getDepartmentId())
                     .orElseThrow(() -> new IllegalArgumentException("Departamento não encontrado"));
 
             booking.setStartAt(updateData.getStartAt());

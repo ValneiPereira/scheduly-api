@@ -39,6 +39,9 @@ public record ProfessionalRequest(
         @NotNull(message = "Horário de término é obrigatório")
         LocalTime workEndTime,
 
+        @NotNull(message = "Intervalo entre atendimentos é obrigatório")
+        Integer intervalMinutes,
+
         @NotEmpty(message = "É necessário informar os dias de trabalho")
         List<String> workingDays,
 

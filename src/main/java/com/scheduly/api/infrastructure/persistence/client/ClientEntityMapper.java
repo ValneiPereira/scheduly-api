@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 public class ClientEntityMapper {
 
     private final AddressEntityMapper addressMapper;
+    
+    public AddressEntityMapper getAddressMapper() {
+        return addressMapper;
+    }
 
     public Client toDomain(ClientEntity entity) {
         if (entity == null) {

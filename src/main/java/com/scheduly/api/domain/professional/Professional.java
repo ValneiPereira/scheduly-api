@@ -37,6 +37,9 @@ public class Professional {
     private LocalTime workStartTime; // Horário de início (ex: 09:00)
     private LocalTime workEndTime; // Horário de término (ex: 18:00)
 
+    // Intervalo entre atendimentos (minutos)
+    private Integer intervalMinutes;
+
 
     // Dias de trabalho (pode ser uma lista de dias da semana)
     private List<String> workingDays; // Ex: ["MONDAY", "TUESDAY", "WEDNESDAY"]
