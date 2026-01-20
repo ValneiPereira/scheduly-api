@@ -36,7 +36,8 @@ public class ForgotPasswordUseCase {
 
     @Transactional
     public void execute(ForgotPasswordRequest request) {
-        User user = userRepository.findByEmail(request.email())
+        User user = userRepository
+                .findByEmail(request.email())
                 .orElse(null); // Não revelar se o email existe ou não por segurança
 
         if (user == null) {
@@ -49,10 +50,15 @@ public class ForgotPasswordUseCase {
         tokenRepository.deleteByUser(user);
 
         // Gerar novo token
-        String token = UUID.randomUUID().toString();
-        LocalDateTime expiryDate = LocalDateTime.now().plusHours(tokenValidityHours);
+        String token = UUID
+                .randomUUID()
+                .toString();
+        LocalDateTime expiryDate = LocalDateTime
+                .now()
+                .plusHours(tokenValidityHours);
 
-        PasswordResetToken resetToken = PasswordResetToken.builder()
+        PasswordResetToken resetToken = PasswordResetToken
+                .builder()
                 .token(token)
                 .user(user)
                 .expiryDate(expiryDate)
@@ -75,7 +81,8 @@ public class ForgotPasswordUseCase {
         String emailHtml = templateEngine.process("emails/password-reset", context);
 
         // Enviar e-mail
-        Notification email = Notification.builder()
+        Notification email = Notification
+                .builder()
                 .channel(NotificationChannel.EMAIL)
                 .recipient(user.getEmail())
                 .subject("Recuperação de Senha - Scheduly")

@@ -43,22 +43,24 @@ class ClientControllerTest {
     @DisplayName("Deve retornar status 201 ao criar cliente com dados válidos")
     void deveRetornarStatus201_QuandoCriarClienteComDadosValidos() {
         Map<String, Object> clientRequest = TestDataLoader.loadValidClient("mariaSilva");
-
+        // @formatter:off
         given()
-                .basePath("/clients")
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(clientRequest)
-            .when()
-                .post()
-            .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .contentType(ContentType.JSON)
-                .body("name", equalTo("Maria Silva"))
-                .body("email", equalTo("maria.silva@email.com"))
-                .body("phone", equalTo("11987654321"))
-                .body("id", notNullValue())
-                .body("address.street", equalTo("Rua das Flores"));
+            .basePath("/clients")
+            .contentType(ContentType.JSON)
+            .accept(ContentType.JSON)
+            .body(clientRequest)
+        .when()
+            .post()
+        .then()
+            .statusCode(HttpStatus.CREATED.value())
+            .contentType(ContentType.JSON)
+            .body("name", equalTo("Maria Silva"))
+            .body("email", equalTo("maria.silva@email.com"))
+            .body("phone", equalTo("11987654321"))
+            .body("id", notNullValue()).body("address.street", equalTo("Rua das Flores"))
+        ;
+        // @formatter:on
+
     }
 
     @Test
@@ -67,7 +69,8 @@ class ClientControllerTest {
         // Primeiro, criar um cliente para buscar
         Map<String, Object> clientRequest = TestDataLoader.loadValidClient("joaoSantos");
 
-        Integer clientId = given()
+        // @formatter:off
+        var clientId = given()
                 .basePath("/clients")
                 .contentType(ContentType.JSON)
                 .body(clientRequest)
@@ -77,9 +80,7 @@ class ClientControllerTest {
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
                 .path("id");
-
-        // Buscar o cliente criado
-        given()
+            given()
                 .basePath("/clients/" + clientId)
                 .accept(ContentType.JSON)
             .when()
@@ -89,33 +90,41 @@ class ClientControllerTest {
                 .contentType(ContentType.JSON)
                 .body("id", equalTo(clientId))
                 .body("name", equalTo("João Santos"))
-                .body("email", equalTo("joao.santos@email.com"));
+                .body("email", equalTo("joao.santos@email.com")) ;
+        // @formatter:on
     }
 
     @Test
     @DisplayName("Deve retornar status 200 ao listar clientes")
     void deveRetornarStatus200_QuandoListarClientes() {
-        given()
-            .basePath("/clients")
-            .accept(ContentType.JSON)
+        // @formatter:off
+            given()
+                .basePath("/clients")
+                .accept(ContentType.JSON)
             .when()
-            .get()
+                .get()
             .then()
-            .statusCode(HttpStatus.OK.value())
-            .contentType(ContentType.JSON);
+                .statusCode(HttpStatus.OK.value())
+                .contentType(ContentType.JSON)
+        ;
+        // @formatter:on
+
     }
 
     @Test
     @DisplayName("Deve retornar status 404 ao buscar cliente por ID inexistente")
     void deveRetornarStatus404_QuandoBuscarClientePorIdInexistente() {
+        // @formatter:off
         given()
-                .basePath("/clients/99999")
-                .accept(ContentType.JSON)
-            .when()
-                .get()
-            .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+            .basePath("/clients/99999")
+            .accept(ContentType.JSON)
+        .when()
+            .get()
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
+        // @formatter:on
     }
+
 
     @Test
     @DisplayName("Deve retornar status 200 ao buscar clientes por nome")
@@ -124,25 +133,26 @@ class ClientControllerTest {
         Map<String, Object> clientRequest = TestDataLoader.loadValidClient("anaCosta");
 
         given()
-                .basePath("/clients")
-                .contentType(ContentType.JSON)
-                .body(clientRequest)
+            .basePath("/clients")
+            .contentType(ContentType.JSON)
+            .body(clientRequest)
             .when()
-                .post()
+            .post()
             .then()
-                .statusCode(HttpStatus.CREATED.value());
+            .statusCode(HttpStatus.CREATED.value());
 
         // Buscar por nome
         given()
-                .basePath("/clients")
-                .queryParam("name", "Ana")
-                .accept(ContentType.JSON)
+            .basePath("/clients")
+            .queryParam("name", "Ana")
+            .accept(ContentType.JSON)
             .when()
-                .get()
+            .get()
             .then()
-                .statusCode(HttpStatus.OK.value())
-                .contentType(ContentType.JSON)
-                .body("$", not(empty()));
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .body("$", not(empty()))
+        ;
     }
 
     @Test
@@ -150,8 +160,8 @@ class ClientControllerTest {
     void deveRetornarStatus200_QuandoAtualizarClienteExistente() {
         // Criar cliente
         Map<String, Object> clientRequest = TestDataLoader.loadValidClient("pedroOliveira");
-
-        Integer clientId = given()
+        // @formatter:off
+        var clientId = given()
                 .basePath("/clients")
                 .contentType(ContentType.JSON)
                 .body(clientRequest)
@@ -166,13 +176,14 @@ class ClientControllerTest {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            Thread
+                    .currentThread()
+                    .interrupt();
         }
 
         // Atualizar cliente
         Map<String, Object> updateRequest = TestDataLoader.loadUpdateClient("pedroOliveiraAtualizado");
-
-        given()
+            given()
                 .basePath("/clients/" + clientId)
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
@@ -186,6 +197,8 @@ class ClientControllerTest {
                 .body("name", equalTo("Pedro Oliveira Santos"))
                 .body("phone", equalTo("11999999999"))
                 .body("address.street", equalTo("Av. Faria Lima"));
+
+        // @formatter:on
     }
 
     @Test
@@ -193,7 +206,7 @@ class ClientControllerTest {
     void deveRetornarStatus204_QuandoDeletarClienteExistente() {
         // Criar cliente
         Map<String, Object> clientRequest = TestDataLoader.loadValidClient("clienteParaDeletar");
-
+        // @formatter:off
         var clientId = given()
                 .basePath("/clients")
                 .contentType(ContentType.JSON)
@@ -206,29 +219,31 @@ class ClientControllerTest {
                 .path("id");
 
         // Deletar cliente
-        given()
+            given()
                 .basePath("/clients/" + clientId)
             .when()
                 .delete()
             .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+                .statusCode(HttpStatus.NO_CONTENT.value())
+        ;
 
         // Verificar que o cliente foi deletado
-        given()
+            given()
                 .basePath("/clients/" + clientId)
                 .accept(ContentType.JSON)
             .when()
                 .get()
             .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
+        // @formatter:on
     }
 
     @Test
     @DisplayName("Deve retornar status 400 ao criar cliente com dados inválidos")
     void deveRetornarStatus400_QuandoCriarClienteComDadosInvalidos() {
         Map<String, Object> clientRequest = TestDataLoader.loadInvalidClient("clienteInvalido");
-
-        given()
+        // @formatter:off
+            given()
                 .basePath("/clients")
                 .contentType(ContentType.JSON)
                 .body(clientRequest)
@@ -236,21 +251,24 @@ class ClientControllerTest {
                 .post()
             .then()
                 .statusCode(HttpStatus.BAD_REQUEST.value());
+            // @formatter:on
     }
 
     @Test
     @DisplayName("Deve retornar status 404 ao atualizar cliente inexistente")
     void deveRetornarStatus404_QuandoAtualizarClienteInexistente() {
         Map<String, Object> updateRequest = TestDataLoader.loadUpdateClient("clienteInexistente");
-
+        // @formatter:off
         given()
-                .basePath("/clients/99999")
-                .contentType(ContentType.JSON)
-                .body(updateRequest)
-            .when()
-                .patch()
-            .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+            .basePath("/clients/99999")
+            .contentType(ContentType.JSON)
+            .body(updateRequest)
+        .when()
+            .patch()
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
+        // @formatter:on
     }
+
 
 }

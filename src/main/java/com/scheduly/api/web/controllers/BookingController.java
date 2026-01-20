@@ -32,7 +32,8 @@ public class BookingController implements BookingsApi {
     public ResponseEntity<BookingResponse> createBooking(BookingRequest request) {
         Booking domain = mapper.toDomain(request);
         Booking created = createBookingUseCase.execute(domain);
-        return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toResponse(created));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(mapper.toResponse(created));
     }
 
     @Override
@@ -43,13 +44,14 @@ public class BookingController implements BookingsApi {
 
     @Override
     public ResponseEntity<List<BookingResponse>> listBookings(Long clientId, Long professionalId, LocalDate date) {
-        BookingFilter filter = BookingFilter.builder()
-                .clientId(clientId)
-                .professionalId(professionalId)
-                .date(date)
-                .build();
+        var filter = BookingFilter.builder()
+            .clientId(clientId)
+            .professionalId(professionalId)
+            .date(date)
+            .build();
 
-        List<BookingResponse> response = listBookingsUseCase.execute(filter).stream()
+        List<BookingResponse> response = listBookingsUseCase.execute(filter)
+                .stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
 
@@ -66,6 +68,7 @@ public class BookingController implements BookingsApi {
     @Override
     public ResponseEntity<Void> cancelBooking(Long bookingId) {
         deleteBookingUseCase.execute(bookingId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent()
+            .build();
     }
 }

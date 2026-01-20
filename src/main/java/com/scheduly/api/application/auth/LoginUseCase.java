@@ -33,28 +33,41 @@ public class LoginUseCase {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityContextHolder
+                .getContext()
+                .setAuthentication(authentication);
 
         String accessToken = jwtProvider.generateAccessToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userRepository.findById(userDetails.getId())
+        User user = userRepository
+                .findById(userDetails.getId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         // Cria e salva o Refresh Token
-        String refreshTokenStr = UUID.randomUUID().toString();
-        RefreshToken refreshToken = RefreshToken.builder()
+        String refreshTokenStr = UUID
+                .randomUUID()
+                .toString();
+        RefreshToken refreshToken = RefreshToken
+                .builder()
                 .token(refreshTokenStr)
                 .user(user)
-                .expiryDate(LocalDateTime.now().plusDays(7)) // 7 dias de validade
+                .expiryDate(LocalDateTime
+                        .now()
+                        .plusDays(7)) // 7 dias de validade
                 .build();
 
         refreshTokenRepository.deleteByUser(user); // Limpa tokens antigos
         refreshTokenRepository.save(refreshToken);
 
-        String role = userDetails.getAuthorities().iterator().next().getAuthority();
+        String role = userDetails
+                .getAuthorities()
+                .iterator()
+                .next()
+                .getAuthority();
 
-        return AuthResponse.builder()
+        return AuthResponse
+                .builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshTokenStr)
                 .email(userDetails.getEmail())
