@@ -13,8 +13,7 @@ public record ProfessionalServiceRequest(
         @NotNull(message = "Preço é obrigatório")
         Integer priceCents,
 
-        @Schema(description = "Duração em minutos", example = "60")
-        @NotNull(message = "Duração é obrigatória")
+        @Schema(description = "Duração em minutos (opcional - se não informado, usa a duração padrão do serviço)", example = "60")
         Integer durationMinutes
 ) {
 }

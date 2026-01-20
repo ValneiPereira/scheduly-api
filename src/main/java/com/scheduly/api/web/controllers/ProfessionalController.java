@@ -5,6 +5,7 @@ import com.scheduly.api.application.professional.*;
 import com.scheduly.api.application.review.CreateReviewUseCase;
 import com.scheduly.api.domain.professional.Professional;
 import com.scheduly.api.domain.review.ProfessionalReview;
+import com.scheduly.api.web.dtos.AddressUpdateRequest;
 import com.scheduly.api.web.dtos.AvailabilityRequest;
 import com.scheduly.api.web.dtos.AvailabilityResponse;
 import com.scheduly.api.web.dtos.ProfessionalRequest;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -30,6 +33,8 @@ public class ProfessionalController implements ProfessionalsApi {
     private final CreateProfessionalUseCase createProfessionalUseCase;
     private final GetProfessionalUseCase getProfessionalUseCase;
     private final GetMyProfessionalProfileUseCase getMyProfessionalProfileUseCase;
+    private final UpdateMyProfessionalProfileUseCase updateMyProfessionalProfileUseCase;
+    private final UpdateMyProfessionalAddressUseCase updateMyProfessionalAddressUseCase;
     private final ListProfessionalsUseCase listProfessionalsUseCase;
     private final UpdateProfessionalUseCase updateProfessionalUseCase;
     private final DeleteProfessionalUseCase deleteProfessionalUseCase;
@@ -56,6 +61,21 @@ public class ProfessionalController implements ProfessionalsApi {
     public ResponseEntity<ProfessionalResponse> getMyProfessionalProfile() {
         Professional professional = getMyProfessionalProfileUseCase.execute();
         return ResponseEntity.ok(mapper.toResponse(professional));
+    }
+
+    @PutMapping("/professionals/me")
+    public ResponseEntity<ProfessionalResponse> updateMyProfessionalProfile(
+            ProfessionalRequest professionalRequest) {
+        Professional professional = mapper.toDomain(professionalRequest);
+        Professional updated = updateMyProfessionalProfileUseCase.execute(professional);
+        return ResponseEntity.ok(mapper.toResponse(updated));
+    }
+
+    @PutMapping("/professionals/me/address")
+    public ResponseEntity<ProfessionalResponse> updateMyProfessionalAddress(
+            AddressUpdateRequest addressRequest) {
+        Professional updated = updateMyProfessionalAddressUseCase.execute(addressRequest);
+        return ResponseEntity.ok(mapper.toResponse(updated));
     }
 
     @Override

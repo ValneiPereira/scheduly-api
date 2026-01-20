@@ -46,6 +46,16 @@ public class TestDataLoader {
     }
 
     /**
+     * Carrega dados de registro do arquivo register-requests.json
+     *
+     * @param key Chave do objeto no JSON (ex: "joaoSantos", "anaCosta")
+     * @return Map com os dados de registro (name, email, phone, password)
+     */
+    public static Map<String, Object> loadRegisterRequest(String key) {
+        return loadClientData("test-data/clients/register-requests.json", key);
+    }
+
+    /**
      * Método genérico para carregar dados de um arquivo JSON
      *
      * @param filePath Caminho do arquivo JSON no classpath

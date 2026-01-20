@@ -29,6 +29,9 @@ public record ProfessionalResponse(
         @Schema(type = "string", example = "19:00")
         LocalTime workEndTime,
 
+        @Schema(description = "Intervalo entre atendimentos em minutos", example = "30")
+        Integer intervalMinutes,
+
         List<String> workingDays,
         Boolean active,
         @JsonFormat(pattern = "dd-MM-yyyy") LocalDateTime createdAt,

@@ -61,6 +61,9 @@ public class ProfessionalEntity {
         @Column(nullable = false)
         private LocalTime workEndTime;
 
+        @Column(nullable = false, name = "interval_minutes")
+        private Integer intervalMinutes;
+
         @ElementCollection
         @CollectionTable(name = "professional_working_days", joinColumns = @JoinColumn(name = "professional_id"))
         @Column(name = "working_day")

@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Map;
 
+import static com.scheduly.api.util.TestDataLoader.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -42,15 +43,9 @@ class ClientControllerTest {
     @Test
     @DisplayName("Deve retornar status 200 ao buscar cliente por ID existente")
     void deveRetornarStatus200_QuandoBuscarClientePorIdExistente() {
-        // Criar cliente via registro (endpoint disponível)
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("joaoSantos");
-        String email = (String) clientRequest.get("email");
-        Map<String, Object> registerRequest = Map.of(
-            "name", clientRequest.get("name"),
-            "email", email,
-            "phone", clientRequest.get("phone"),
-            "password", "senha123"
-        );
+
+        Map<String, Object> registerRequest = loadRegisterRequest("joaoSantos");
+        String email =  registerRequest.get("email").toString();
 
         // @formatter:off
         // Registrar cliente
@@ -134,15 +129,7 @@ class ClientControllerTest {
     @DisplayName("Deve retornar status 200 ao buscar clientes por nome")
     void deveRetornarStatus200_QuandoBuscarClientesPorNome() {
         // Criar cliente via registro
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("anaCosta");
-        String name = (String) clientRequest.get("name");
-
-        Map<String, Object> registerRequest = Map.of(
-            "name", name,
-            "email", clientRequest.get("email"),
-            "phone", clientRequest.get("phone"),
-            "password", "senha123"
-        );
+        Map<String, Object> registerRequest = loadRegisterRequest("anaCosta");
 
         given()
             .basePath("/auth/register")
@@ -174,14 +161,8 @@ class ClientControllerTest {
     @DisplayName("Deve retornar status 204 ao deletar cliente existente")
     void deveRetornarStatus204_QuandoDeletarClienteExistente() {
         // Criar cliente via registro
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("clienteParaDeletar");
-        String email = (String) clientRequest.get("email");
-        Map<String, Object> registerRequest = Map.of(
-            "name", clientRequest.get("name"),
-            "email", email,
-            "phone", clientRequest.get("phone"),
-            "password", "senha123"
-        );
+        Map<String, Object> registerRequest = loadRegisterRequest("clienteParaDeletar");
+        String email = (String) registerRequest.get("email");
 
         // @formatter:off
         // Registrar cliente
@@ -233,10 +214,6 @@ class ClientControllerTest {
                 .statusCode(HttpStatus.NOT_FOUND.value());
         // @formatter:on
     }
-
-    // Teste removido: POST /clients foi removido da API (validação de criação via /auth/register)
-
-    // Teste removido: PATCH /clients/{id} foi removido da API
 
 
 }

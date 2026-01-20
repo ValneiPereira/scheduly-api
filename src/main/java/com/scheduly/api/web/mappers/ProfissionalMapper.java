@@ -31,6 +31,7 @@ public class ProfissionalMapper {
                 .specialtyIds(request.specialtyIds())
                 .workStartTime(request.workStartTime())
                 .workEndTime(request.workEndTime())
+                .intervalMinutes(request.intervalMinutes() != null ? request.intervalMinutes() : 30)
                 .workingDays(request.workingDays())
                 .active(request.active())
                 .build();
@@ -56,6 +57,7 @@ public class ProfissionalMapper {
                 specialization,
                 professional.getWorkStartTime(),
                 professional.getWorkEndTime(),
+                professional.getIntervalMinutes(),
                 professional.getWorkingDays(),
                 professional.getActive(),
                 professional.getCreatedAt(),

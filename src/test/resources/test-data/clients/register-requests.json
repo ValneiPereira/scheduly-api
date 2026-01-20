@@ -1,0 +1,32 @@
+{
+  "joaoSantos": {
+    "name": "João Santos",
+    "email": "joao.santos@email.com",
+    "phone": "11976543210",
+    "password": "senha123"
+  },
+  "anaCosta": {
+    "name": "Ana Costa",
+    "email": "ana.costa@email.com",
+    "phone": "11965432109",
+    "password": "senha123"
+  },
+  "clienteParaDeletar": {
+    "name": "Cliente para Deletar",
+    "email": "deletar@email.com",
+    "phone": "11988887777",
+    "password": "senha123"
+  },
+  "mariaSilva": {
+    "name": "Maria Silva",
+    "email": "maria.silva@email.com",
+    "phone": "11987654321",
+    "password": "senha123"
+  },
+  "pedroOliveira": {
+    "name": "Pedro Oliveira",
+    "email": "pedro.oliveira@email.com",
+    "phone": "11977776666",
+    "password": "senha123"
+  }
+}

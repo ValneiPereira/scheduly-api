@@ -38,6 +38,12 @@ public record ProfessionalRequest(
         @NotNull(message = "Horário de término é obrigatório")
         LocalTime workEndTime,
 
+        @Schema(description = "Intervalo entre atendimentos em minutos", example = "30")
+        @NotNull(message = "Intervalo entre atendimentos é obrigatório")
+        @Min(value = 1, message = "Intervalo deve ser no mínimo 1 minuto")
+        @Max(value = 480, message = "Intervalo deve ser no máximo 480 minutos (8 horas)")
+        Integer intervalMinutes,
+
         @NotEmpty(message = "É necessário informar os dias de trabalho")
         List<String> workingDays,
 
