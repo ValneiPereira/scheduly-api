@@ -51,9 +51,9 @@ public class BookingController implements BookingsApi {
             .build();
 
         List<BookingResponse> response = listBookingsUseCase.execute(filter)
-                .stream()
-                .map(mapper::toResponse)
-                .collect(Collectors.toList());
+            .stream()
+            .map(mapper::toResponse)
+            .collect(Collectors.toList());
 
         return ResponseEntity.ok(response);
     }

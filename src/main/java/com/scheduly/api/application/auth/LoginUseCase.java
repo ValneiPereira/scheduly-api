@@ -6,8 +6,8 @@ import com.scheduly.api.domain.user.User;
 import com.scheduly.api.domain.user.UserRepository;
 import com.scheduly.api.infrastructure.auth.JwtProvider;
 import com.scheduly.api.infrastructure.auth.UserDetailsImpl;
-import com.scheduly.api.web.auth.AuthResponse;
-import com.scheduly.api.web.auth.LoginRequest;
+import com.scheduly.api.web.dtos.AuthResponse;
+import com.scheduly.api.web.dtos.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +31,7 @@ public class LoginUseCase {
     @Transactional
     public AuthResponse execute(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
         SecurityContextHolder
                 .getContext()
@@ -66,13 +66,12 @@ public class LoginUseCase {
                 .next()
                 .getAuthority();
 
-        return AuthResponse
-                .builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshTokenStr)
-                .email(userDetails.getEmail())
-                .role(role)
-                .ownerId(userDetails.getOwnerId())
-                .build();
+        return new AuthResponse(
+                accessToken,
+                refreshTokenStr,
+                userDetails.getEmail(),
+                role,
+                userDetails.getOwnerId()
+        );
     }
 }
