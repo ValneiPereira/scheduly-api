@@ -3,8 +3,10 @@ package com.scheduly.api.web.controllers;
 import com.scheduly.api.application.professional.CreateProfessionalServiceUseCase;
 import com.scheduly.api.application.professional.ListProfessionalServicesUseCase;
 import com.scheduly.api.application.professional.RemoveProfessionalServiceUseCase;
+import com.scheduly.api.application.professional.UpdateProfessionalServiceUseCase;
 import com.scheduly.api.web.dtos.ProfessionalServiceRequest;
 import com.scheduly.api.web.dtos.ProfessionalServiceResponse;
+import com.scheduly.api.web.dtos.ProfessionalServiceUpdate;
 import com.scheduly.api.web.mappers.ProfessionalServiceMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class ProfessionalServiceController {
     private final CreateProfessionalServiceUseCase createProfessionalServiceUseCase;
     private final ListProfessionalServicesUseCase listProfessionalServicesUseCase;
     private final RemoveProfessionalServiceUseCase removeProfessionalServiceUseCase;
+    private final UpdateProfessionalServiceUseCase updateProfessionalServiceUseCase;
     private final ProfessionalServiceMapper mapper;
 
     @GetMapping
@@ -45,6 +48,20 @@ public class ProfessionalServiceController {
                 .map(mapper::toResponse)
                 .toList();
         return ResponseEntity.status(HttpStatus.CREATED).body(responses);
+    }
+
+    @PutMapping("/{departmentId}")
+    public ResponseEntity<ProfessionalServiceResponse> update(
+            @PathVariable Long professionalId,
+            @PathVariable Long departmentId,
+            @Valid @RequestBody ProfessionalServiceUpdate update
+    ) {
+        var updated = updateProfessionalServiceUseCase.execute(
+                professionalId,
+                departmentId,
+                mapper.toDomain(update)
+        );
+        return ResponseEntity.ok(mapper.toResponse(updated));
     }
 
     @DeleteMapping("/{departmentId}")

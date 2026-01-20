@@ -22,10 +22,6 @@ public class CreateProfessionalUseCase {
             throw new ConflictException("Já existe um profissional cadastrado com o email: " + professional.getEmail());
         }
 
-        if (repository.existsByCpf(professional.getCpf())) {
-            throw new ConflictException("Já existe um profissional cadastrado com o CPF: " + professional.getCpf());
-        }
-
         // Validar horários de trabalho se informados
         validateWorkSchedule(professional);
 

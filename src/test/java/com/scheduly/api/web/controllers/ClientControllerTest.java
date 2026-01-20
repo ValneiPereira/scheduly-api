@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Map;
 
+import static com.scheduly.api.util.TestDataLoader.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -40,46 +41,44 @@ class ClientControllerTest {
     }
 
     @Test
-    @DisplayName("Deve retornar status 201 ao criar cliente com dados válidos")
-    void deveRetornarStatus201_QuandoCriarClienteComDadosValidos() {
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("mariaSilva");
-
-        given()
-                .basePath("/clients")
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(clientRequest)
-            .when()
-                .post()
-            .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .contentType(ContentType.JSON)
-                .body("name", equalTo("Maria Silva"))
-                .body("cpf", equalTo("78621572060"))
-                .body("email", equalTo("maria.silva@email.com"))
-                .body("phone", equalTo("11987654321"))
-                .body("id", notNullValue())
-                .body("address.street", equalTo("Rua das Flores"));
-    }
-
-    @Test
     @DisplayName("Deve retornar status 200 ao buscar cliente por ID existente")
     void deveRetornarStatus200_QuandoBuscarClientePorIdExistente() {
-        // Primeiro, criar um cliente para buscar
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("joaoSantos");
 
-        Integer clientId = given()
-                .basePath("/clients")
+        Map<String, Object> registerRequest = loadRegisterRequest("joaoSantos");
+        String email =  registerRequest.get("email").toString();
+
+        // @formatter:off
+        // Registrar cliente
+        given()
+                .basePath("/auth/register")
                 .contentType(ContentType.JSON)
-                .body(clientRequest)
+                .body(registerRequest)
             .when()
                 .post()
             .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .path("id");
+                .statusCode(HttpStatus.CREATED.value());
 
-        // Buscar o cliente criado
+        // Buscar cliente na lista completa pelo email
+        var allClients = given()
+                .basePath("/clients")
+                .accept(ContentType.JSON)
+            .when()
+                .get()
+            .then()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .jsonPath()
+                .getList("", Map.class);
+
+        // Encontrar cliente pelo email
+        var client = allClients.stream()
+                .filter(c -> email.equals(((Map<?, ?>) c).get("email")))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Cliente não encontrado após registro"));
+
+        var clientId = ((Map<?, ?>) client).get("id");
+        
+        // Buscar por ID
         given()
                 .basePath("/clients/" + clientId)
                 .accept(ContentType.JSON)
@@ -91,128 +90,119 @@ class ClientControllerTest {
                 .body("id", equalTo(clientId))
                 .body("name", equalTo("João Santos"))
                 .body("email", equalTo("joao.santos@email.com"));
+        // @formatter:on
     }
 
     @Test
     @DisplayName("Deve retornar status 200 ao listar clientes")
     void deveRetornarStatus200_QuandoListarClientes() {
-        given()
-            .basePath("/clients")
-            .accept(ContentType.JSON)
+        // @formatter:off
+            given()
+                .basePath("/clients")
+                .accept(ContentType.JSON)
             .when()
-            .get()
+                .get()
             .then()
-            .statusCode(HttpStatus.OK.value())
-            .contentType(ContentType.JSON);
+                .statusCode(HttpStatus.OK.value())
+                .contentType(ContentType.JSON)
+        ;
+        // @formatter:on
+
     }
 
     @Test
     @DisplayName("Deve retornar status 404 ao buscar cliente por ID inexistente")
     void deveRetornarStatus404_QuandoBuscarClientePorIdInexistente() {
+        // @formatter:off
         given()
-                .basePath("/clients/99999")
-                .accept(ContentType.JSON)
-            .when()
-                .get()
-            .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
+            .basePath("/clients/99999")
+            .accept(ContentType.JSON)
+        .when()
+            .get()
+        .then()
+            .statusCode(HttpStatus.NOT_FOUND.value());
+        // @formatter:on
     }
+
 
     @Test
     @DisplayName("Deve retornar status 200 ao buscar clientes por nome")
     void deveRetornarStatus200_QuandoBuscarClientesPorNome() {
-        // Criar cliente com nome específico
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("anaCosta");
+        // Criar cliente via registro
+        Map<String, Object> registerRequest = loadRegisterRequest("anaCosta");
 
         given()
-                .basePath("/clients")
+            .basePath("/auth/register")
+            .contentType(ContentType.JSON)
+            .body(registerRequest)
+            .when()
+            .post()
+            .then()
+            .statusCode(HttpStatus.CREATED.value());
+
+        // Buscar por nome (usando parte do nome)
+        given()
+            .basePath("/clients/search")
+            .queryParam("name", "Ana")
+            .accept(ContentType.JSON)
+            .when()
+            .get()
+            .then()
+            .statusCode(HttpStatus.OK.value())
+            .contentType(ContentType.JSON)
+            .body("$", not(empty()))
+            .body("[0].name", containsString("Ana"))
+        ;
+    }
+
+    // Teste removido: PATCH /clients/{id} foi removido da API (clientes atualizam via /clients/me)
+
+    @Test
+    @DisplayName("Deve retornar status 204 ao deletar cliente existente")
+    void deveRetornarStatus204_QuandoDeletarClienteExistente() {
+        // Criar cliente via registro
+        Map<String, Object> registerRequest = loadRegisterRequest("clienteParaDeletar");
+        String email = (String) registerRequest.get("email");
+
+        // @formatter:off
+        // Registrar cliente
+        given()
+                .basePath("/auth/register")
                 .contentType(ContentType.JSON)
-                .body(clientRequest)
+                .body(registerRequest)
             .when()
                 .post()
             .then()
                 .statusCode(HttpStatus.CREATED.value());
 
-        // Buscar por nome
-        given()
+        // Buscar cliente na lista completa pelo email
+        var allClients = given()
                 .basePath("/clients")
-                .queryParam("name", "Ana")
                 .accept(ContentType.JSON)
             .when()
                 .get()
             .then()
                 .statusCode(HttpStatus.OK.value())
-                .contentType(ContentType.JSON)
-                .body("$", not(empty()));
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 200 ao atualizar cliente existente")
-    void deveRetornarStatus200_QuandoAtualizarClienteExistente() {
-        // Criar cliente
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("pedroOliveira");
-
-        Integer clientId = given()
-                .basePath("/clients")
-                .contentType(ContentType.JSON)
-                .body(clientRequest)
-            .when()
-                .post()
-            .then()
-                .statusCode(HttpStatus.CREATED.value())
                 .extract()
-                .path("id");
+                .jsonPath()
+                .getList("", Map.class);
 
-        // Aguardar um pouco para garantir que a transação foi commitada
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        // Encontrar cliente pelo email
+        var client = allClients.stream()
+                .filter(c -> email.equals(((Map<?, ?>) c).get("email")))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Cliente não encontrado após registro"));
 
-        // Atualizar cliente
-        Map<String, Object> updateRequest = TestDataLoader.loadUpdateClient("pedroOliveiraAtualizado");
-
-        given()
-                .basePath("/clients/" + clientId)
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(updateRequest)
-            .when()
-                .patch()
-            .then()
-                .statusCode(HttpStatus.OK.value())
-                .contentType(ContentType.JSON)
-                .body("id", equalTo(clientId))
-                .body("name", equalTo("Pedro Oliveira Santos"))
-                .body("phone", equalTo("11999999999"))
-                .body("address.street", equalTo("Av. Faria Lima"));
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 204 ao deletar cliente existente")
-    void deveRetornarStatus204_QuandoDeletarClienteExistente() {
-        // Criar cliente
-        Map<String, Object> clientRequest = TestDataLoader.loadValidClient("clienteParaDeletar");
-
-        var clientId = given()
-                .basePath("/clients")
-                .contentType(ContentType.JSON)
-                .body(clientRequest)
-            .when()
-                .post()
-            .then()
-                .statusCode(HttpStatus.CREATED.value())
-                .extract()
-                .path("id");
-
+        var clientId = ((Map<?, ?>) client).get("id");
+        
         // Deletar cliente
         given()
                 .basePath("/clients/" + clientId)
             .when()
                 .delete()
             .then()
-                .statusCode(HttpStatus.NO_CONTENT.value());
+                .statusCode(HttpStatus.NO_CONTENT.value())
+        ;
 
         // Verificar que o cliente foi deletado
         given()
@@ -222,36 +212,8 @@ class ClientControllerTest {
                 .get()
             .then()
                 .statusCode(HttpStatus.NOT_FOUND.value());
+        // @formatter:on
     }
 
-    @Test
-    @DisplayName("Deve retornar status 400 ao criar cliente com dados inválidos")
-    void deveRetornarStatus400_QuandoCriarClienteComDadosInvalidos() {
-        Map<String, Object> clientRequest = TestDataLoader.loadInvalidClient("clienteInvalido");
-
-        given()
-                .basePath("/clients")
-                .contentType(ContentType.JSON)
-                .body(clientRequest)
-            .when()
-                .post()
-            .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
-    }
-
-    @Test
-    @DisplayName("Deve retornar status 404 ao atualizar cliente inexistente")
-    void deveRetornarStatus404_QuandoAtualizarClienteInexistente() {
-        Map<String, Object> updateRequest = TestDataLoader.loadUpdateClient("clienteInexistente");
-
-        given()
-                .basePath("/clients/99999")
-                .contentType(ContentType.JSON)
-                .body(updateRequest)
-            .when()
-                .patch()
-            .then()
-                .statusCode(HttpStatus.NOT_FOUND.value());
-    }
 
 }

@@ -26,6 +26,12 @@ public class ProfessionalServiceRepositoryImpl implements ProfessionalServiceRep
     }
 
     @Override
+    public java.util.Optional<ProfessionalService> findByProfessionalIdAndDepartmentId(Long professionalId, Long departmentId) {
+        return professionalServiceJpaRepository.findByProfessional_IdAndDepartment_Id(professionalId, departmentId)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public ProfessionalService save(ProfessionalService professionalService) {
         var professionalRef = professionalJpaRepository.getReferenceById(professionalService.getProfessionalId());
         var departmentRef = departmentJpaRepository.getReferenceById(professionalService.getDepartmentId());

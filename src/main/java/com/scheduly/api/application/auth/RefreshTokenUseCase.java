@@ -3,8 +3,8 @@ package com.scheduly.api.application.auth;
 import com.scheduly.api.domain.user.RefreshToken;
 import com.scheduly.api.domain.user.RefreshTokenRepository;
 import com.scheduly.api.infrastructure.auth.JwtProvider;
-import com.scheduly.api.web.auth.AuthResponse;
-import com.scheduly.api.web.dtos.RefreshTokenRequest;
+import com.scheduly.api.web.dtos.AuthResponse;
+import com.scheduly.api.web.dtos.RefreshRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ public class RefreshTokenUseCase {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public AuthResponse execute(RefreshTokenRequest request) {
+    public AuthResponse execute(RefreshRequest request) {
         String requestRefreshToken = request.refreshToken();
 
         return refreshTokenRepository.findByToken(requestRefreshToken)
@@ -31,13 +31,13 @@ public class RefreshTokenUseCase {
                 .map(RefreshToken::getUser)
                 .map(user -> {
                     String accessToken = jwtProvider.generateTokenFromUsername(user.getEmail());
-                    return AuthResponse.builder()
-                            .accessToken(accessToken)
-                            .refreshToken(requestRefreshToken)
-                            .email(user.getEmail())
-                            .role(user.getRole().name())
-                            .ownerId(user.getOwnerId())
-                            .build();
+                    return new AuthResponse(
+                            accessToken,
+                            requestRefreshToken,
+                            user.getEmail(),
+                            user.getRole().name(),
+                            user.getOwnerId()
+                    );
                 })
                 .orElseThrow(() -> new RuntimeException("Refresh token não encontrado no banco de dados."));
     }

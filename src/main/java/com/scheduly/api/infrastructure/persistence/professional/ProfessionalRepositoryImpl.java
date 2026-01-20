@@ -45,7 +45,8 @@ public class ProfessionalRepositoryImpl implements ProfessionalRepository {
 
     @Override
     public Optional<Professional> findById(Long id) {
-        return jpaRepository.findById(id)
+        // Usa o método que faz JOIN FETCH do endereço para garantir que seja carregado
+        return jpaRepository.findByIdWithAddress(id)
                 .map(mapper::toDomain);
     }
 
@@ -64,6 +65,13 @@ public class ProfessionalRepositoryImpl implements ProfessionalRepository {
     }
 
     @Override
+    public Optional<Professional> findByEmail(String email) {
+        // Usa o método que faz JOIN FETCH do endereço para garantir que seja carregado
+        return jpaRepository.findByEmailWithAddress(email)
+                .map(mapper::toDomain);
+    }
+
+    @Override
     public void deleteById(Long id) {
         jpaRepository.deleteById(id);
     }
@@ -76,10 +84,5 @@ public class ProfessionalRepositoryImpl implements ProfessionalRepository {
     @Override
     public boolean existsByEmail(String email) {
         return jpaRepository.existsByEmail(email);
-    }
-
-    @Override
-    public boolean existsByCpf(String cpf) {
-        return jpaRepository.existsByCpf(cpf);
     }
 }

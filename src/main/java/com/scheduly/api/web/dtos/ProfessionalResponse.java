@@ -13,8 +13,8 @@ public record ProfessionalResponse(
         String name,
         String email,
         String phone,
-        String cpf,
         AddressResponse address,
+        String avatarUrl,
         String bio,
         List<Long> specialtyIds,
         BigDecimal rating,
@@ -28,7 +28,10 @@ public record ProfessionalResponse(
         @JsonFormat(pattern = "HH:mm")
         @Schema(type = "string", example = "19:00")
         LocalTime workEndTime,
+
+        @Schema(description = "Intervalo entre atendimentos em minutos", example = "30")
         Integer intervalMinutes,
+
         List<String> workingDays,
         Boolean active,
         @JsonFormat(pattern = "dd-MM-yyyy") LocalDateTime createdAt,

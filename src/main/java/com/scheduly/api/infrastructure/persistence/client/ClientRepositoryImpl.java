@@ -43,11 +43,12 @@ public class ClientRepositoryImpl implements ClientRepository {
             if (client.getEmail() != null) {
                 existingEntity.setEmail(client.getEmail());
             }
-            if (client.getCpf() != null) {
-                existingEntity.setCpf(client.getCpf());
-            }
             if (client.getPhone() != null) {
                 existingEntity.setPhone(client.getPhone());
+            }
+            if (client.getAvatarUrl() != null) {
+                System.out.println("[ClientRepositoryImpl] Setando avatarUrl: " + client.getAvatarUrl());
+                existingEntity.setAvatarUrl(client.getAvatarUrl());
             }
 
             // Atualizar endereço apenas se for fornecido
@@ -117,6 +118,12 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
+    public Optional<Client> findByEmail(String email) {
+        return jpaRepository.findByEmail(email)
+                .map(clientMapper::toDomain);
+    }
+
+    @Override
     public List<Client> findByName(String name) {
         return jpaRepository.findByName(name).stream()
                 .map(clientMapper::toDomain)
@@ -141,21 +148,8 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public boolean existsByCpf(String cpf) {
-        return jpaRepository.existsByCpf(cpf);
-    }
-
-    @Override
     public boolean existsByEmailAndIdNot(String email, Long id) {
         return jpaRepository.findByEmail(email)
-                .map(ClientEntity::getId)
-                .filter(foundId -> !foundId.equals(id))
-                .isPresent();
-    }
-
-    @Override
-    public boolean existsByCpfAndIdNot(String cpf, Long id) {
-        return jpaRepository.findByCpf(cpf)
                 .map(ClientEntity::getId)
                 .filter(foundId -> !foundId.equals(id))
                 .isPresent();

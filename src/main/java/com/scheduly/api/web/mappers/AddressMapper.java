@@ -3,6 +3,7 @@ package com.scheduly.api.web.mappers;
 import com.scheduly.api.domain.common.Address;
 import com.scheduly.api.web.dtos.AddressRequest;
 import com.scheduly.api.web.dtos.AddressResponse;
+import com.scheduly.api.web.dtos.AddressUpdateRequest;
 import com.scheduly.api.web.dtos.ViaCepResponse;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,21 @@ import org.springframework.stereotype.Component;
 public class AddressMapper {
 
     public Address toDomain(AddressRequest request) {
+        if (request == null)
+            return null;
+
+        return Address.builder()
+                .street(request.street())
+                .number(request.number())
+                .complement(request.complement())
+                .neighborhood(request.neighborhood())
+                .city(request.city())
+                .state(request.state())
+                .zipCode(request.zipCode())
+                .build();
+    }
+
+    public Address toDomain(AddressUpdateRequest request) {
         if (request == null)
             return null;
 

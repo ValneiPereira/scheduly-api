@@ -8,6 +8,8 @@ public interface ClientRepository {
 
     Optional<Client> findById(Long id);
 
+    Optional<Client> findByEmail(String email);
+
     List<Client> findByName(String name);
 
     List<Client> findAll();
@@ -16,9 +18,5 @@ public interface ClientRepository {
 
     boolean existsByEmail(String email);
 
-    boolean existsByCpf(String cpf);
-
     boolean existsByEmailAndIdNot(String email, Long id);
-
-    boolean existsByCpfAndIdNot(String cpf, Long id);
 }
