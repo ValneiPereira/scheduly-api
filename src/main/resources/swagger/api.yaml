@@ -68,31 +68,121 @@ components:
         LoginRequest:
             type: object
             required:
-                - username
+                - email
                 - password
             properties:
-                username:
+                email:
                     type: string
+                    format: email
                     example: admin@studio.com
                 password:
                     type: string
                     example: senha123
-        LoginResponse:
+        RegisterClientRequest:
             type: object
+            required:
+                - name
+                - email
+                - phone
+                - password
+            properties:
+                name:
+                    type: string
+                    minLength: 1
+                    example: João Silva
+                email:
+                    type: string
+                    format: email
+                    example: joao@email.com
+                phone:
+                    type: string
+                    example: 11987654321
+                password:
+                    type: string
+                    minLength: 8
+                    example: senha123
+        RegisterProfessionalRequest:
+            type: object
+            required:
+                - name
+                - email
+                - phone
+                - password
+                - workStartTime
+                - workEndTime
+                - workingDays
+            properties:
+                name:
+                    type: string
+                    minLength: 1
+                    example: João Silva
+                email:
+                    type: string
+                    format: email
+                    example: joao@email.com
+                phone:
+                    type: string
+                    pattern: '\d{10,11}'
+                    example: 11987654321
+                password:
+                    type: string
+                    minLength: 8
+                    example: senha123
+                workStartTime:
+                    type: string
+                    format: time
+                    example: '09:00'
+                workEndTime:
+                    type: string
+                    format: time
+                    example: '18:00'
+                workingDays:
+                    type: array
+                    items:
+                        type: string
+                    example:
+                        - MONDAY
+                        - TUESDAY
+                        - WEDNESDAY
+                        - THURSDAY
+                        - FRIDAY
+        AuthResponse:
+            type: object
+            required:
+                - accessToken
+                - refreshToken
+                - email
+                - role
+                - ownerId
             properties:
                 accessToken:
                     type: string
-                tokenType:
+                    description: Token JWT para autenticação
+                refreshToken:
                     type: string
-                    example: Bearer
-                expiresIn:
-                    type: integer
-                    example: 3600
+                    description: Token para renovar o accessToken
+                email:
+                    type: string
+                    format: email
+                    description: Email do usuário autenticado
+                role:
+                    type: string
+                    enum:
+                        - ADMIN
+                        - PROFESSIONAL
+                        - CLIENT
+                    description: Role do usuário (pode vir com prefixo ROLE_)
+                ownerId:
+                    type: string
+                    description: ID do cliente ou profissional associado ao usuário
         RefreshRequest:
             type: object
+            required:
+                - refreshToken
             properties:
                 refreshToken:
                     type: string
+                    description: Token de refresh recebido no login
         AddressRequest:
             type: object
             required:
@@ -157,13 +247,47 @@ components:
                     type: string
                 zipCode:
                     type: string
+        AddressUpdateRequest:
+            type: object
+            required:
+                - street
+                - neighborhood
+                - city
+                - state
+                - zipCode
+            properties:
+                street:
+                    type: string
+                    minLength: 1
+                    example: Rua das Flores
+                number:
+                    type: string
+                    example: "123"
+                complement:
+                    type: string
+                    example: Apto 45
+                neighborhood:
+                    type: string
+                    minLength: 1
+                    example: Centro
+                city:
+                    type: string
+                    minLength: 1
+                    example: São Paulo
+                state:
+                    type: string
+                    pattern: '^[A-Z]{2}$'
+                    example: SP
+                zipCode:
+                    type: string
+                    pattern: '\d{5}-\d{3}'
+                    example: 01310-100
         ClientResponse:
             type: object
             required:
                 - id
                 - name
                 - email
-                - cpf
             properties:
                 id:
                     type: integer
@@ -173,8 +297,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                 address:
@@ -192,7 +314,6 @@ components:
             required:
                 - name
                 - email
-                - cpf
             properties:
                 name:
                     type: string
@@ -200,8 +321,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                     pattern: '\d{10,11}'
@@ -216,8 +335,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                     pattern: '\d{10,11}'
@@ -303,7 +420,6 @@ components:
             required:
                 - name
                 - email
-                - cpf
                 - phone
                 - workStartTime
                 - workEndTime
@@ -315,8 +431,6 @@ components:
                 email:
                     type: string
                     format: email
-                cpf:
-                    type: string
                 phone:
                     type: string
                 address:
@@ -563,6 +677,18 @@ components:
                 serviceId:
                     type: integer
                     format: int64
+                serviceName:
+                    type: string
+                    description: Nome do serviço
+                    example: Corte de Cabelo
+                serviceCategory:
+                    type: string
+                    description: Categoria do serviço
+                    example: BELEZA
+                priceCents:
+                    type: integer
+                    description: Preço em centavos
+                    example: 4500
                 startAt:
                     type: string
                     format: date-time
@@ -571,6 +697,11 @@ components:
                     format: date-time
                 status:
                     $ref: '#/components/schemas/BookingStatus'
+                addressId:
+                    type: integer
+                    format: int64
+                    description: ID do endereço do serviço
+                    nullable: true
                 notes:
                     type: string
                 createdAt:
@@ -692,6 +823,72 @@ components:
                     type: boolean
                     example: true
                     description: Indica se o token e valido (nao expirado e nao usado)
+        ProfessionalServiceRequest:
+            type: object
+            required:
+                - departmentId
+                - priceCents
+            properties:
+                departmentId:
+                    type: integer
+                    format: int64
+                    description: ID do serviço (departamento)
+                    example: 1
+                priceCents:
+                    type: integer
+                    description: Preço em centavos
+                    example: 5000
+                durationMinutes:
+                    type: integer
+                    description: Duração em minutos (opcional - se não informado, usa a duração padrão do serviço)
+                    example: 60
+        ProfessionalServiceUpdate:
+            type: object
+            required:
+                - priceCents
+            properties:
+                priceCents:
+                    type: integer
+                    description: Preço em centavos
+                    example: 6000
+                durationMinutes:
+                    type: integer
+                    description: Duração em minutos (opcional - se não informado, usa a duração padrão do serviço)
+                    example: 45
+        ProfessionalServiceResponse:
+            type: object
+            required:
+                - departmentId
+                - name
+                - category
+                - subcategory
+                - priceCents
+                - durationMinutes
+            properties:
+                departmentId:
+                    type: integer
+                    format: int64
+                    description: ID do serviço (departamento)
+                name:
+                    type: string
+                    description: Nome do serviço
+                    example: Manicure Básica
+                category:
+                    type: string
+                    description: Categoria do serviço
+                    example: BELEZA
+                subcategory:
+                    type: string
+                    description: Subcategoria do serviço
+                    example: MANICURE
+                priceCents:
+                    type: integer
+                    description: Preço em centavos
+                    example: 5000
+                durationMinutes:
+                    type: integer
+                    description: Duração em minutos
+                    example: 60
 security:
     - bearerAuth: []
 paths:
@@ -741,26 +938,6 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/ClientResponse'
-        post:
-            tags:
-                - clients
-            summary: Criar cliente
-            operationId: createClient
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ClientRequest'
-            responses:
-                '201':
-                    description: Cliente criado
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ClientResponse'
-                '400':
-                    $ref: '#/components/responses/BadRequest'
     '/clients/{clientId}':
         get:
             tags:
@@ -783,31 +960,6 @@ paths:
                                 $ref: '#/components/schemas/ClientResponse'
                 '404':
                     $ref: '#/components/responses/NotFound'
-        patch:
-            tags:
-                - clients
-            summary: Atualizar cliente
-            operationId: updateClient
-            parameters:
-                - name: clientId
-                  in: path
-                  required: true
-                  schema:
-                      type: integer
-                      format: int64
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ClientUpdate'
-            responses:
-                '200':
-                    description: Cliente atualizado
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ClientResponse'
         delete:
             tags:
                 - clients
@@ -847,6 +999,82 @@ paths:
                                 items:
                                     $ref: '#/components/schemas/ClientResponse'
 
+    /professionals/me:
+        get:
+            tags:
+                - professionals
+            summary: Obter perfil do profissional logado
+            operationId: getMyProfessionalProfile
+            security:
+                - bearerAuth: []
+            responses:
+                '200':
+                    description: Perfil do profissional
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfessionalResponse'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+        put:
+            tags:
+                - professionals
+            summary: Atualizar perfil do profissional logado
+            description: |
+                Atualiza o perfil do profissional autenticado.
+                Permite atualizar dados pessoais, endereço, horários de trabalho, etc.
+            operationId: updateMyProfessionalProfile
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfessionalRequest'
+            responses:
+                '200':
+                    description: Perfil atualizado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfessionalResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                    description: Dados inválidos
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                    description: Profissional não encontrado
+    /professionals/me/address:
+        put:
+            tags:
+                - professionals
+            summary: Atualizar endereço do profissional logado
+            description: |
+                Atualiza apenas o endereço do profissional autenticado.
+                Útil quando o profissional precisa cadastrar/atualizar o endereço separadamente.
+            operationId: updateMyProfessionalAddress
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AddressUpdateRequest'
+            responses:
+                '200':
+                    description: Endereço atualizado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfessionalResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                    description: Dados inválidos
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                    description: Profissional não encontrado
     /professionals:
         get:
             tags:
@@ -1033,6 +1261,139 @@ paths:
                     $ref: '#/components/responses/BadRequest'
                 '404':
                     $ref: '#/components/responses/NotFound'
+    '/professionals/{professionalId}/services':
+        get:
+            tags:
+                - professionals
+            summary: Listar serviços do profissional
+            description: Retorna todos os serviços cadastrados por um profissional
+            operationId: listProfessionalServices
+            parameters:
+                - name: professionalId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                  description: ID do profissional
+            responses:
+                '200':
+                    description: Lista de serviços do profissional
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/ProfessionalServiceResponse'
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                    description: Profissional não encontrado
+        post:
+            tags:
+                - professionals
+            summary: Adicionar serviço ao profissional
+            description: |
+                Cadastra um novo serviço para o profissional.
+                O profissional pode definir preço e duração personalizados para cada serviço.
+            operationId: addProfessionalService
+            parameters:
+                - name: professionalId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                  description: ID do profissional
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfessionalServiceRequest'
+            responses:
+                '201':
+                    description: Serviço adicionado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfessionalServiceResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                    description: Dados inválidos ou serviço já cadastrado
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                    description: Profissional ou departamento não encontrado
+    '/professionals/{professionalId}/services/{departmentId}':
+        put:
+            tags:
+                - professionals
+            summary: Atualizar serviço do profissional
+            description: |
+                Atualiza o preço e/ou duração de um serviço já cadastrado pelo profissional.
+                Permite atualizar apenas o preço, apenas a duração, ou ambos.
+            operationId: updateProfessionalService
+            parameters:
+                - name: professionalId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                  description: ID do profissional
+                - name: departmentId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                  description: ID do serviço (departamento) a ser atualizado
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProfessionalServiceUpdate'
+            responses:
+                '200':
+                    description: Serviço atualizado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ProfessionalServiceResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                    description: Dados inválidos
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                    description: Profissional ou serviço não encontrado
+        delete:
+            tags:
+                - professionals
+            summary: Remover serviço do profissional
+            description: Remove um serviço da lista de serviços oferecidos pelo profissional
+            operationId: removeProfessionalService
+            parameters:
+                - name: professionalId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                  description: ID do profissional
+                - name: departmentId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                  description: ID do serviço (departamento) a ser removido
+            responses:
+                '204':
+                    $ref: '#/components/responses/NoContent'
+                    description: Serviço removido com sucesso
+                '404':
+                    $ref: '#/components/responses/NotFound'
+                    description: Profissional ou serviço não encontrado
 
     /departments:
         get:
@@ -1056,26 +1417,6 @@ paths:
                                 type: array
                                 items:
                                     $ref: '#/components/schemas/DepartmentResponse'
-        post:
-            tags:
-                - departments
-            summary: Criar departamento
-            operationId: createDepartment
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/DepartmentRequest'
-            responses:
-                '201':
-                    description: Departamento criado
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DepartmentResponse'
-                '400':
-                    $ref: '#/components/responses/BadRequest'
     '/departments/{departmentId}':
         get:
             tags:
@@ -1098,48 +1439,6 @@ paths:
                                 $ref: '#/components/schemas/DepartmentResponse'
                 '404':
                     $ref: '#/components/responses/NotFound'
-        put:
-            tags:
-                - departments
-            summary: Atualizar departamento
-            operationId: updateDepartment
-            parameters:
-                - name: departmentId
-                  in: path
-                  required: true
-                  schema:
-                      type: integer
-                      format: int64
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/DepartmentUpdate'
-            responses:
-                '200':
-                    description: Departamento atualizado
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DepartmentResponse'
-                '404':
-                    $ref: '#/components/responses/NotFound'
-        delete:
-            tags:
-                - departments
-            summary: Remover departamento
-            operationId: deleteDepartment
-            parameters:
-                - name: departmentId
-                  in: path
-                  required: true
-                  schema:
-                      type: integer
-                      format: int64
-            responses:
-                '204':
-                    $ref: '#/components/responses/NoContent'
     /bookings:
         get:
             tags:
@@ -1260,6 +1559,115 @@ paths:
             responses:
                 '204':
                     $ref: '#/components/responses/NoContent'
+    /auth/login:
+        post:
+            tags:
+                - auth
+            summary: Autenticar usuario
+            description: |
+                Autentica um usuario e retorna tokens de acesso e refresh.
+                O email e usado como username para autenticacao.
+            operationId: login
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+            responses:
+                '200':
+                    description: Autenticacao bem-sucedida
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AuthResponse'
+                '401':
+                    description: Credenciais invalidas
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+    /auth/register:
+        post:
+            tags:
+                - auth
+            summary: Registrar novo cliente
+            description: |
+                Cria uma nova conta de cliente no sistema.
+                O usuario criado tera role CLIENT por padrao.
+            operationId: register
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RegisterClientRequest'
+            responses:
+                '201':
+                    description: Cliente registrado com sucesso
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                    description: Dados invalidos ou email ja cadastrado
+                '409':
+                    $ref: '#/components/responses/Conflict'
+                    description: Email ja esta em uso
+    /auth/register-professional:
+        post:
+            tags:
+                - auth
+            summary: Registrar novo profissional
+            description: |
+                Cria uma nova conta de profissional no sistema.
+                O usuario criado tera role PROFESSIONAL por padrao.
+            operationId: registerProfessional
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RegisterProfessionalRequest'
+            responses:
+                '201':
+                    description: Profissional registrado com sucesso
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                    description: Dados invalidos ou email ja cadastrado
+                '409':
+                    $ref: '#/components/responses/Conflict'
+                    description: Email ja esta em uso
+    /auth/refresh:
+        post:
+            tags:
+                - auth
+            summary: Renovar token de acesso
+            description: |
+                Renova o accessToken usando o refreshToken.
+                O refreshToken deve estar valido e nao expirado.
+            operationId: refreshToken
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RefreshRequest'
+            responses:
+                '200':
+                    description: Token renovado com sucesso
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AuthResponse'
+                '400':
+                    $ref: '#/components/responses/BadRequest'
+                    description: Refresh token invalido ou expirado
+                '401':
+                    description: Refresh token nao encontrado ou invalido
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
     /auth/forgot-password:
         post:
             tags:

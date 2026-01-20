@@ -22,8 +22,8 @@ public class ClientMapper {
         return Client.builder()
                 .name(request.name())
                 .email(request.email())
-                .cpf(request.cpf())
                 .phone(request.phone())
+                .avatarUrl(request.avatarUrl())
                 .address(addressMapper.toDomain(request.address()))
                 .build();
     }
@@ -34,8 +34,8 @@ public class ClientMapper {
         return Client.builder()
                 .name(update.name())
                 .email(update.email())
-                .cpf(update.cpf())
                 .phone(update.phone())
+                .avatarUrl(update.avatarUrl())
                 .address(update.address() != null ? addressMapper.toDomain(update.address()) : null)
                 .build();
     }
@@ -49,8 +49,8 @@ public class ClientMapper {
                 client.getId(),
                 client.getName(),
                 client.getEmail(),
-                client.getCpf(),
                 client.getPhone(),
+                client.getAvatarUrl(),
                 addressMapper.toResponse(client.getAddress()),
                 client.getCreatedAt(),
                 client.getUpdatedAt()

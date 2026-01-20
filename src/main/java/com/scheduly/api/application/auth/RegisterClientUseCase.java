@@ -5,7 +5,7 @@ import com.scheduly.api.domain.client.Client;
 import com.scheduly.api.domain.user.User;
 import com.scheduly.api.domain.user.UserRepository;
 import com.scheduly.api.domain.user.UserRole;
-import com.scheduly.api.web.auth.RegisterClientRequest;
+import com.scheduly.api.web.dtos.RegisterClientRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,21 +21,19 @@ public class RegisterClientUseCase {
 
     @Transactional
     public void execute(RegisterClientRequest request) {
-        // 1. Criar o Cliente (reaproveitando lógica de validação de CPF/Email já
-        // existente)
+        // 1. Criar o Cliente (reaproveitando lógica de validação de Email)
         Client client = Client.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .cpf(request.getCpf())
-                .phone(request.getPhone())
+                .name(request.name())
+                .email(request.email())
+                .phone(request.phone())
                 .build();
 
         Client savedClient = createClientUseCase.execute(client);
 
         // 2. Criar as credenciais de Usuário
         User user = User.builder()
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
                 .role(UserRole.CLIENT)
                 .ownerId(savedClient.getId())
                 .build();

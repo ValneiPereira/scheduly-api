@@ -25,13 +25,13 @@ public class ProfissionalMapper {
                 .name(request.name())
                 .email(request.email())
                 .phone(request.phone())
-                .cpf(request.cpf())
                 .address(addressMapper.toDomain(request.address()))
+                .avatarUrl(request.avatarUrl())
                 .bio(request.bio())
                 .specialtyIds(request.specialtyIds())
                 .workStartTime(request.workStartTime())
                 .workEndTime(request.workEndTime())
-                .intervalMinutes(request.intervalMinutes())
+                .intervalMinutes(request.intervalMinutes() != null ? request.intervalMinutes() : 30)
                 .workingDays(request.workingDays())
                 .active(request.active())
                 .build();
@@ -48,8 +48,8 @@ public class ProfissionalMapper {
                 professional.getName(),
                 professional.getEmail(),
                 professional.getPhone(),
-                professional.getCpf(),
                 addressMapper.toResponse(professional.getAddress()),
+                professional.getAvatarUrl(),
                 professional.getBio(),
                 professional.getSpecialtyIds(),
                 professional.getRating(),

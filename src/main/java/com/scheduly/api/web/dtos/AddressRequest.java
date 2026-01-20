@@ -16,6 +16,6 @@ public record AddressRequest(
         @Pattern(regexp = "^[A-Z]{2}$", message = "Estado deve conter 2 letras (ex: SP)")
         String state,
         @NotBlank(message = "CEP é obrigatório")
-        @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP inválido (ex: 01310-100)")
+        @Pattern(regexp = "\\d{8}", message = "CEP inválido (deve conter 8 dígitos)")
         String zipCode) {
 }

@@ -22,10 +22,12 @@ public class Professional {
     private String name;
     private String email;
     private String phone;
-    private String cpf;
 
     // Endereço (local de atendimento)
     private Address address;
+
+    // Avatar do profissional
+    private String avatarUrl;
 
     // Informações profissionais
     private String bio; // Biografia/descrição do profissional
@@ -36,10 +38,7 @@ public class Professional {
     // Horários de trabalho (podem ser expandidos para dias específicos)
     private LocalTime workStartTime; // Horário de início (ex: 09:00)
     private LocalTime workEndTime; // Horário de término (ex: 18:00)
-
-    // Intervalo entre atendimentos (minutos)
-    private Integer intervalMinutes;
-
+    private Integer intervalMinutes; // Intervalo entre atendimentos em minutos (ex: 30)
 
     // Dias de trabalho (pode ser uma lista de dias da semana)
     private List<String> workingDays; // Ex: ["MONDAY", "TUESDAY", "WEDNESDAY"]

@@ -32,11 +32,11 @@ public class ClientEntity {
     @Column(unique = true, nullable = false, length = 100)
     private String email;
 
-    @Column(unique = true, nullable = false, length = 11)
-    private String cpf;
-
     @Column(length = 15)
     private String phone;
+
+    @Column(name = "avatar_url", length = 500)
+    private String avatarUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "primary_address_id")

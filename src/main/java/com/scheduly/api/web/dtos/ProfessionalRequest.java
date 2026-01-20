@@ -3,7 +3,6 @@ package com.scheduly.api.web.dtos;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -19,11 +18,11 @@ public record ProfessionalRequest(
         @NotBlank(message = "Email é obrigatório") @Email(message = "Email inválido")
         String email,
 
-        @NotBlank(message = "CPF é obrigatório") @CPF(message = "CPF inválido")
-        String cpf,
-
         @Valid
         AddressRequest address,
+
+        @Schema(description = "URL do avatar no Cloudinary", example = "https://res.cloudinary.com/...")
+        String avatarUrl,
 
         @Size(max = 500, message = "Bio deve ter no máximo 500 caracteres")
         String bio,
@@ -39,7 +38,10 @@ public record ProfessionalRequest(
         @NotNull(message = "Horário de término é obrigatório")
         LocalTime workEndTime,
 
+        @Schema(description = "Intervalo entre atendimentos em minutos", example = "30")
         @NotNull(message = "Intervalo entre atendimentos é obrigatório")
+        @Min(value = 1, message = "Intervalo deve ser no mínimo 1 minuto")
+        @Max(value = 480, message = "Intervalo deve ser no máximo 480 minutos (8 horas)")
         Integer intervalMinutes,
 
         @NotEmpty(message = "É necessário informar os dias de trabalho")
